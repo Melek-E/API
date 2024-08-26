@@ -11,3 +11,4 @@ namespace API.Models.Domain
 
     }
 }
+//https://stackoverflow.com/questions/3509026/how-should-i-represent-a-unique-super-admin-privilege-in-a-database
