@@ -17,7 +17,11 @@ namespace API.Models.Domain.Questions
         public int AdminId { get; set; }
         public string? Level { get; set; }
         public QuestionType Type { get; set; }
+
+        public virtual ICollection<Answer>? PredefinedAnswers { get; set; } = new List<Answer>();
+
     }
 
-   
+
 }
+    

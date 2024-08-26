@@ -23,7 +23,6 @@ namespace API.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Models.Domain.Questions.Question> Questions { get; set; }
 
-        public DbSet<API.Models.Domain.Questions.Question> Question { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -42,17 +41,40 @@ namespace API.Data
                 entity.HasMany(a => a.Questions)
                       .WithOne(q => q.Admin)
                       .HasForeignKey(q => q.AdminId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Answers)
-                .WithOne(a => a.User)
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                
+
+
+                
+
+            /*
+            modelBuilder.Entity<Answer>()
+          .HasOne(a => a.User)
+          .WithMany() // Or .WithMany(u => u.Answers) if User entity has collection of answers
+          .HasForeignKey(a => a.User)
+          .OnDelete(DeleteBehavior.Restrict); // Change to Restrict or ClientSetNull if needed 
+
+
+            Unable to create a 'DbContext' of type ''.
+            The exception 'The property or navigation 'User' cannot be added to the 'Answer' type because a property or navigation with the same name already exists on the 'Answer' type.' was thrown while attempting to create an instance. *
+            For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
+            */
+
+            
 
 
         }
+
+
+
+
+        public DbSet<API.Models.Domain.Answer> Answer { get; set; } = default!;
+
+
+
+
 
     }
 }

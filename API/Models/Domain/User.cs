@@ -6,7 +6,6 @@
         public string Level{ get; set; }
         public string Frameworks{ get; set; }
 
-        public virtual Answer Answer{ get; set; }
 
 
         public virtual ICollection<Answer> Answers{ get; set; } = new List<Answer>();

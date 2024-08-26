@@ -1,4 +1,6 @@
-﻿namespace API.Models.Domain
+﻿using API.Models.Domain.Questions;
+
+namespace API.Models.Domain
 {
 
     public enum AnswerType
@@ -18,12 +20,11 @@
         public AnswerType Type { get; set; }
 
 
-        public int UserId { get; set; }
-        public virtual required User User { get; set; }
 
-        public virtual required Question Question { get; set; }
 
         public int QuestionId { get; set; }
 
+        public int UserId { get; set; }
+        
     }
 }
