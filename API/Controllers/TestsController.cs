@@ -4,63 +4,63 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
-using API.Models.Domain.Questions;
+using API.Models.Domain;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class QuestionsController : ControllerBase
+    public class TestsController : ControllerBase
     {
         private readonly QuizzDbContext _context;
 
-        public QuestionsController(QuizzDbContext context)
+        public TestsController(QuizzDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Questions
+        // GET: api/Tests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
+        public async Task<ActionResult<IEnumerable<Test>>> GetTests()
         {
-            var questions = await _context.Questions.ToListAsync();
-            return Ok(questions);
+            var tests = await _context.Test.ToListAsync();
+            return Ok(tests);
         }
 
-        // GET: api/Questions/5
+        // GET: api/Tests/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Question>> GetQuestion(int id)
+        public async Task<ActionResult<Test>> GetTest(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var test = await _context.Test.FindAsync(id);
 
-            if (question == null)
+            if (test == null)
             {
                 return NotFound();
             }
 
-            return Ok(question);
+            return Ok(test);
         }
 
-        // POST: api/Questions
+        // POST: api/Tests
         [HttpPost]
-        public async Task<ActionResult<Question>> PostQuestion(Question question)
+        public async Task<ActionResult<Test>> PostTest(Test test)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Questions.Add(question);
+            _context.Test.Add(test);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetQuestion), new { id = question.Id }, question);
+            return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test);
         }
 
-        // PUT: api/Questions/5
+        // PUT: api/Tests/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestion(int id, Question question)
+        public async Task<IActionResult> PutTest(int id, Test test)
         {
-            if (id != question.Id)
+            if (id != test.Id)
             {
                 return BadRequest();
             }
@@ -70,7 +70,7 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(question).State = EntityState.Modified;
+            _context.Entry(test).State = EntityState.Modified;
 
             try
             {
@@ -78,7 +78,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!QuestionExists(id))
+                if (!TestExists(id))
                 {
                     return NotFound();
                 }
@@ -91,25 +91,25 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Questions/5
+        // DELETE: api/Tests/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestion(int id)
+        public async Task<IActionResult> DeleteTest(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
-            if (question == null)
+            var test = await _context.Test.FindAsync(id);
+            if (test == null)
             {
                 return NotFound();
             }
 
-            _context.Questions.Remove(question);
+            _context.Test.Remove(test);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool QuestionExists(int id)
+        private bool TestExists(int id) 
         {
-            return _context.Questions.Any(e => e.Id == id);
+            return _context.Test.Any(e => e.Id == id);
         }
     }
 }

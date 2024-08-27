@@ -5,7 +5,7 @@
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class WhyIsItNotWorking : Migration
+    public partial class Initialtest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,10 +20,10 @@ namespace API.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    HasSuperAdminPrivileges = table.Column<bool>(type: "bit", nullable: true),
                     Score = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Frameworks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasSuperAdminPrivileges = table.Column<bool>(type: "bit", nullable: true)
+                    Frameworks = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,7 +51,8 @@ namespace API.Migrations
                         name: "FK_Questions_Persons_AdminId",
                         column: x => x.AdminId,
                         principalTable: "Persons",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,12 +76,8 @@ namespace API.Migrations
                         principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Answer_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    
+                    
                 });
 
             migrationBuilder.CreateIndex(

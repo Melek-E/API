@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(QuizzDbContext))]
-    [Migration("20240826160422_WhyIsItNotWorking")]
-    partial class WhyIsItNotWorking
+    [Migration("20240827113530_Initialtest")]
+    partial class Initialtest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,16 @@ namespace API.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("API.Models.Domain.Admin", b =>
+                {
+                    b.HasBaseType("API.Models.Domain.Person");
+
+                    b.Property<bool>("HasSuperAdminPrivileges")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("Admin");
+                });
+
             modelBuilder.Entity("API.Models.Domain.User", b =>
                 {
                     b.HasBaseType("API.Models.Domain.Person");
@@ -161,16 +171,6 @@ namespace API.Migrations
                     b.HasDiscriminator().HasValue("MultipleChoice");
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Admin", b =>
-                {
-                    b.HasBaseType("API.Models.Domain.User");
-
-                    b.Property<bool>("HasSuperAdminPrivileges")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
             modelBuilder.Entity("API.Models.Domain.Answer", b =>
                 {
                     b.HasOne("API.Models.Domain.Questions.Question", null)
@@ -188,13 +188,11 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
                 {
-                    b.HasOne("API.Models.Domain.Admin", "Admin")
+                    b.HasOne("API.Models.Domain.Admin", null)
                         .WithMany("Questions")
                         .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
@@ -202,14 +200,14 @@ namespace API.Migrations
                     b.Navigation("PredefinedAnswers");
                 });
 
-            modelBuilder.Entity("API.Models.Domain.User", b =>
-                {
-                    b.Navigation("Answers");
-                });
-
             modelBuilder.Entity("API.Models.Domain.Admin", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("API.Models.Domain.User", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }

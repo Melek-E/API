@@ -12,8 +12,8 @@ namespace API.Models.Domain.Questions
     {
         public int Id { get; set; }
         public string? QuestionText { get; set; }
-        public required Admin Admin { get; set; }
 
+//        public virtual Admin Admin { get; set; }
         public int AdminId { get; set; }
         public string? Level { get; set; }
         public QuestionType Type { get; set; }

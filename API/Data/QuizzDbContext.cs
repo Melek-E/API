@@ -23,6 +23,8 @@ namespace API.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Models.Domain.Questions.Question> Questions { get; set; }
 
+        public DbSet<Test> Tests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,19 +37,10 @@ namespace API.Data
                 .HasValue<Question>("Base")
                 .HasValue<Models.Domain.Questions.MultipleChoiceQuestion>("MultipleChoice");
 
-            // Setting up relationships
-            modelBuilder.Entity<Admin>(entity =>
-            {
-                entity.HasMany(a => a.Questions)
-                      .WithOne(q => q.Admin)
-                      .HasForeignKey(q => q.AdminId)
-                      .OnDelete(DeleteBehavior.NoAction);
-            });
+            // Setting up relationshipscd AP
+           ;
+          
 
-                
-
-
-                
 
             /*
             modelBuilder.Entity<Answer>()
@@ -62,7 +55,7 @@ namespace API.Data
             For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
             */
 
-            
+
 
 
         }
@@ -71,6 +64,7 @@ namespace API.Data
 
 
         public DbSet<API.Models.Domain.Answer> Answer { get; set; } = default!;
+        public DbSet<API.Models.Domain.Test> Test { get; set; } = default!;
 
 
 
