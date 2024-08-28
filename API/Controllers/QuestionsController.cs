@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
 using API.Models.Domain.Questions;
+using API.Services;
 
 namespace API.Controllers
 {
@@ -12,18 +11,18 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class QuestionsController : ControllerBase
     {
-        private readonly QuizzDbContext _context;
+        private readonly QuestionService _questionService;
 
-        public QuestionsController(QuizzDbContext context)
+        public QuestionsController(QuestionService questionService)
         {
-            _context = context;
+            _questionService = questionService;
         }
 
         // GET: api/Questions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
         {
-            var questions = await _context.Questions.ToListAsync();
+            var questions = await _questionService.GetQuestionsAsync();
             return Ok(questions);
         }
 
@@ -31,7 +30,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var question = await _questionService.GetQuestionByIdAsync(id);
 
             if (question == null)
             {
@@ -50,10 +49,9 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Questions.Add(question);
-            await _context.SaveChangesAsync();
+            var createdQuestion = await _questionService.CreateQuestionAsync(question);
 
-            return CreatedAtAction(nameof(GetQuestion), new { id = question.Id }, question);
+            return CreatedAtAction(nameof(GetQuestion), new { id = createdQuestion.Id }, createdQuestion);
         }
 
         // PUT: api/Questions/5
@@ -70,22 +68,11 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(question).State = EntityState.Modified;
+            var updated = await _questionService.UpdateQuestionAsync(question);
 
-            try
+            if (!updated)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -95,21 +82,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestion(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
-            if (question == null)
+            var deleted = await _questionService.DeleteQuestionAsync(id);
+            if (!deleted)
             {
                 return NotFound();
             }
 
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool QuestionExists(int id)
-        {
-            return _context.Questions.Any(e => e.Id == id);
         }
     }
 }
