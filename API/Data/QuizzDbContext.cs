@@ -2,21 +2,26 @@
 
 using API.Models;
 using API.Models.Domain;
+using API.Models.Domain.Auth;
 using API.Models.Domain.Questions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Question = API.Models.Domain.Questions.Question;
+using Microsoft.AspNetCore.Identity;
+using API.Models.Domain.Extra;
 
 namespace API.Data
 
 
 {
-    public class QuizzDbContext : DbContext
+    public class QuizzDbContext : IdentityDbContext<ApplicationUser>
     {
         public QuizzDbContext(DbContextOptions options) : base(options)
         {
 
         }
 
+        
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<User> Users { get; set; }
@@ -29,17 +34,21 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuring entity relationships and properties
-
-            // Configuring the Question table to use a discriminator column for TPH (Table-Per-Hierarchy)
+            
             modelBuilder.Entity<Question>()
                 .HasDiscriminator<string>("QuestionType")
                 .HasValue<Question>("Base")
                 .HasValue<Models.Domain.Questions.MultipleChoiceQuestion>("MultipleChoice");
 
-            // Setting up relationshipscd AP
            ;
-          
+
+            modelBuilder.Entity<Question>()
+                .HasDiscriminator<string>("QuestionType")
+                .HasValue<Question>("Base")
+                .HasValue<Models.Domain.Questions.TrueFalseQuestion>("TrueFalse");
+
+            ;
+
 
 
             /*
@@ -66,6 +75,7 @@ namespace API.Data
         public DbSet<API.Models.Domain.Answer> Answer { get; set; } = default!;
         public DbSet<API.Models.Domain.Test> Test { get; set; } = default!;
 
+        public DbSet<Framework> Frameworks { get; set; }
 
 
 
