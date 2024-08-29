@@ -43,17 +43,17 @@ namespace API.Controllers
                 return BadRequest(ModelState);
 
             // Verify that the framework exists
-            var framework = await _context.Frameworks.FirstOrDefaultAsync(f => f.Id == registerDto.FrameworkId);
-            if (framework == null)
-            {
-                return BadRequest(new { message = "Invalid framework selected." });
-            }
+            //var framework = await _context.Frameworks.FirstOrDefaultAsync(f => f.Id == registerDto.FrameworkId);
+            //if (framework == null)
+            //{
+            //    return BadRequest(new { message = "Invalid framework selected." });
+            //}
 
             var user = new ApplicationUser
             {
                 UserName = registerDto.Email, // Identity requires UserName, so use email for UserName
                 Email = registerDto.Email,
-                FrameworkId = registerDto.FrameworkId // Assign the selected framework
+                FrameworkId = (int)registerDto.FrameworkId // Assign the selected framework
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);

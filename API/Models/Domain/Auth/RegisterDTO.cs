@@ -22,7 +22,7 @@ namespace API.Models.DTOs.Auth
 
 
 
-        public int FrameworkId { get; set; }
+        public int? FrameworkId { get; set; }
 
 
     }
