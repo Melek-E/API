@@ -31,11 +31,11 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(3); 
-    options.LoginPath = "/api/auth/login"; 
-    options.AccessDeniedPath = "/api/auth/access-denied"; 
-    options.SlidingExpiration = true; // Refresh expiration with each request
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(3);
+    options.LoginPath = "/api/auth/login";
+    options.AccessDeniedPath = "/api/auth/access-denied";
+    options.SlidingExpiration = true;
 });
 
 builder.Services.AddDistributedMemoryCache(); // In-memory cache for session storage
@@ -47,20 +47,14 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Mark session cookie as essential
 });
 
-
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    // Cookie settings
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(3);
-
-    options.LoginPath = "/Identity/Account/Login";
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-    options.SlidingExpiration = true;
-});
-
 var app = builder.Build();
+
+// Seed roles
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await SeedRolesAsync(roleManager);  // Seed roles like "Admin"
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -77,3 +71,17 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Seed roles method
+static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+{
+    var roles = new[] { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}

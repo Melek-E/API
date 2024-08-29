@@ -53,7 +53,7 @@ namespace API.Controllers
             {
                 UserName = registerDto.Email, // Identity requires UserName, so use email for UserName
                 Email = registerDto.Email,
-                FrameworkId = (int)registerDto.FrameworkId // Assign the selected framework
+                Frameworks = registerDto.Frameworks // Assign the selected framework
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);

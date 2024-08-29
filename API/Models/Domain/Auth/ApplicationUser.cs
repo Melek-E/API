@@ -6,9 +6,12 @@ namespace API.Models.Domain.Auth
     public class ApplicationUser: IdentityUser
     {
 
-        public int FrameworkId { get; set; }
+        // public int FrameworkId { get; set; }
 
-        public Framework? Framework { get; set; }
+        //        public Framework? Framework { get; set; }
+
+        public List<Framework>? Frameworks { get; set; } = new List<Framework>();
+
 
     }
 }

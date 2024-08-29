@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API.Models.Domain.Extra;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Models.DTOs.Auth
 {
@@ -22,7 +23,11 @@ namespace API.Models.DTOs.Auth
 
 
 
-        public int? FrameworkId { get; set; }
+        //public int? FrameworkId { get; set; }
+
+
+        public List<Framework>? Frameworks { get; set; } = new List<Framework>();
+
 
 
     }

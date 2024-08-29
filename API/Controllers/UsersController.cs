@@ -1,109 +1,137 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Models.Domain;
-using System.Collections.Generic;
+﻿using API.Models.Domain.Auth;
+using API.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
+using API.Models;
 
-namespace API.Controllers
+namespace YourNamespace.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly QuizzDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(QuizzDbContext context)
+        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        // GET: api/Users
+        // Get all users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public IActionResult GetUsers()
         {
-            return Ok(await _context.Users.ToListAsync());
+            var users = _userManager.Users.ToList();
+            return Ok(users);
         }
 
-        // GET: api/Users/5
+        // Get a specific user by ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await _context.Users.FindAsync(id);
-
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return Ok(user);
         }
 
-        // POST: api/Users
+        // Create a new user
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([Bind("Score,Level,frameworks,Id,Name,email,PasswordHash")] User user)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
         {
-            if (ModelState.IsValid)
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+           
+
+            foreach (var error in result.Errors)
             {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user); // Returns 201 Created with the location header
+                ModelState.AddModelError("", error.Description);
             }
-            return BadRequest(ModelState); // Returns 400 Bad Request with validation errors
+            return BadRequest(ModelState);
         }
 
-        // PUT: api/Users/5
+        // Update user information
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int id, [Bind("Score,Level,frameworks,Id,Name,email,PasswordHash")] User user)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserModel model)
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Entry(user).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return NoContent(); // Returns 204 No Content
-            }
-            return BadRequest(ModelState); // Returns 400 Bad Request with validation errors
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            user.UserName = model.UserName;
 
-            return NoContent(); // Returns 204 No Content
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(user);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return BadRequest(ModelState);
         }
 
-        private bool UserExists(int id)
+        // Delete a user
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return BadRequest(ModelState);
+        }
+
+        // Assign a user to a role (e.g., Admin)
+        [HttpPost("{id}/assign-role")]
+        public async Task<IActionResult> AssignRole(string id, [FromBody] AssignRoleModel model)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roleExists = await _roleManager.RoleExistsAsync(model.Role);
+            if (!roleExists)
+            {
+                return BadRequest("Role does not exist");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, model.Role);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            return BadRequest(ModelState);
         }
     }
 }

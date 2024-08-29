@@ -50,8 +50,6 @@ namespace API.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Answer");
                 });
 
@@ -73,9 +71,6 @@ namespace API.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int>("FrameworkId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -112,8 +107,6 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FrameworkId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -133,47 +126,18 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Frameworks");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Person", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Persons");
-
-                    b.HasDiscriminator().HasValue("Person");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
@@ -203,8 +167,6 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
-
                     b.ToTable("Questions");
 
                     b.HasDiscriminator<string>("QuestionType").HasValue("Base");
@@ -220,8 +182,9 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
+                    b.Property<string>("AdminId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateHourTaken")
                         .HasColumnType("datetime2");
@@ -371,35 +334,6 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Admin", b =>
-                {
-                    b.HasBaseType("API.Models.Domain.Person");
-
-                    b.Property<bool>("HasSuperAdminPrivileges")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.User", b =>
-                {
-                    b.HasBaseType("API.Models.Domain.Person");
-
-                    b.Property<string>("Frameworks")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Level")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Score")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("API.Models.Domain.Questions.MultipleChoiceQuestion", b =>
                 {
                     b.HasBaseType("API.Models.Domain.Questions.Question");
@@ -432,32 +366,13 @@ namespace API.Migrations
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("API.Models.Domain.User", null)
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Auth.ApplicationUser", b =>
+            modelBuilder.Entity("API.Models.Domain.Extra.Framework", b =>
                 {
-                    b.HasOne("API.Models.Domain.Extra.Framework", "Framework")
-                        .WithMany()
-                        .HasForeignKey("FrameworkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Framework");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
-                {
-                    b.HasOne("API.Models.Domain.Admin", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("API.Models.Domain.Auth.ApplicationUser", null)
+                        .WithMany("Frameworks")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -511,19 +426,14 @@ namespace API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("API.Models.Domain.Auth.ApplicationUser", b =>
+                {
+                    b.Navigation("Frameworks");
+                });
+
             modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
                 {
                     b.Navigation("PredefinedAnswers");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Admin", b =>
-                {
-                    b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.User", b =>
-                {
-                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }
