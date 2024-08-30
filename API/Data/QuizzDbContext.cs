@@ -33,13 +33,11 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            
-            modelBuilder.Entity<Question>()
-                .HasDiscriminator<string>("QuestionType")
-                .HasValue<Question>("Base")
-                .HasValue<Models.Domain.Questions.MultipleChoiceQuestion>("MultipleChoice");
 
-           ;
+            modelBuilder.Entity<Question>()
+                 .HasDiscriminator<string>("QuestionType")
+                 .HasValue<MultipleChoiceQuestion>("Multiple Choice")
+                 .HasValue<TrueFalseQuestion>("True/False");
 
             modelBuilder.Entity<Question>()
                 .HasDiscriminator<string>("QuestionType")
@@ -48,6 +46,9 @@ namespace API.Data
 
             ;
 
+            modelBuilder.Entity<Test>()
+               .HasMany(t => t.Questions)
+               .WithMany();
 
 
             /*
@@ -72,7 +73,6 @@ namespace API.Data
 
 
         public DbSet<API.Models.Domain.Answer> Answer { get; set; } = default!;
-        public DbSet<API.Models.Domain.Test> Test { get; set; } = default!;
 
         public DbSet<Framework> Frameworks { get; set; }
 

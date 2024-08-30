@@ -12,7 +12,7 @@ namespace API.Controllers
     [ApiController]
     public class FrameworksController : ControllerBase
     {
-        private readonly QuizzDbContext _context; //
+        private readonly QuizzDbContext _context;
 
         public FrameworksController(QuizzDbContext context)
         {
@@ -38,6 +38,46 @@ namespace API.Controllers
             }
 
             return framework;
+        }
+
+        // POST: api/Frameworks/choose
+        [HttpPost("choose")]
+        public async Task<IActionResult> ChooseFramework([FromBody] List<int> frameworkIds)
+        {
+            // Retrieve the frameworks from the database
+            var frameworks = await _context.Frameworks.Where(f => frameworkIds.Contains(f.Id)).ToListAsync();
+
+            if (frameworks.Count != frameworkIds.Count)
+            {
+                return NotFound("One or more frameworks not found.");
+            }
+
+            // Store the selected framework IDs in the session
+            HttpContext.Session.SetString("SelectedFrameworkIds", string.Join(",", frameworkIds));
+
+            return Ok(new { message = $"Frameworks '{string.Join(", ", frameworks.Select(f => f.Name))}' selected successfully." });
+        }
+
+        // GET: api/Frameworks/selected
+        [HttpGet("selected")]
+        public async Task<IActionResult> GetSelectedFrameworks()
+        {
+            var frameworkIdsString = HttpContext.Session.GetString("SelectedFrameworkIds");
+
+            if (string.IsNullOrEmpty(frameworkIdsString))
+            {
+                return NotFound("No frameworks selected.");
+            }
+
+            var frameworkIds = frameworkIdsString.Split(',').Select(int.Parse).ToList();
+            var frameworks = await _context.Frameworks.Where(f => frameworkIds.Contains(f.Id)).ToListAsync();
+
+            if (!frameworks.Any())
+            {
+                return NotFound("No frameworks found.");
+            }
+
+            return Ok(frameworks);
         }
     }
 }

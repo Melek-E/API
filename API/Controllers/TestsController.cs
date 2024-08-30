@@ -1,115 +1,60 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using API.Services;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Models.Domain;
+using API.Models.Domain.Extra;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class TestsController : ControllerBase
     {
-        private readonly QuizzDbContext _context;
+        private readonly TestService _testService;
 
-        public TestsController(QuizzDbContext context)
+        public TestsController(TestService testService)
         {
-            _context = context;
+            _testService = testService;
         }
 
-        // GET: api/Tests
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Test>>> GetTests()
+        // GET: api/Tests/generate
+        [HttpGet("generate")]
+        [Authorize]
+        public async Task<ActionResult<Test>> GenerateTest([FromQuery] string level, [FromQuery] int numberOfQuestions)
         {
-            var tests = await _context.Test.ToListAsync();
-            return Ok(tests);
-        }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  // Get the current user ID
+            var test = await _testService.GenerateRandomTest(level, numberOfQuestions, userId);
 
-        // GET: api/Tests/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Test>> GetTest(int id)
-        {
-            var test = await _context.Test.FindAsync(id);
-
-            if (test == null)
+            if (test.Questions.Count == 0)
             {
-                return NotFound();
+                return NotFound("No questions available for the specified level.");
             }
 
             return Ok(test);
         }
 
-        // POST: api/Tests
-        [HttpPost]
-        public async Task<ActionResult<Test>> PostTest(Test test)
+        // GET: api/Tests/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Test>> GetTestById(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var test = await _testService.GetTestById(id);
 
-            _context.Test.Add(test);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test);
-        }
-
-        // PUT: api/Tests/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTest(int id, Test test)
-        {
-            if (id != test.Id)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Entry(test).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // DELETE: api/Tests/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTest(int id)
-        {
-            var test = await _context.Test.FindAsync(id);
             if (test == null)
             {
-                return NotFound();
+                return NotFound("Test not found.");
             }
 
-            _context.Test.Remove(test);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(test);
         }
 
-        private bool TestExists(int id) 
+        // POST: api/Tests/{id}/score
+        [HttpPost("{id}/score")]
+        public async Task<IActionResult> UpdateTestScore(int id, [FromBody] double score)
         {
-            return _context.Test.Any(e => e.Id == id);
+            await _testService.UpdateTestScore(id, score);
+
+            return Ok(new { message = "Score updated successfully." });
         }
     }
 }

@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using API.Models.Domain.Auth;
+using API.Models.Domain.Questions;
 
-namespace API.Models.Domain
+namespace API.Models.Domain.Extra
 {
     public class Test
     {
         public int Id { get; set; }
-        public DateTime DateHourTaken { get; set; }
-        public int Score { get; set; }
-        public string AdminId { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;  // Automatically sets the time when the test is created
+        public double? Score { get; set; }  // Nullable score, can be updated later
 
-        // List of Question IDs
-        public List<int> QuestionIds { get; set; } = new List<int>();
+        public string UserId { get; set; }  // Foreign key to ApplicationUser
 
-        public Test(int id, DateTime dateHourTaken, int score, string adminId, List<int> questionIds)
-        {
-            Id = id;
-            DateHourTaken = dateHourTaken;
-            Score = score;
-            AdminId = adminId;
-            QuestionIds = questionIds;
-        }
+        public List<Question> Questions { get; set; } = new List<Question>();  // List of questions in the test
     }
 }
