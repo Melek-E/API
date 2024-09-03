@@ -36,15 +36,12 @@ namespace API.Data
 
             modelBuilder.Entity<Question>()
                  .HasDiscriminator<string>("QuestionType")
-                 .HasValue<MultipleChoiceQuestion>("Multiple Choice")
-                 .HasValue<TrueFalseQuestion>("True/False");
+                 .HasValue<MultipleChoiceQuestion>("MultipleChoice")
+                 .HasValue<TrueFalseQuestion>("TrueFalse")
+                            .HasValue<Question>("Base");
 
-            modelBuilder.Entity<Question>()
-                .HasDiscriminator<string>("QuestionType")
-                .HasValue<Question>("Base")
-                .HasValue<Models.Domain.Questions.TrueFalseQuestion>("TrueFalse");
 
-            ;
+            
 
             modelBuilder.Entity<Test>()
                .HasMany(t => t.Questions)
