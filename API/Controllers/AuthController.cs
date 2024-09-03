@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Models.DTOs.Auth;
 using API.Models.Domain.Auth;
-using API.Data; // Assuming QuizzDbContext is in the API.Data namespace
+using API.Data; 
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
@@ -13,13 +13,13 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly QuizzDbContext _context; // Add context for accessing frameworks
+        private readonly QuizzDbContext _context;
 
         public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, QuizzDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context; // Initialize context
+            _context = context;
         }
 
         [HttpPost("login")]
@@ -51,9 +51,9 @@ namespace API.Controllers
 
             var user = new ApplicationUser
             {
-                UserName = registerDto.Email, // Identity requires UserName, so use email for UserName
+                UserName = registerDto.Email, 
                 Email = registerDto.Email,
-                Frameworks = registerDto.Frameworks // Assign the selected framework
+                Frameworks = registerDto.Frameworks 
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);

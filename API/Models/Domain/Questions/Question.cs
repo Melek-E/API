@@ -1,4 +1,4 @@
-﻿// Models/Domain/Question.cs
+﻿// Models/Domain/Question.cs    
 namespace API.Models.Domain.Questions
 {
 
@@ -15,9 +15,9 @@ namespace API.Models.Domain.Questions
 
 //        public virtual Admin Admin { get; set; }
         public int AdminId { get; set; }
-        public string? Level { get; set; }
+        public int Level { get; set; }
         public QuestionType Type { get; set; }
-
+            
         public virtual ICollection<Answer>? PredefinedAnswers { get; set; } = new List<Answer>();
 
     }

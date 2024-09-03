@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using API.Data;
+using API.Models;
+using API.Models.Domain.Extra;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Models.Domain.Extra;
 
 namespace API.Services
 {
@@ -17,47 +17,25 @@ namespace API.Services
             _context = context;
         }
 
-        public async Task<Test> GenerateRandomTest(string level, int numberOfQuestions, string userId)
+        public async Task<Test> GenerateRandomTest(int level, int numberOfQuestions)
         {
-            // Fetch all questions of the specified level
+            // Fetch questions based on the level
             var questions = await _context.Questions
-                                          .Where(q => q.Level == level)
-                                          .ToListAsync();
+                .Where(q => q.Level == level)
+                .OrderBy(q => Guid.NewGuid()) // Randomize
+                .Take(numberOfQuestions)
+                .ToListAsync();
 
-            // Shuffle the list and take the required number of questions
-            var random = new Random();
-            var randomQuestions = questions.OrderBy(x => random.Next()).Take(numberOfQuestions).ToList();
+            if (questions.Count == 0)
+                throw new InvalidOperationException("No questions found for the specified level.");
 
-            // Create a new Test instance
             var test = new Test
             {
-                UserId = userId,
-                Questions = randomQuestions,
-                Timestamp = DateTime.Now
+                Questions = questions,
+                Timestamp = DateTime.UtcNow
             };
 
-            // Save the test to the database
-            _context.Tests.Add(test);
-            await _context.SaveChangesAsync();
-
             return test;
-        }
-
-        public async Task<Test> GetTestById(int testId)
-        {
-            return await _context.Tests
-                                 .Include(t => t.Questions)
-                                 .FirstOrDefaultAsync(t => t.Id == testId);
-        }
-
-        public async Task UpdateTestScore(int testId, double score)
-        {
-            var test = await _context.Tests.FindAsync(testId);
-            if (test != null)
-            {
-                test.Score = score;
-                await _context.SaveChangesAsync();
-            }
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using API.Services;
-using System.Threading.Tasks;
+﻿using API.Models;
 using API.Models.Domain.Extra;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+using API.Models.DTO;
+using API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -18,43 +19,22 @@ namespace API.Controllers
             _testService = testService;
         }
 
-        // GET: api/Tests/generate
-        [HttpGet("generate")]
-        [Authorize]
-        public async Task<ActionResult<Test>> GenerateTest([FromQuery] string level, [FromQuery] int numberOfQuestions)
+        // POST: api/Tests/GenerateTest
+        [HttpPost("GenerateTest")]
+        public async Task<ActionResult<Test>> GenerateTest([FromBody] GenerateTestRequest request)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  // Get the current user ID
-            var test = await _testService.GenerateRandomTest(level, numberOfQuestions, userId);
+            // Log the received JSON request
+            Console.WriteLine($"Received JSON: {System.Text.Json.JsonSerializer.Serialize(request)}");
 
-            if (test.Questions.Count == 0)
+            try
             {
-                return NotFound("No questions available for the specified level.");
+                var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions);
+                return Ok(test);
             }
-
-            return Ok(test);
-        }
-
-        // GET: api/Tests/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Test>> GetTestById(int id)
-        {
-            var test = await _testService.GetTestById(id);
-
-            if (test == null)
+            catch (InvalidOperationException ex)
             {
-                return NotFound("Test not found.");
+                return BadRequest(ex.Message);
             }
-
-            return Ok(test);
-        }
-
-        // POST: api/Tests/{id}/score
-        [HttpPost("{id}/score")]
-        public async Task<IActionResult> UpdateTestScore(int id, [FromBody] double score)
-        {
-            await _testService.UpdateTestScore(id, score);
-
-            return Ok(new { message = "Score updated successfully." });
         }
     }
 }

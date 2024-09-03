@@ -360,7 +360,7 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Multiple Choice");
+                    b.HasDiscriminator().HasValue("MultipleChoice");
                 });
 
             modelBuilder.Entity("API.Models.Domain.Questions.TrueFalseQuestion", b =>

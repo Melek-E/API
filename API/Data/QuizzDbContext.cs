@@ -48,21 +48,6 @@ namespace API.Data
                .WithMany();
 
 
-            /*
-            modelBuilder.Entity<Answer>()
-          .HasOne(a => a.User)
-          .WithMany() // Or .WithMany(u => u.Answers) if User entity has collection of answers
-          .HasForeignKey(a => a.User)
-          .OnDelete(DeleteBehavior.Restrict); // Change to Restrict or ClientSetNull if needed 
-
-
-            Unable to create a 'DbContext' of type ''.
-            The exception 'The property or navigation 'User' cannot be added to the 'Answer' type because a property or navigation with the same name already exists on the 'Answer' type.' was thrown while attempting to create an instance. *
-            For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
-            */
-
-
-
 
         }
 
