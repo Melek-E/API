@@ -52,7 +52,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; // can only be modified when it reaches the server
     options.Cookie.IsEssential = true; // Mark session cookie as essential
 });
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Seed roles
@@ -75,7 +75,7 @@ app.UseAuthentication(); // Enable cookie-based authentication
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200", "https://localhost:7112", "http://localhost:7112"));
 app.Run();
 
 // Seed roles method

@@ -1,0 +1,26 @@
+<h1>
+  Testing API endpoints, ugly ugly page
+</h1>
+
+
+<dx-button text="Click me"
+           (onClick)="helloWorld()">
+</dx-button>
+
+
+<ul>
+  <li *ngFor="let user of users">
+    {{user.Id}} - {{user.UserName}} - {{user.Frameworks}}
+</ul>
+
+<ul >
+  <li *ngFor="let question of questions">
+    {{question.Id}} - {{question.QuestionText}}   - Admin Id {{question.AdminId}}
+</ul>
+
+<ul >
+  <li *ngFor="let test of tests">
+    {{question.Id}} - {{question.QuestionText}}   - Admin Id {{question.AdminId}}
+</ul>
+
+
