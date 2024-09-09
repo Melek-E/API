@@ -16,7 +16,7 @@ const notificationText = 'We\'ve sent a link to reset your password. Check your 
 export class ResetPasswordFormComponent {
   loading = false;
   formData: any = {};
-
+//test
   constructor(private authService: AuthService, private router: Router) { }
 
   async onSubmit(e: Event) {
