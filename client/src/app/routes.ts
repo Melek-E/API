@@ -16,3 +16,4 @@ const routeConfig: Routes = [
 ];
 
 export default routeConfig;
+//i wanna push
