@@ -21,10 +21,10 @@ export class CreateAccountFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    const { email, username, passwordHash } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.createAccount(email, password);
+    const result = await this.authService.createAccount(email, username, passwordHash);
     this.loading = false;
 
     if (result.isOk) {
@@ -34,8 +34,8 @@ export class CreateAccountFormComponent {
     }
   }
 
-  confirmPassword = (e: ValidationCallbackData) => {
-    return e.value === this.formData.password;
+  ConfirmPassword = (e: ValidationCallbackData) => {
+    return e.value === this.formData.passwordHash;
   }
 }
 @NgModule({

@@ -13,9 +13,7 @@ namespace API.Models.DTOs.Auth
         [StringLength(100, MinimumLength = 6)]
         public string PasswordHash { get; set; }
 
-        [Required]
-        [Compare("PasswordHash")]
-        public string ConfirmPassword { get; set; }
+        
 
 
         [DataType(DataType.Text)]
