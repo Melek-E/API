@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.DTOs.Auth;
 using API.Models.Domain.Auth;
-using API.Data; 
-using Microsoft.EntityFrameworkCore;
+using API.Data;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -13,13 +14,13 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly QuizzDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, QuizzDbContext context)
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
+            _roleManager = roleManager;
         }
 
         [HttpPost("login")]
@@ -42,18 +43,11 @@ namespace API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Verify that the framework exists
-            //var framework = await _context.Frameworks.FirstOrDefaultAsync(f => f.Id == registerDto.FrameworkId);
-            //if (framework == null)
-            //{
-            //    return BadRequest(new { message = "Invalid framework selected." });
-            //}
-
             var user = new ApplicationUser
             {
-                UserName = registerDto.Email, 
+                UserName = registerDto.Email,
                 Email = registerDto.Email,
-                Frameworks = registerDto.Frameworks 
+                Frameworks = registerDto.Frameworks
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);
@@ -62,6 +56,46 @@ namespace API.Controllers
                 return BadRequest(result.Errors);
 
             return Ok(new { message = "Registration successful!" });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new { message = "Logout successful!" });
+        }
+
+        [HttpPost("toggle-role")]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> ToggleUserRole(string userId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (await _userManager.IsInRoleAsync(currentUser, "SuperAdmin"))
+            {
+                return StatusCode(StatusCodes.Status405MethodNotAllowed, "You are not allowed to modify roles of super admin.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            string newRole = currentRoles.Contains("Admin") ? "User" : "Admin";
+
+            if (currentRoles.Contains("Admin"))
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, "User");
+            }
+
+            await _userManager.AddToRoleAsync(user, newRole);
+
+            return Ok($"User role changed to {newRole}.");
         }
     }
 }

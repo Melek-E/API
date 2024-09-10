@@ -5,7 +5,7 @@ namespace API.Models.DTO
     public class GenerateTestRequest
     {
         [Required]
-        public int Level { get; set; } // Ensure this matches the expected type in your JSON
+        public int Level { get; set; } 
 
         [Required]
         public int NumberOfQuestions { get; set; }

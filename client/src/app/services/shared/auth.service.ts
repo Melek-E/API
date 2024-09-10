@@ -124,9 +124,18 @@ export class AuthService {
   }
 
   async logOut(): Promise<void> {
-    // Send request to logout API (if needed) or handle session cleanup
-    this._user = null;
-    this.router.navigate(['/login-form']);
+    try {
+      // Send POST request to the logout API
+      await this.http.post<any>(this.apiUrl, {}).toPromise();
+
+      // Clear user data on the frontend
+      this._user = null;
+
+      // Navigate to the login page after logging out
+      this.router.navigate(['/login-form']);
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
   }
 }
 

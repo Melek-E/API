@@ -60,6 +60,9 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     await SeedRolesAsync(roleManager);  // Seed roles like "Admin"
+
+    // Seed super admin user
+    await Seed.SeedSuperAdmin(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.
@@ -81,7 +84,7 @@ app.Run();
 // Seed roles method
 static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
 {
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] {"SuperAdmin", "Admin", "User" };
 
     foreach (var role in roles)
     {
@@ -91,3 +94,6 @@ static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         }
     }
 }
+
+
+

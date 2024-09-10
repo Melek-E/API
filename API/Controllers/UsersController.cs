@@ -1,10 +1,7 @@
-﻿using API.Models.Domain.Auth;
-using API.Models;
+﻿using API.Models;
+using API.Models.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Models;
 
 namespace YourNamespace.Controllers
 {
@@ -48,7 +45,7 @@ namespace YourNamespace.Controllers
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
-           
+
 
             foreach (var error in result.Errors)
             {

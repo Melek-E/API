@@ -36,7 +36,7 @@ export class CreateAccountFormComponent {
 
   ConfirmPassword = (e: ValidationCallbackData) => {
     return e.value === this.formData.passwordHash;
-  }
+  } //test
 }
 @NgModule({
   imports: [
