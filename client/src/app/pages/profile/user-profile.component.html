@@ -1,33 +1,18 @@
-<dx-form>
-  <dxi-item
-    [colSpan]="2"
-    label="Username"
-    [editorOptions]="{ readOnly: true }"
-  >
-    <dx-text-box
-      [(value)]="user.username"
-      [readOnly]="true"
-    ></dx-text-box>
-  </dxi-item>
-  
-  <dxi-item
-    [colSpan]="2"
-    label="Email"
-    [editorOptions]="{ readOnly: true }"
-  >
-    <dx-text-box
-      [(value)]="user.email"
-      [readOnly]="true"
-    ></dx-text-box>
-  </dxi-item>
 
-  <dxi-item
-    [colSpan]="2"
+
+<h2 class="content-block">Profile</h2>
+
+<div class="content-block dx-card responsive-paddings">
+  <div class="form-avatar">
+  </div>
+  <span>{{user.Username}}</span>
+</div>
+
+<div class="content-block dx-card responsive-paddings">
+  <dx-form id="form"
+    [formData]="user"
+    labelLocation="top"
+    [colCountByScreen]="colCountByScreen"
   >
-    <dx-button
-      text="Save"
-      type="success"
-      (onClick)="saveProfile()"
-    ></dx-button>
-  </dxi-item>
-</dx-form>
+  </dx-form>
+</div>

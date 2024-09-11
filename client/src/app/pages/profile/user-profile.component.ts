@@ -1,33 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DxTextBoxModule, DxButtonModule, DxFormModule } from 'devextreme-angular';
+import { DxFormModule } from 'devextreme-angular';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [DxTextBoxModule, DxButtonModule, DxFormModule],
+  imports: [DxFormModule],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
   user = {
-    username: '',
-    email: ''
+    Username: '',
+    Email: ''
   };
+  colCountByScreen: object;
 
   private apiUrl = 'http://localhost:7112/api/auth/profile';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.colCountByScreen = {
+      xs: 1,
+      sm: 2,
+      md: 3,
+      lg: 4
+    };
+  }
 
   ngOnInit() {
     this.loadProfile();
   }
 
   loadProfile() {
-    // Ensure that cookies are included in the request
     this.http.get<any>(this.apiUrl, { withCredentials: true }).subscribe({
       next: (data) => {
-        this.user = data;
+        // Log data to verify structure
+        console.log('Profile data:', data);
+
+        if (data) {
+          this.user = {
+            Username: data.Username || '',
+            Email: data.Email || ''
+          };
+        }
       },
       error: (err) => {
         console.error('Error loading profile:', err);
