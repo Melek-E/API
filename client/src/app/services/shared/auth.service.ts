@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 export interface IUser {
   email: string;
@@ -15,7 +14,9 @@ const defaultUser = {
   avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private _user: IUser | null = defaultUser;
   private apiUrl = 'http://localhost:7112/api/Auth'; // Backend API base URL
@@ -36,8 +37,7 @@ export class AuthService {
       const loginData = { email, passwordHash: password };
 
       // Send request to login API
-      const response = await this.http.post<any>(`${this.apiUrl}/login`, loginData).toPromise();
-
+      const response = await this.http.post<any>(`${this.apiUrl}/login`, loginData, { withCredentials: true }).toPromise();
       this._user = { ...defaultUser, email };
       this.router.navigate([this._lastAuthenticatedPath]);
 
@@ -56,7 +56,7 @@ export class AuthService {
   async getUser(): Promise<any> {
     try {
       // Send request to get user data from API
-      const response = await this.http.get<IUser>(`${this.apiUrl}/get-user`).toPromise();
+      const response = await this.http.get<IUser>(`${this.apiUrl}/get-user`, { withCredentials: true }).toPromise();
 
       return {
         isOk: true,
@@ -72,10 +72,10 @@ export class AuthService {
 
   async createAccount(email: string, username: string, password: string): Promise<any> {
     try {
-      const registerData = { email, Username:username, passwordHash: password };
+      const registerData = { email, Username: username, passwordHash: password };
 
       // Send request to register API
-      const response = await this.http.post<any>(`${this.apiUrl}/register`, registerData).toPromise();
+      const response = await this.http.post<any>(`${this.apiUrl}/register`, registerData, { withCredentials: true }).toPromise();
 
       this.router.navigate(['/create-account']);
       return {
@@ -84,7 +84,8 @@ export class AuthService {
     } catch (error) {
       return {
         isOk: false,
-        message: 'Failed to create account', error
+        message: 'Failed to create account',
+        error
       };
     }
   }
@@ -94,7 +95,7 @@ export class AuthService {
       const changePasswordData = { email, recoveryCode };
 
       // Send request to change password API
-      const response = await this.http.post<any>(`${this.apiUrl}/change-password`, changePasswordData).toPromise();
+      const response = await this.http.post<any>(`${this.apiUrl}/change-password`, changePasswordData, { withCredentials: true }).toPromise();
 
       return {
         isOk: true
@@ -110,7 +111,7 @@ export class AuthService {
   async resetPassword(email: string): Promise<any> {
     try {
       // Send request to reset password API
-      const response = await this.http.post<any>(`${this.apiUrl}/reset-password`, { email }).toPromise();
+      const response = await this.http.post<any>(`${this.apiUrl}/reset-password`, { email }, { withCredentials: true }).toPromise();
 
       return {
         isOk: true
@@ -126,7 +127,7 @@ export class AuthService {
   async logOut(): Promise<void> {
     try {
       // Send POST request to the logout API
-      await this.http.post<any>(this.apiUrl, {}).toPromise();
+      await this.http.post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).toPromise();
 
       // Clear user data on the frontend
       this._user = null;
@@ -139,7 +140,9 @@ export class AuthService {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuardService implements CanActivate {
   constructor(private router: Router, private authService: AuthService) { }
 

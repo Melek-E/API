@@ -37,7 +37,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Use SameAsRequest for development
     options.ExpireTimeSpan = TimeSpan.FromMinutes(3);
     options.LoginPath = "/api/auth/login";
     options.AccessDeniedPath = "/api/auth/access-denied";
@@ -52,7 +52,20 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; // can only be modified when it reaches the server
     options.Cookie.IsEssential = true; // Mark session cookie as essential
 });
-builder.Services.AddCors();
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // Allow credentials
+        });
+});
+
 var app = builder.Build();
 
 // Seed roles
@@ -73,18 +86,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS before Authentication
+app.UseCors("AllowSpecificOrigin"); // Apply CORS policy
+
 app.UseSession(); // Enable session management
 app.UseAuthentication(); // Enable cookie-based authentication
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200", "https://localhost:7112", "http://localhost:7112"));
 app.Run();
 
 // Seed roles method
 static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
 {
-    var roles = new[] {"SuperAdmin", "Admin", "User" };
+    var roles = new[] { "SuperAdmin", "Admin", "User" };
 
     foreach (var role in roles)
     {
@@ -94,6 +110,3 @@ static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         }
     }
 }
-
-
-

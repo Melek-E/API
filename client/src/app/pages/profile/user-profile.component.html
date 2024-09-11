@@ -1,0 +1,33 @@
+<dx-form>
+  <dxi-item
+    [colSpan]="2"
+    label="Username"
+    [editorOptions]="{ readOnly: true }"
+  >
+    <dx-text-box
+      [(value)]="user.username"
+      [readOnly]="true"
+    ></dx-text-box>
+  </dxi-item>
+  
+  <dxi-item
+    [colSpan]="2"
+    label="Email"
+    [editorOptions]="{ readOnly: true }"
+  >
+    <dx-text-box
+      [(value)]="user.email"
+      [readOnly]="true"
+    ></dx-text-box>
+  </dxi-item>
+
+  <dxi-item
+    [colSpan]="2"
+  >
+    <dx-button
+      text="Save"
+      type="success"
+      (onClick)="saveProfile()"
+    ></dx-button>
+  </dxi-item>
+</dx-form>

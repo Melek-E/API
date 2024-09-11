@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.DTOs.Auth;
 using API.Models.Domain.Auth;
-using API.Data;
+using API.Models.DTOs;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using API.Models.DTO;
 
 namespace API.Controllers
 {
@@ -96,6 +98,49 @@ namespace API.Controllers
             await _userManager.AddToRoleAsync(user, newRole);
 
             return Ok($"User role changed to {newRole}.");
+        }
+
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            var userDTO = new UserDTO
+            {
+                Username = user.UserName,
+                Email = user.Email
+            };
+
+            return Ok(userDTO);
+        }
+
+        [HttpPut("profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserDTO userDTO)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            user.UserName = userDTO.Username;
+            user.Email = userDTO.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(userDTO);
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
         }
     }
 }
