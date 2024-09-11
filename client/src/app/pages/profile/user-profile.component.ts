@@ -14,7 +14,7 @@ export class UserProfileComponent implements OnInit {
     username: '',
     email: ''
   };
-  
+
   private apiUrl = 'http://localhost:7112/api/auth/profile';
 
   constructor(private http: HttpClient) {}
@@ -24,7 +24,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    this.http.get<any>(this.apiUrl).subscribe({
+    // Ensure that cookies are included in the request
+    this.http.get<any>(this.apiUrl, { withCredentials: true }).subscribe({
       next: (data) => {
         this.user = data;
       },

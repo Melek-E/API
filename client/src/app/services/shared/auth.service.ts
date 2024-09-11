@@ -39,7 +39,9 @@ export class AuthService {
       // Send request to login API
       const response = await this.http.post<any>(`${this.apiUrl}/login`, loginData, { withCredentials: true }).toPromise();
       this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
+      
+      // Navigate to the desired path after login
+      this.router.navigate(['/secondtest']);
 
       return {
         isOk: true,

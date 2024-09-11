@@ -53,7 +53,7 @@ namespace API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);
-
+                
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
