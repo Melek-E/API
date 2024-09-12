@@ -1,29 +1,22 @@
 <div class="login-container">
   <form class="login-form" (submit)="onSubmit($event)">
-    <h1>kys</h1>
+    <h1>Welcome Back</h1>
 
-    <dx-form [formData]="formData" [disabled]="loading">
+    <dx-form [formData]="formData" [disabled]="loading" [colCount]="1">
 
       <dxi-item dataField="email" editorType="dxTextBox"
-        [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
+        [editorOptions]="{ stylingMode: 'underlined', placeholder: 'Enter your email', mode: 'email' }">
         <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-        <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+        <dxi-validation-rule type="email" message="Invalid email format"></dxi-validation-rule>
         <dxo-label [visible]="false"></dxo-label>
       </dxi-item>
 
       <dxi-item dataField="password" editorType="dxTextBox"
-        [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
+        [editorOptions]="{ stylingMode: 'underlined', placeholder: 'Enter your password', mode: 'password' }">
         <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
         <dxo-label [visible]="false"></dxo-label>
       </dxi-item>
 
-      
-
-    <!--   <dxi-item dataField="rememberMe" editorType="dxCheckBox"
-        [editorOptions]="{ text: 'Remember me', elementAttr: { class: 'form-text' } }">
-        <dxo-label [visible]="false"></dxo-label>
-      </dxi-item>
- -->
       <dxi-item itemType="button">
         <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'signInTemplate'">
         </dxo-button-options>
@@ -36,7 +29,7 @@
       </dxi-item>
 
       <dxi-item itemType="button">
-        <dxo-button-options text="Create an account" width="100%" [onClick]="onCreateAccountClick"></dxo-button-options>
+        <dxo-button-options text="Create an Account" width="100%" [onClick]="onCreateAccountClick"></dxo-button-options>
       </dxi-item>
 
       <ng-container *dxTemplate="let item of 'signInTemplate'">
@@ -49,7 +42,6 @@
           </span>
         </div>
       </ng-container>
-
     </dx-form>
 
   </form>
