@@ -11,7 +11,7 @@ namespace API.Models.Domain.Extra
         public DateTime Timestamp { get; set; } = DateTime.Now;  // Automatically sets the time when the test is created
         public double? Score { get; set; }  // Nullable score, can be updated later
 
-        public string UserId { get; set; }  // Foreign key to ApplicationUser
+        public string? UserId { get; set; }  // Foreign key to ApplicationUser
 
         public List<Question> Questions { get; set; } = new List<Question>();  // List of questions in the test
     }

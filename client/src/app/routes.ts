@@ -19,15 +19,9 @@ const routeConfig: Routes = [
   { path: 'testtest', component: SideNavInnerToolbarComponent, title: 'Sidepiece' },
   { path: 'profile', component: UserProfileComponent, title: 'Profile', canActivate: [AuthGuardService] },
     { path: 'unauthorized', component: UnauthorizedComponent },
+ 
+  
   {
-    path: '**', // Wildcard route for 404 page
-    component: NotFoundComponent
-
-  },
-   {
-    path: 'notfound', // Wildcard route for 404 page
-    component: NotFoundComponent
-
   }
   
 

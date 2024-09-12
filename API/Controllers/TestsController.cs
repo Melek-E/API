@@ -36,5 +36,25 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+
+
+
+
+
+
+        // GET: api/Tests/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Test>> GetTestById(int id)
+        {
+            var test = await _testService.GetTestById(id);
+
+            if (test == null)
+            {
+                return NotFound("Test not found.");
+            }
+
+            return Ok(test);
+        }
     }
 }

@@ -32,10 +32,29 @@ namespace API.Services
             var test = new Test
             {
                 Questions = questions,
-                Timestamp = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow,
+                UserId = "08266ada-eb8c-4402-9c96-3d5425626c9b",
+                Score = null  // Initially, the test has no score
             };
+
+            _context.Tests.Add(test);
+            await _context.SaveChangesAsync();
 
             return test;
         }
+
+        public async Task<Test> GetTestById(int testId)
+        {
+            return await _context.Tests
+                                 .Include(t => t.Questions)
+                                 .FirstOrDefaultAsync(t => t.Id == testId);
+        }
+
+
+        
     }
+
+
+
+
 }
