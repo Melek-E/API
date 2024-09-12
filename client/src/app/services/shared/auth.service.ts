@@ -41,7 +41,7 @@ export class AuthService {
       this._user = { ...defaultUser, email };
       
       // Navigate to the desired path after login
-      this.router.navigate(['/secondtest']);
+      this.router.navigate(['/profile']);
 
       return {
         isOk: true,

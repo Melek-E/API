@@ -1,16 +1,24 @@
-@import "../services/shared/variables.base.css";
 
-html, body {
+
+@import "../services/shared/variables.base.css";
+html {
+  margin: 0 !important;
+  padding: 0;
   height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  overflow: hidden;
   background: linear-gradient(135deg, #000000, #0072ff);
-  font-family: 'Roboto', sans-serif;
+
 }
 
 body {
+  margin: 0 !important;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #000000, #0072ff);
+
 }
 
 .login-container {
@@ -19,7 +27,7 @@ body {
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #000000, #0072ff);
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .login-form {
@@ -34,10 +42,6 @@ body {
   transition: all 0.3s ease;
 }
 
-.login-form:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
 
 .login-form h1 {
   font-size: 30px;

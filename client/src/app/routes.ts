@@ -6,6 +6,8 @@ import { ResetPasswordFormComponent } from './services/reset-password-form/reset
 import { SideNavInnerToolbarComponent } from './services/side-nav-inner-toolbar/side-nav-inner-toolbar.component';
 import { UserProfileComponent } from './pages/profile/user-profile.component';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
+import { AuthGuardService } from './services/auth.guard';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 
 const routeConfig: Routes = [
@@ -15,11 +17,19 @@ const routeConfig: Routes = [
   { path: 'create-account', component: CreateAccountFormComponent, title: 'Create Account' },
   { path: 'reset-password', component: ResetPasswordFormComponent, title: 'Reset Password' },
   { path: 'testtest', component: SideNavInnerToolbarComponent, title: 'Sidepiece' },
-  { path: 'profile', component: UserProfileComponent, title: 'Sidepiece' },
+  { path: 'profile', component: UserProfileComponent, title: 'Profile', canActivate: [AuthGuardService] },
     { path: 'unauthorized', component: UnauthorizedComponent },
-    { path: '**', redirectTo: '/unauthorized' }
+  {
+    path: '**', // Wildcard route for 404 page
+    component: NotFoundComponent
 
+  },
+   {
+    path: 'notfound', // Wildcard route for 404 page
+    component: NotFoundComponent
 
+  }
+  
 
 ];
 

@@ -51,7 +51,7 @@ export class UserProfileComponent implements OnInit {
       
       error: (err) => {
         console.error('Error loading profile:', err);
-        this.router.navigate(['/login-form']);
+        this.router.navigate(['/unauthorized']);
 
       }
     });
