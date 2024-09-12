@@ -4,6 +4,7 @@ using API.Models.DTO;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -36,12 +37,6 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-
-
-
-
-
 
         // GET: api/Tests/{id}
         [HttpGet("{id}")]
@@ -55,6 +50,14 @@ namespace API.Controllers
             }
 
             return Ok(test);
+        }
+
+        // GET: api/Tests
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Test>>> GetAllTests()
+        {
+            var tests = await _testService.GetAllTests();
+            return Ok(tests);
         }
     }
 }

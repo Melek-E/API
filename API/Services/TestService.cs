@@ -1,9 +1,7 @@
 ﻿using API.Data;
-using API.Models;
 using API.Models.Domain.Extra;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -19,10 +17,9 @@ namespace API.Services
 
         public async Task<Test> GenerateRandomTest(int level, int numberOfQuestions)
         {
-            // Fetch questions based on the level
             var questions = await _context.Questions
                 .Where(q => q.Level == level)
-                .OrderBy(q => Guid.NewGuid()) // Randomize
+                .OrderBy(q => Guid.NewGuid())
                 .Take(numberOfQuestions)
                 .ToListAsync();
 
@@ -34,7 +31,7 @@ namespace API.Services
                 Questions = questions,
                 Timestamp = DateTime.UtcNow,
                 UserId = "08266ada-eb8c-4402-9c96-3d5425626c9b",
-                Score = null  // Initially, the test has no score
+                Score = null
             };
 
             _context.Tests.Add(test);
@@ -50,11 +47,11 @@ namespace API.Services
                                  .FirstOrDefaultAsync(t => t.Id == testId);
         }
 
-
-        
+        public async Task<List<Test>> GetAllTests()
+        {
+            return await _context.Tests
+                                 .Include(t => t.Questions)
+                                 .ToListAsync();
+        }
     }
-
-
-
-
 }
