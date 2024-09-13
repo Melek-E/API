@@ -7,7 +7,7 @@ using API.Models.Domain.Auth;
 using API.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 
-namespace YourNamespace.Controllers
+namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -2,6 +2,7 @@
 using API.Models.Domain.Extra;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -51,6 +52,14 @@ namespace API.Services
         {
             return await _context.Tests
                                  .Include(t => t.Questions)
+                                 .ToListAsync();
+        }
+
+        public async Task<List<Test>> GetTestsByUserId(string userId)
+        {
+            return await _context.Tests
+                                 .Include(t => t.Questions)
+                                 .Where(t => t.UserId == userId)
                                  .ToListAsync();
         }
     }

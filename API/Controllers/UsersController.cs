@@ -2,6 +2,9 @@
 using API.Models.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace YourNamespace.Controllers
 {
@@ -38,6 +41,28 @@ namespace YourNamespace.Controllers
             return Ok(user);
         }
 
+        // Get all users with the 'admin' role
+        [HttpGet("Admins")]
+        public async Task<IActionResult> GetAdmins()
+        {
+            var role = await _roleManager.FindByNameAsync("Admin");
+            if (role == null)
+            {
+                return NotFound("Role 'admin' not found.");
+            }
+
+            var usersInAdminRole = await _userManager.GetUsersInRoleAsync("admin");
+
+            return Ok(usersInAdminRole);
+        }
+
+
+        [HttpGet("AllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var usersInUserRole = await _userManager.GetUsersInRoleAsync("User");
+            return Ok(usersInUserRole);
+        }
         // Create a new user
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
@@ -45,7 +70,10 @@ namespace YourNamespace.Controllers
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
-
+            if (result.Succeeded)
+            {
+                return Ok(user);
+            }
 
             foreach (var error in result.Errors)
             {

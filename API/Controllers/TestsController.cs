@@ -59,5 +59,19 @@ namespace API.Controllers
             var tests = await _testService.GetAllTests();
             return Ok(tests);
         }
+
+        // GET: api/Tests/User/{userId}
+        [HttpGet("User/{userId}")]
+        public async Task<ActionResult<IEnumerable<Test>>> GetTestsByUserId(string userId)
+        {
+            var tests = await _testService.GetTestsByUserId(userId);
+
+            if (tests == null || tests.Count == 0)
+            {
+                return NotFound($"No tests found for UserId: {userId}");
+            }
+
+            return Ok(tests);
+        }
     }
 }
