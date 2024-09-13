@@ -14,6 +14,7 @@ import { DxFormModule } from 'devextreme-angular';
 export class UserProfileComponent implements OnInit {
   
   user = {
+    Id: '',
     Username: '',
     Email: '',
     Frameworks:[]
@@ -44,6 +45,7 @@ export class UserProfileComponent implements OnInit {
 
         if (data) {
           this.user = {
+            Id: data.Id,
             Username: data.Username || '',
             Email: data.Email || '',
             Frameworks: data.Framework|| []

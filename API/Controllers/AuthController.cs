@@ -7,7 +7,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using API.Models.Domain.Extra; // For Framework
-using API; 
 using API.Services;
 using Microsoft.AspNetCore.Authorization; 
 
@@ -72,7 +71,6 @@ namespace API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Check and get or create frameworks
             var frameworks = await _frameworkService.GetOrCreateFrameworksAsync(registerDto.Frameworks);
 
             var user = new ApplicationUser
@@ -143,9 +141,10 @@ namespace API.Controllers
             if (user == null) return NotFound();
 
             var userDTO = new UserDTO
-            {
+            {   
                 Username = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                Id=user.Id
             };
 
             return Ok(userDTO);

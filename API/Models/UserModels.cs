@@ -1,11 +1,13 @@
-﻿namespace API.Models
+﻿using API.Models.Domain.Extra;
+
+namespace API.Models
 {
     public class CreateUserModel
     {
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public int FrameworkId { get; set; }
+        public List<Framework> Frameworks{ get; set; }
 
 
     }
@@ -13,7 +15,7 @@
     public class UpdateUserModel
     {
         public string UserName { get; set; }
-        public int FrameworkId { get; set; }
+        public List<Framework> Frameworks { get; set; }
 
     }
 
