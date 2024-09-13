@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import { Router, NavigationEnd } from '@angular/router';
 import { HeaderModule } from '../shared/header/header.component';
-import { ScreenService } from '../screen.service';
+import { ScreenService } from '../shared';
 
 @Component({
   selector: 'app-side-nav-inner-toolbar',

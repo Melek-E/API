@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Microsoft.AspNetCore.Authorization;
+
+
 namespace YourNamespace.Controllers
 {
     [Route("api/[controller]")]
@@ -131,6 +134,8 @@ namespace YourNamespace.Controllers
         }
 
         // Assign a user to a role (e.g., Admin)
+        [Authorize(Roles = "SuperAdmin")]
+
         [HttpPost("{id}/assign-role")]
         public async Task<IActionResult> AssignRole(string id, [FromBody] AssignRoleModel model)
         {

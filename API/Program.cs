@@ -17,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<TestService>();
+builder.Services.AddScoped<IFrameworkService, FrameworkService>();
+
 
 // Configure the database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

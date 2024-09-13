@@ -18,11 +18,7 @@ const routeConfig: Routes = [
   { path: 'reset-password', component: ResetPasswordFormComponent, title: 'Reset Password' },
   { path: 'testtest', component: SideNavInnerToolbarComponent, title: 'Sidepiece' },
   { path: 'profile', component: UserProfileComponent, title: 'Profile', canActivate: [AuthGuardService] },
-    { path: 'unauthorized', component: UnauthorizedComponent },
- 
-  
-  {
-  }
+    { path: 'unauthorized', component: UnauthorizedComponent }
   
 
 ];

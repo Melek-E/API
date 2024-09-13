@@ -15,7 +15,8 @@ export class UserProfileComponent implements OnInit {
   
   user = {
     Username: '',
-    Email: ''
+    Email: '',
+    Frameworks:[]
   };
   colCountByScreen: object;
 
@@ -44,7 +45,8 @@ export class UserProfileComponent implements OnInit {
         if (data) {
           this.user = {
             Username: data.Username || '',
-            Email: data.Email || ''
+            Email: data.Email || '',
+            Frameworks: data.Framework|| []
           };
         }
       },

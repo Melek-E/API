@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.DTOs.Auth;
 using API.Models.Domain.Auth;
-using API.Models.DTOs;
+using API.Models.DTO;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using API.Models.DTO;
+using System.Collections.Generic;
+using API.Models.Domain.Extra; // For Framework
+using API; 
+using API.Services;
+using Microsoft.AspNetCore.Authorization; 
+
+
 
 namespace API.Controllers
 {
@@ -17,12 +22,18 @@ namespace API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IFrameworkService _frameworkService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IFrameworkService frameworkService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _frameworkService = frameworkService;
         }
 
         [HttpPost("login")]
@@ -36,7 +47,23 @@ namespace API.Controllers
             if (!result.Succeeded)
                 return Unauthorized(new { message = "Invalid login attempt!" });
 
-            return Ok(new { message = "Login successful!" });
+            // Retrieve user information after successful login
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+                return NotFound(new { message = "User not found!" });
+
+            // Map user to UserDTO
+            var userDto = new UserDTO
+            {
+                Username = user.UserName,
+                Email = user.Email,
+            };
+
+            return Ok(new
+            {
+                message = "Login successful!",
+                user = userDto
+            });
         }
 
         [HttpPost("register")]
@@ -45,15 +72,18 @@ namespace API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Check and get or create frameworks
+            var frameworks = await _frameworkService.GetOrCreateFrameworksAsync(registerDto.Frameworks);
+
             var user = new ApplicationUser
             {
                 UserName = registerDto.Email,
                 Email = registerDto.Email,
-                Frameworks = registerDto.Frameworks
+                Frameworks = frameworks
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);
-                
+
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
