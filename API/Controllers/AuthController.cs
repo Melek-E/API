@@ -102,11 +102,8 @@ namespace API.Controllers
         public async Task<IActionResult> ToggleUserRole(string userId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            if (await _userManager.IsInRoleAsync(currentUser, "SuperAdmin"))
-            {
-                return StatusCode(StatusCodes.Status405MethodNotAllowed, "You are not allowed to modify roles of super admin.");
-            }
-
+           
+            
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -115,6 +112,11 @@ namespace API.Controllers
 
             var currentRoles = await _userManager.GetRolesAsync(user);
             string newRole = currentRoles.Contains("Admin") ? "User" : "Admin";
+
+            if (currentRoles.Contains("SuperAdmin"))
+            {
+                return Unauthorized(new { message = "Impossible to change Super Admin Role (temp solution?)" });
+            }
 
             if (currentRoles.Contains("Admin"))
             {
