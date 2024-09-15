@@ -33,7 +33,8 @@ namespace API.Controllers
             var userDTO = new UserDTO
             {
                 Username = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                Frameworks=user.Frameworks
             };
 
             return Ok(userDTO);
@@ -50,6 +51,7 @@ namespace API.Controllers
 
             user.UserName = userDTO.Username;
             user.Email = userDTO.Email;
+
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)

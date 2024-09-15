@@ -56,6 +56,7 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
+                Frameworks= user.Frameworks
             };
 
             return Ok(new
@@ -85,7 +86,7 @@ namespace API.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            return Ok(new { message = "Registration successful!" });
+            return Ok(new { message = "Registration successful!" ,frameworks});
         }
 
         [HttpPost("logout")]
@@ -144,7 +145,8 @@ namespace API.Controllers
             {   
                 Username = user.UserName,
                 Email = user.Email,
-                Id=user.Id
+                Id=user.Id,
+                Frameworks=user.Frameworks
             };
 
             return Ok(userDTO);

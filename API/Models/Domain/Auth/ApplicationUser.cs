@@ -10,8 +10,8 @@ namespace API.Models.Domain.Auth
 
         //        public Framework? Framework { get; set; }
 
-        public List<Framework>? Frameworks { get; set; } = new List<Framework>();
-
+        public required List<Framework> Frameworks { get; set; }
+        
 
     }
 }

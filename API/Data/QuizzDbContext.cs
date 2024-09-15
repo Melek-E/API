@@ -47,6 +47,9 @@ namespace API.Data
                .HasMany(t => t.Questions)
                .WithMany();
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(u => u.Frameworks)
+                .WithMany();
 
 
         }

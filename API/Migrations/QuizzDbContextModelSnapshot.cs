@@ -127,16 +127,11 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Frameworks");
                 });
@@ -171,10 +166,6 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdminId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
@@ -189,6 +180,10 @@ namespace API.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Questions");
@@ -196,6 +191,21 @@ namespace API.Migrations
                     b.HasDiscriminator<string>("QuestionType").HasValue("Base");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("ApplicationUserFramework", b =>
+                {
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("FrameworksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUserId", "FrameworksId");
+
+                    b.HasIndex("FrameworksId");
+
+                    b.ToTable("ApplicationUserFramework");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -354,10 +364,6 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CorrectChoices")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasDiscriminator().HasValue("MultipleChoice");
                 });
 
@@ -380,11 +386,19 @@ namespace API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Extra.Framework", b =>
+            modelBuilder.Entity("ApplicationUserFramework", b =>
                 {
                     b.HasOne("API.Models.Domain.Auth.ApplicationUser", null)
-                        .WithMany("Frameworks")
-                        .HasForeignKey("ApplicationUserId");
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.Domain.Extra.Framework", null)
+                        .WithMany()
+                        .HasForeignKey("FrameworksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,11 +465,6 @@ namespace API.Migrations
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Auth.ApplicationUser", b =>
-                {
-                    b.Navigation("Frameworks");
                 });
 
             modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>

@@ -1,7 +1,9 @@
 ﻿using API.Models.Domain.Auth;
+using API.Models.Domain.Extra;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 public static class Seed
@@ -15,6 +17,9 @@ public static class Seed
         string roleName = "SuperAdmin";
         string adminEmail = "melek-essid@live.fr";
         string adminPassword = "SuperAdminPassword123!";
+        string jsonFrameworks = "[{\"Name\":\"ASP.NET Core\", \"Version\":\"6.0\"}, {\"Name\":\"Entity Framework\", \"Version\":\"6.0\"}]";
+        var adminFrameworks = JsonSerializer.Deserialize<List<Framework>>(jsonFrameworks);
+
 
         // Ensure the role exists
         var roleExist = await roleManager.RoleExistsAsync(roleName);
@@ -39,7 +44,8 @@ public static class Seed
             user = new ApplicationUser
             {
                 UserName = adminEmail,
-                Email = adminEmail
+                Email = adminEmail,
+                Frameworks=adminFrameworks
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);
