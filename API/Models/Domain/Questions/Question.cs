@@ -2,12 +2,7 @@
 namespace API.Models.Domain.Questions
 {
 
-    public enum QuestionType
-    {
-        Choice,
-        MultipleChoice,
-        TrueFalse
-    }
+   
     public class Question
     {
         public int Id { get; set; }
@@ -16,11 +11,21 @@ namespace API.Models.Domain.Questions
 //        public virtual Admin Admin { get; set; }
         public string UserId { get; set; }
         public int Level { get; set; }
-        public QuestionType Type { get; set; }
-            
-        public virtual ICollection<Answer>? PredefinedAnswers { get; set; } = new List<Answer>();
+        private string _type = default!;
 
+        // Using 'required' ensures that 'Type' must be set during object initialization
+        public required string Type
+        {
+            get => _type;
+            set => _type = value switch
+            {
+                "MultipleChoice" or "TrueFalse" or "Basic" => value,
+                _ => throw new ArgumentException("Type must be 'MultipleChoice', 'TrueFalse', or 'Basic'")
+            };
+        }
     }
+
+    
 
 
 }
