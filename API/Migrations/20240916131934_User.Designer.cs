@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(QuizzDbContext))]
-    [Migration("20240915213129_DeletingCorrectChoices")]
-    partial class DeletingCorrectChoices
+    [Migration("20240916131934_User")]
+    partial class User
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,8 +51,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answer");
                 });
@@ -180,8 +178,9 @@ namespace API.Migrations
                         .HasMaxLength(21)
                         .HasColumnType("nvarchar(21)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -380,15 +379,6 @@ namespace API.Migrations
                     b.HasDiscriminator().HasValue("TrueFalse");
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Answer", b =>
-                {
-                    b.HasOne("API.Models.Domain.Questions.Question", null)
-                        .WithMany("PredefinedAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ApplicationUserFramework", b =>
                 {
                     b.HasOne("API.Models.Domain.Auth.ApplicationUser", null)
@@ -468,11 +458,6 @@ namespace API.Migrations
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
-                {
-                    b.Navigation("PredefinedAnswers");
                 });
 #pragma warning restore 612, 618
         }

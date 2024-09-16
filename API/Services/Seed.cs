@@ -15,7 +15,7 @@ public static class Seed
 
         // Define the role and user details
         string roleName = "SuperAdmin";
-        string adminEmail = "melek-essid@live.fr";
+        string adminEmail = "adminmelek@admin.fr";
         string adminPassword = "SuperAdminPassword123!";
         string jsonFrameworks = "[{\"Name\":\"ASP.NET Core\", \"Version\":\"6.0\"}, {\"Name\":\"Entity Framework\", \"Version\":\"6.0\"}]";
         var adminFrameworks = JsonSerializer.Deserialize<List<Framework>>(jsonFrameworks);

@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Default property names
+        //options.JsonSerializerOptions.PropertyNamingPolicy = null; // Default property names
     });
 
 builder.Services.AddEndpointsApiExplorer();

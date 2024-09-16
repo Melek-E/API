@@ -78,7 +78,7 @@ namespace API.Controllers
             {
                 UserName = registerDto.Email,
                 Email = registerDto.Email,
-                Frameworks = registerDto.Frameworks
+                Frameworks = frameworks
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);

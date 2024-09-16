@@ -24,7 +24,7 @@ namespace API.Models.DTOs.Auth
         //public int? FrameworkId { get; set; }
 
 
-        public required List<Framework> Frameworks { get; set; }
+        public required ICollection<Framework> Frameworks { get; set; }
 
 
 

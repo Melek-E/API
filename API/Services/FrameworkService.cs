@@ -13,7 +13,7 @@ public class FrameworkService : IFrameworkService
         _context = context;
     }
 
-    public async Task<List<Framework>> GetOrCreateFrameworksAsync(List<Framework> frameworks)
+    public async Task<ICollection<Framework>> GetOrCreateFrameworksAsync(ICollection<Framework> frameworks)
     {
         var result = new List<Framework>();
 

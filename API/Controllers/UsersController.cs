@@ -41,7 +41,7 @@ namespace YourNamespace.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(user.Frameworks);
         }
 
         // Get all users with the 'admin' role
@@ -66,27 +66,27 @@ namespace YourNamespace.Controllers
             var usersInUserRole = await _userManager.GetUsersInRoleAsync("User");
             return Ok(usersInUserRole);
         }
-        // Create a new user
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
-        {
-            var frameworks = model.Frameworks;
+        //// Create a new user
+        //[HttpPost]
+        //public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
+        //{
+        //    var frameworks = model.Frameworks;
 
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, 
-                Frameworks= frameworks};
-            var result = await _userManager.CreateAsync(user, model.Password);
+        //    var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, 
+        //        Frameworks= frameworks};
+        //    var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
-                return Ok(user);
-            }
+        //    if (result.Succeeded)
+        //    {
+        //        return Ok(user.Frameworks);
+        //    }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-            return BadRequest(ModelState);
-        }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error.Description);
+        //    }
+        //    return BadRequest(ModelState);
+        //}
 
         // Update user information
         [HttpPut("{id}")]

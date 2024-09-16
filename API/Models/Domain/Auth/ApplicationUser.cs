@@ -5,12 +5,13 @@ namespace API.Models.Domain.Auth
 {
     public class ApplicationUser: IdentityUser
     {
+        
+        public virtual required ICollection<Framework> Frameworks { get; set; }
 
         // public int FrameworkId { get; set; }
 
         //        public Framework? Framework { get; set; }
 
-        public required List<Framework> Frameworks { get; set; }
         
 
     }

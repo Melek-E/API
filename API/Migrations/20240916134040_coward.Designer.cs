@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(QuizzDbContext))]
-    [Migration("20240915184556_tbbtgive")]
-    partial class tbbtgive
+    [Migration("20240916134040_coward")]
+    partial class coward
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,8 +51,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answer");
                 });
@@ -130,16 +128,11 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Frameworks");
                 });
@@ -185,8 +178,9 @@ namespace API.Migrations
                         .HasMaxLength(21)
                         .HasColumnType("nvarchar(21)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -199,6 +193,21 @@ namespace API.Migrations
                     b.HasDiscriminator<string>("QuestionType").HasValue("Base");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("ApplicationUserFramework", b =>
+                {
+                    b.Property<int>("FrameworksId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FrameworksId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ApplicationUserFramework");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -357,10 +366,6 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CorrectChoices")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasDiscriminator().HasValue("MultipleChoice");
                 });
 
@@ -374,20 +379,19 @@ namespace API.Migrations
                     b.HasDiscriminator().HasValue("TrueFalse");
                 });
 
-            modelBuilder.Entity("API.Models.Domain.Answer", b =>
+            modelBuilder.Entity("ApplicationUserFramework", b =>
                 {
-                    b.HasOne("API.Models.Domain.Questions.Question", null)
-                        .WithMany("PredefinedAnswers")
-                        .HasForeignKey("QuestionId")
+                    b.HasOne("API.Models.Domain.Extra.Framework", null)
+                        .WithMany()
+                        .HasForeignKey("FrameworksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("API.Models.Domain.Extra.Framework", b =>
-                {
                     b.HasOne("API.Models.Domain.Auth.ApplicationUser", null)
-                        .WithMany("Frameworks")
-                        .HasForeignKey("ApplicationUserId");
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -454,16 +458,6 @@ namespace API.Migrations
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Auth.ApplicationUser", b =>
-                {
-                    b.Navigation("Frameworks");
-                });
-
-            modelBuilder.Entity("API.Models.Domain.Questions.Question", b =>
-                {
-                    b.Navigation("PredefinedAnswers");
                 });
 #pragma warning restore 612, 618
         }

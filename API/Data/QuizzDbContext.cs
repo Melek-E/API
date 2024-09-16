@@ -16,14 +16,15 @@ namespace API.Data
 {
     public class QuizzDbContext : IdentityDbContext<ApplicationUser>
     {
-        public QuizzDbContext(DbContextOptions options) : base(options)
+        public QuizzDbContext(DbContextOptions<QuizzDbContext> options) : base(options)
         {
 
         }
 
-        
 
-        
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+
         public DbSet<Models.Domain.Questions.Question> Questions { get; set; }
 
         public DbSet<Test> Tests { get; set; }

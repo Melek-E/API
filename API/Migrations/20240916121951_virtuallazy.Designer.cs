@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(QuizzDbContext))]
-    [Migration("20240915232437_Change")]
-    partial class Change
+    [Migration("20240916121951_virtuallazy")]
+    partial class virtuallazy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

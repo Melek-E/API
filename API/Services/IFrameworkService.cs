@@ -5,5 +5,7 @@ namespace API.Services;
 
 public interface IFrameworkService
 {
-    Task<List<Framework>> GetOrCreateFrameworksAsync(List<Framework> frameworks);
+    Task<ICollection<Framework>> GetOrCreateFrameworksAsync(ICollection<Framework> frameworks);
 }
+
+    

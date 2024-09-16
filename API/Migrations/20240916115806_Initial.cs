@@ -6,11 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class tbbtgive : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Answer",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnswerText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answer", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -51,6 +68,19 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Frameworks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Frameworks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -59,10 +89,9 @@ namespace API.Migrations
                     QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuestionType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     Choices = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CorrectChoices = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsTrue = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -192,43 +221,25 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Frameworks",
+                name: "ApplicationUserFramework",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FrameworksId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Frameworks", x => x.Id);
+                    table.PrimaryKey("PK_ApplicationUserFramework", x => new { x.ApplicationUserId, x.FrameworksId });
                     table.ForeignKey(
-                        name: "FK_Frameworks_AspNetUsers_ApplicationUserId",
+                        name: "FK_ApplicationUserFramework_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Answer",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AnswerText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answer", x => x.Id);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Answer_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
+                        name: "FK_ApplicationUserFramework_Frameworks_FrameworksId",
+                        column: x => x.FrameworksId,
+                        principalTable: "Frameworks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -258,9 +269,9 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answer_QuestionId",
-                table: "Answer",
-                column: "QuestionId");
+                name: "IX_ApplicationUserFramework_FrameworksId",
+                table: "ApplicationUserFramework",
+                column: "FrameworksId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -302,11 +313,6 @@ namespace API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Frameworks_ApplicationUserId",
-                table: "Frameworks",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_QuestionTest_TestId",
                 table: "QuestionTest",
                 column: "TestId");
@@ -317,6 +323,9 @@ namespace API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Answer");
+
+            migrationBuilder.DropTable(
+                name: "ApplicationUserFramework");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -334,10 +343,10 @@ namespace API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Frameworks");
+                name: "QuestionTest");
 
             migrationBuilder.DropTable(
-                name: "QuestionTest");
+                name: "Frameworks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
