@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace YourNamespace.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
