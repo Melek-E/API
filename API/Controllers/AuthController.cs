@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using API.Models.DTOs.Auth;
-using API.Models.Domain.Auth;
+using API.Models.DTOs.Authent;
 using API.Models.DTO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using API.Models.Domain.Extra; // For Framework
 using API.Services;
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
+using API.Data;
+using API.Models;
+using API.Models.Domain.Authent;
 
 
 
@@ -21,18 +23,22 @@ namespace API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IFrameworkService _frameworkService;
+        private readonly FrameworkService _frameworkService;
+        private readonly QuizzDbContext _context;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IFrameworkService frameworkService)
+            FrameworkService frameworkService,
+            QuizzDbContext context
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _frameworkService = frameworkService;
+            _context = context;
         }
 
         [HttpPost("login")]
@@ -85,6 +91,7 @@ namespace API.Controllers
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
+            await _context.SaveChangesAsync();
 
             return Ok(new { message = "Registration successful!" ,frameworks});
         }

@@ -1,4 +1,5 @@
-﻿using API.Models.Domain.Auth;
+﻿using API.Models;
+using API.Models.Domain.Authent;
 using API.Models.Domain.Extra;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

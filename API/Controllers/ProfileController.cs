@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using API.Models.Domain.Auth;
+using API.Models.Domain.Authent;
 using API.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 

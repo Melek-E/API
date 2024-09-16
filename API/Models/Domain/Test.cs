@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using API.Models.Domain.Auth;
+using API.Models.Domain.Authent;
 using API.Models.Domain.Questions;
 
 namespace API.Models.Domain.Extra

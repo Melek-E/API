@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.Models.Domain.Auth
+namespace API.Models.Domain.Authent
 {
     public class LoginDTO
     {
@@ -12,6 +12,6 @@ namespace API.Models.Domain.Auth
         [DataType(DataType.Password)]
         public required string PasswordHash { get; set; }
 
-        
+
     }
 }

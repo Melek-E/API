@@ -1,5 +1,5 @@
 ﻿using API.Models;
-using API.Models.Domain.Auth;
+using API.Models.Domain.Authent;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -70,10 +70,10 @@ namespace YourNamespace.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
         {
-            var frameworks = model.Frameworks;
 
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, 
-                Frameworks= frameworks};
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,
+                Frameworks = model.Frameworks
+            };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)

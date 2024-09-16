@@ -1,7 +1,7 @@
 ﻿using API.Models.Domain.Extra;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Models.DTOs.Auth
+namespace API.Models.DTOs.Authent
 {
     public class RegisterDTO
     {

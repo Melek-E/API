@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using API.Models.Domain.Extra;
 using API.Data;
 namespace API.Services;
-public class FrameworkService : IFrameworkService
+public class FrameworkService
 {
     private readonly QuizzDbContext _context;
 
@@ -20,7 +20,7 @@ public class FrameworkService : IFrameworkService
         foreach (var framework in frameworks)
         {
             var existingFramework = await _context.Frameworks
-                .FirstOrDefaultAsync(f => f.Name == framework.Name);
+                .FirstOrDefaultAsync(f => f.Name.ToUpper() == framework.Name.ToUpper());
 
             if (existingFramework == null)
             {
@@ -33,7 +33,6 @@ public class FrameworkService : IFrameworkService
             }
         }
 
-        await _context.SaveChangesAsync();
 
         return result;
     }

@@ -2,7 +2,7 @@
 
 using API.Models;
 using API.Models.Domain;
-using API.Models.Domain.Auth;
+using API.Models.Domain.Authent;
 using API.Models.Domain.Questions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +14,16 @@ namespace API.Data
 
 
 {
-    public class QuizzDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public QuizzDbContext(DbContextOptions options) : base(options)
-        {
 
-        }
+    public class QuizzDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser, AppRole, int,
+        IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>,
+        IdentityUserToken<int>>(options)
 
-        
+    { 
 
-        
+
+
+
         public DbSet<Models.Domain.Questions.Question> Questions { get; set; }
 
         public DbSet<Test> Tests { get; set; }
@@ -41,17 +41,22 @@ namespace API.Data
                             .HasValue<Question>("Base");
 
 
-            
+
+            modelBuilder.Entity<ApplicationUser>()
+        .HasMany(ur => ur.UserRoles)
+        .WithOne(u => u.User)
+        .HasForeignKey(ur => ur.UserId)
+        .IsRequired();
 
             modelBuilder.Entity<Test>()
                .HasMany(t => t.Questions)
                .WithMany();
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany(u => u.Frameworks)
-                .WithMany();
-
-
+            modelBuilder.Entity<AppRole>()
+          .HasMany(ur => ur.UserRoles)
+          .WithOne(u => u.Role)
+          .HasForeignKey(ur => ur.RoleId)
+          .IsRequired();
         }
 
 
@@ -61,7 +66,7 @@ namespace API.Data
 
         public DbSet<Framework> Frameworks { get; set; }
 
-
+        public DbSet<ApplicationUser> UsersAAAA {  get; set; }
 
 
     }
