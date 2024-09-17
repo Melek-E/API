@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Authorization;
+using API.Data;
 
 
-namespace YourNamespace.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,20 +18,35 @@ namespace YourNamespace.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly QuizzDbContext _context;
 
-        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+
+        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, QuizzDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
-        // Get all users
-        [HttpGet]
-        public IActionResult GetUsers()
+       [HttpGet]
+public IActionResult GetUsers()
+{
+    var usersfram = _userManager.Users
+        .Select(user => new 
         {
-            var users = _userManager.Users.ToList();
-            return Ok(users);
-        }
+            user.Id,
+            user.UserName,
+            user.Email,
+            Frameworks = user.Frameworks != null
+                ? user.Frameworks.Select(d => d.Name).ToList()
+                : new List<string>()
+        })
+        .ToList();
+
+    return Ok(usersfram);
+}
+
+
 
         // Get a specific user by ID
         [HttpGet("{id}")]
