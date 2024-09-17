@@ -133,25 +133,24 @@ namespace API.Controllers
         [Authorize]
         public async Task<IActionResult> GetProfile()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Unauthorized();
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound();
+            //var user = await _userManager.FindByIdAsync(userId);
+            //if (user == null) return NotFound();
 
-                var userDTO = new UserDTO
-                {   
-                    Username = user.UserName,
-                    Email = user.Email,
-                    Id=user.Id
-                };
-            var frameworks = user.Frameworks.Select(d => d.Name).ToList();
+            var user = _userManager.Users
+     .Where(u => u.Id == userId)
+     .Select(user => new
+     {
+         user.Id,
+         user.UserName,
+         user.Email,
+         Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no frameworks are present
+     })
+     .FirstOrDefault();
 
-            return Ok(new
-            {
-                User = userDTO,
-                Frameworks = frameworks
-            });
+            return Ok(user);
         }
 
         [HttpPut("profile")]

@@ -37,7 +37,7 @@ public IActionResult GetUsers()
             user.Id,
             user.UserName,
             user.Email,
-            Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no dawgs are present
+            Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no frameworks are present
 
         })
         .ToList();
@@ -49,14 +49,27 @@ public IActionResult GetUsers()
 
         // Get a specific user by ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(string id)
+        public IActionResult GetUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            // Fetch the user by ID
+            var user = _userManager.Users
+                .Where(u => u.Id == id)
+                .Select(user => new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no frameworks are present
+                })
+                .FirstOrDefault();
+
+            // Check if user was found
             if (user == null)
             {
-                return NotFound();
+                return NotFound(); // Return 404 if user not found
             }
-            return Ok(user.Frameworks);
+
+            return Ok(user); // Return the user profile if found
         }
 
         // Get all users with the 'admin' role
