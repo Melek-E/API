@@ -8,7 +8,7 @@ namespace API.Models.DTO
         public required string Email { get; set; }
         public string Id { get; set; }
 
-        public required ICollection<Framework> Frameworks { get; set; }
+        //public required ICollection<Framework> Frameworks { get; set; }
 
 
 

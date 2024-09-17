@@ -37,9 +37,8 @@ public IActionResult GetUsers()
             user.Id,
             user.UserName,
             user.Email,
-            Frameworks = user.Frameworks != null
-                ? user.Frameworks.Select(d => d.Name).ToList()
-                : new List<string>()
+            Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no dawgs are present
+
         })
         .ToList();
 

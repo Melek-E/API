@@ -34,7 +34,7 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
-                Frameworks=user.Frameworks
+                //add new userdto model, one with frameworks maybehere, fix
             };
 
             return Ok(userDTO);

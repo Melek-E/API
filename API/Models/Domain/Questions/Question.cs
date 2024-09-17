@@ -1,4 +1,6 @@
 ﻿// Models/Domain/Question.cs    
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Models.Domain.Questions
 {
 
@@ -10,7 +12,11 @@ namespace API.Models.Domain.Questions
 
 //        public virtual Admin Admin { get; set; }
         public string UserId { get; set; }
+        
+        [Range(1, 3, ErrorMessage = "Level must be between 1 and 3.")]
         public int Level { get; set; }
+
+
         private string _type = default!;
 
         // Using 'required' ensures that 'Type' must be set during object initialization

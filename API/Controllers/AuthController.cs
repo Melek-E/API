@@ -56,13 +56,11 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
-                Frameworks= user.Frameworks
             };
 
             return Ok(new
             {
                 message = "Login successful!",
-                user = userDto
             });
         }
 
@@ -141,15 +139,19 @@ namespace API.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            var userDTO = new UserDTO
-            {   
-                Username = user.UserName,
-                Email = user.Email,
-                Id=user.Id,
-                Frameworks=user.Frameworks
-            };
+                var userDTO = new UserDTO
+                {   
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Id=user.Id
+                };
+            var frameworks = user.Frameworks.Select(d => d.Name).ToList();
 
-            return Ok(userDTO);
+            return Ok(new
+            {
+                User = userDTO,
+                Frameworks = frameworks
+            });
         }
 
         [HttpPut("profile")]
