@@ -1228,7 +1228,7 @@
   box-sizing: border-box;
 }
 .dx-fieldset-header:empty {
-  display: none;
+/*  display: none;*/
 }
 .dx-field {
   position: relative;
@@ -1562,7 +1562,7 @@
 }
 .dx-hidden,
 .dx-state-invisible {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-gesture-cover {
   transform: translate3d(0,0,0);
@@ -1877,7 +1877,7 @@
   white-space: nowrap;
 }
 .dx-button-content > .dx-inkripple {
-  display: none;
+/*  display: none;*/
 }
 .dx-button-link {
   text-decoration: none;
@@ -2398,7 +2398,7 @@
 }
 .dx-scrollable-native.dx-scrollable-native-generic .dx-scrollview-top-pocket {
   position: absolute;
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollable-native.dx-scrollable-native-android .dx-scrollview-top-pocket {
   width: 40px;
@@ -2457,7 +2457,7 @@
   transition: opacity .2s;
 }
 .dx-scrollable-native.dx-scrollable-native-android .dx-scrollview-pull-down-loading .dx-icon-pulldown {
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollable-native.dx-scrollable-native-ios .dx-scrollview-top-pocket {
   position: absolute;
@@ -2596,7 +2596,7 @@
   margin-right: 10px;
 }
 .dx-scrollview-pull-down-image {
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollview-pull-down {
   text-align: center;
@@ -2633,7 +2633,7 @@
   margin-top: -21px;
 }
 .dx-scrollview-pull-down-text > div {
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollview-pull-down-text > div.dx-scrollview-pull-down-text-visible {
   display: block;
@@ -2893,7 +2893,7 @@
   background: 0 0;
 }
 .dx-switch-off {
-  display: none;
+/*  display: none;*/
   padding-bottom: 10px;
   background-color: transparent;
 }
@@ -3366,7 +3366,7 @@
   outline: 0;
 }
 .dx-scrollable-native.dx-scrollable-wrapper > .dx-scrollable-container > .dx-scrollable-scrollbar {
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollable-native.dx-scrollable-scrollbar-simulated .dx-scrollable-scrollbar {
   display: block;
@@ -3428,7 +3428,7 @@
 }
 .dx-scrollable-scrollbar-simulated .dx-scrollable-container ::-webkit-scrollbar,
 .dx-scrollable-scrollbar-simulated ::-webkit-scrollbar {
-  display: none;
+/*  display: none;*/
 }
 .dx-scrollable-container {
   -webkit-tap-highlight-color: transparent;
@@ -3782,7 +3782,7 @@
   text-transform: uppercase;
 }
 .dx-tab .dx-tab-text .dx-tab-text-span-pseudo {
-  display: none;
+/*  display: none;*/
 }
 .dx-tab .dx-icon {
   color: rgba(0,0,0,.54);
@@ -4002,10 +4002,10 @@
   font-size: 16px;
 }
 .dx-texteditor-input:-webkit-autofill + .dx-placeholder {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-texteditor-input:autofill + .dx-placeholder {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-texteditor-input:-moz-ui-invalid {
   box-shadow: none;
@@ -4035,13 +4035,13 @@
   background-size: contain;
 }
 .dx-texteditor-empty .dx-clear-button-area {
-  display: none;
+/*  display: none;*/
 }
 .dx-state-disabled .dx-placeholder {
   cursor: auto;
 }
 .dx-state-disabled .dx-clear-button-area {
-  display: none;
+/*  display: none;*/
 }
 .dx-state-disabled .dx-texteditor-input {
   opacity: 1;
@@ -4188,7 +4188,7 @@
   box-shadow: inset 0 0 0 1px rgba(0,0,0,.42);
 }
 .dx-texteditor.dx-editor-outlined::before {
-  display: none;
+/*  display: none;*/
 }
 .dx-texteditor.dx-editor-outlined.dx-state-disabled,
 .dx-texteditor.dx-editor-outlined.dx-state-readonly {
@@ -4534,7 +4534,7 @@
   line-height: 1.4285714286em;
 }
 .dx-editor-outlined.dx-texteditor-with-floating-label .dx-placeholder {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active .dx-placeholder,
 .dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused .dx-placeholder {
@@ -4583,7 +4583,7 @@
   margin-top: 0;
 }
 .dx-editor-outlined.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly .dx-placeholder {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-outlined.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly.dx-state-focused .dx-label {
   padding: 0 2px;
@@ -4650,7 +4650,7 @@
 }
 .dx-editor-filled.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-placeholder,
 .dx-editor-filled.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly .dx-placeholder {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-filled.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-texteditor-label,
 .dx-editor-filled.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly .dx-texteditor-label {
@@ -4724,7 +4724,7 @@
 }
 .dx-editor-underlined.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-placeholder,
 .dx-editor-underlined.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly .dx-placeholder {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-underlined.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-texteditor-label,
 .dx-editor-underlined.dx-texteditor-with-floating-label.dx-texteditor-empty.dx-state-readonly .dx-texteditor-label {
@@ -4819,7 +4819,7 @@
   margin-inline-end: 8px;
 }
 .dx-texteditor .dx-texteditor-buttons-container:last-child > div:empty:last-child {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-underlined.dx-texteditor-with-floating-label.dx-texteditor-with-before-buttons .dx-texteditor-buttons-container > .dx-button.dx-button-mode-text,
 .dx-editor-underlined.dx-texteditor-with-label.dx-texteditor-with-before-buttons .dx-texteditor-buttons-container > .dx-button.dx-button-mode-text {
@@ -5176,7 +5176,7 @@
   white-space: normal;
 }
 .dx-empty-collection .dx-list-select-all {
-  display: none;
+/*  display: none;*/
 }
 .dx-list-collapsible-groups .dx-list-group-header {
   cursor: pointer;
@@ -5647,7 +5647,7 @@
   padding: 0;
 }
 .dx-list-item-before-bag .dx-button.dx-list-toggle-delete-switch .dx-button-content .dx-inkripple-wave {
-  display: none;
+/*  display: none;*/
 }
 .dx-list-item-before-bag .dx-icon-toggle-delete {
   transition: .1s linear;
@@ -6387,7 +6387,7 @@
   height: 20px;
 }
 .dx-datebox-native.dx-state-focused.dx-texteditor-empty .dx-placeholder {
-  display: none;
+/*  display: none;*/
 }
 .dx-datebox {
   max-width: 100%;
@@ -6510,7 +6510,7 @@
 .dx-dateview-item-selected-border,
 .dx-dateviewroller-day .dx-dateview-name-formatter,
 .dx-dateviewroller-month .dx-dateview-value-formatter {
-  display: none;
+/*  display: none;*/
 }
 .dx-dateview-rollers {
   width: auto;
@@ -6530,7 +6530,7 @@
   display: inline-block;
 }
 .dx-dateviewroller .dx-button {
-  display: none;
+/*  display: none;*/
 }
 .dx-dateviewroller .dx-scrollable-content::after,
 .dx-dateviewroller .dx-scrollable-content::before {
@@ -6545,7 +6545,7 @@
   min-width: 4.85em;
 }
 .dx-dateviewroller.dx-state-active .dx-button {
-  display: none;
+/*  display: none;*/
 }
 .dx-dateviewroller-month {
   min-width: 12em;
@@ -7196,7 +7196,7 @@
   list-style-position: inside;
   padding: 0;
   margin: 0;
-  display: none;
+/*  display: none;*/
   overflow: hidden;
 }
 .dx-treeview-node-container.dx-treeview-node-container-opened {
@@ -7540,7 +7540,7 @@
 }
 .dx-context-menu-content-delimiter {
   position: absolute;
-  display: none;
+/*  display: none;*/
   z-index: 2000;
   cursor: pointer;
 }
@@ -7728,7 +7728,7 @@
   position: absolute;
 }
 .dx-toolbar-center:empty {
-  display: none;
+/*  display: none;*/
 }
 .dx-toolbar-before {
   left: 0;
@@ -7772,7 +7772,7 @@
   left: 0;
 }
 .dx-toolbar-menu-section:empty {
-  display: none;
+/*  display: none;*/
 }
 .dx-dropdownmenu-popup-wrapper .dx-toolbar-menu-custom>.dx-list-item-content,
 .dx-toolbar-menu-section .dx-toolbar-hidden-button .dx-list-item-content,
@@ -7849,7 +7849,7 @@
   box-shadow: none;
 }
 .dx-toolbar-text-auto-hide .dx-button .dx-button-text {
-  display: none;
+/*  display: none;*/
 }
 .dx-list-item-content > .dx-texteditor,
 .dx-list-item-content.dx-texteditor,
@@ -7858,7 +7858,7 @@
   width: 150px;
 }
 .dx-toolbar-item-invisible {
-  display: none;
+/*  display: none;*/
 }
 .dx-dropdownmenu-popup-wrapper .dx-dropdownmenu-list {
   min-height: 0;
@@ -8547,7 +8547,7 @@
   background-position: left center;
   background-repeat: no-repeat;
   margin-right: 10px;
-  display: none;
+/*  display: none;*/
 }
 .dx-toast-message {
   padding: 0;
@@ -8625,7 +8625,7 @@
   border-top-right-radius: 6px;
 }
 .dx-popover-wrapper .dx-popover-arrow {
-  display: none;
+/*  display: none;*/
 }
 .dx-progressbar .dx-position-left .dx-progressbar-range-container,
 .dx-progressbar .dx-position-left .dx-progressbar-status,
@@ -8695,7 +8695,7 @@
   color: rgba(0,0,0,.87);
 }
 .dx-progressbar-animating-segment {
-  display: none;
+/*  display: none;*/
 }
 .dx-rtl .dx-progressbar .dx-progressbar-wrapper,
 .dx-rtl.dx-progressbar .dx-progressbar-wrapper {
@@ -8773,7 +8773,7 @@
   font-size: 12px;
 }
 .dx-tooltip-wrapper.dx-popover-wrapper .dx-popover-arrow {
-  display: none;
+/*  display: none;*/
 }
 .dx-slider-label {
   position: absolute;
@@ -8804,7 +8804,7 @@
   height: 28px;
 }
 .dx-slider .dx-overlay-content::before {
-  display: none;
+/*  display: none;*/
 }
 .dx-slider .dx-popover-wrapper .dx-popover-arrow::after {
   width: 9.8995898741px;
@@ -9039,7 +9039,7 @@
   flex-direction: column;
 }
 .dx-gallery .dx-gallery-item-loop {
-  display: none;
+/*  display: none;*/
 }
 .dx-gallery-loop .dx-gallery-item-loop {
   display: inline-block;
@@ -9378,7 +9378,7 @@
 }
 .dx-loadpanel-message {
   text-align: center;
-  display: none;
+/*  display: none;*/
 }
 .dx-loadpanel-content.dx-loadpanel-pane-hidden {
   box-shadow: none;
@@ -10443,7 +10443,7 @@
   max-width: none;
 }
 .dx-datagrid-content .dx-datagrid-table.dx-datagrid-table-fixed .dx-column-indicators .dx-sort.dx-sort-none {
-  display: none;
+/*  display: none;*/
 }
 .dx-datagrid-content .dx-datagrid-table.dx-datagrid-table-fixed .dx-column-indicators .dx-sort.dx-sort-index {
   width: 26px;
@@ -10604,7 +10604,7 @@
 .dx-cell-modified.dx-hidden::after,
 .dx-datagrid-invalid.dx-hidden::after,
 .dx-highlight-outline.dx-hidden::after {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-cell .dx-highlight-outline,
 .dx-editor-cell.dx-cell-modified,
@@ -10653,7 +10653,7 @@
   padding: 0;
 }
 .dx-datagrid-filter-row .dx-editor-cell .dx-menu {
-  display: none;
+/*  display: none;*/
 }
 .dx-datagrid-filter-row .dx-editor-cell .dx-editor-with-menu {
   position: relative;
@@ -10689,7 +10689,7 @@
 }
 .dx-datagrid-filter-row .dx-menu .dx-menu-horizontal .dx-menu-item-popout-container,
 .dx-datagrid-filter-row .dx-menu .dx-menu-horizontal .dx-menu-item-text {
-  display: none;
+/*  display: none;*/
 }
 .dx-datagrid-filter-row .dx-menu-item.dx-state-focused::after {
   position: absolute;
@@ -10716,7 +10716,7 @@
   padding-left: 6px;
 }
 .dx-datagrid-filter-row .dx-menu ul .dx-menu-item .dx-menu-chouser-down {
-  display: none;
+/*  display: none;*/
 }
 .dx-datagrid-filter-row .dx-menu-item-highlight {
   font-weight: 400;
@@ -10808,7 +10808,7 @@
   padding-bottom: 0;
 }
 .dx-datagrid-rowsview .dx-select-checkboxes-hidden > tbody > tr > td > .dx-select-checkbox {
-  display: none;
+/*  display: none;*/
 }
 .dx-datagrid-rowsview .dx-select-checkboxes-hidden>tbody>tr.dx-selection>td>.dx-select-checkbox,
 .dx-datagrid-rowsview .dx-select-checkboxes-hidden>tbody>tr>td:hover>.dx-select-checkbox {
@@ -10840,7 +10840,7 @@
   border-left-width: 0;
 }
 .dx-datagrid-hidden-column > * {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-datagrid-summary-item {
   font-weight: 700;
@@ -11922,7 +11922,7 @@
   padding-left: 12px;
 }
 .dx-datagrid-filter-range-overlay .dx-overlay-content .dx-invalid-message.dx-overlay-wrapper {
-  display: none;
+/*  display: none;*/
 }
 .dx-cell-modified,
 .dx-datagrid-invalid {
@@ -12654,7 +12654,7 @@ input.dx-hidden {
   max-width: none;
 }
 .dx-treelist-content .dx-treelist-table.dx-treelist-table-fixed .dx-column-indicators .dx-sort.dx-sort-none {
-  display: none;
+/*  display: none;*/
 }
 .dx-treelist-content .dx-treelist-table.dx-treelist-table-fixed .dx-column-indicators .dx-sort.dx-sort-index {
   width: 26px;
@@ -12815,7 +12815,7 @@ input.dx-hidden {
 .dx-cell-modified.dx-hidden::after,
 .dx-highlight-outline.dx-hidden::after,
 .dx-treelist-invalid.dx-hidden::after {
-  display: none;
+/*  display: none;*/
 }
 .dx-editor-cell .dx-texteditor-input {
   margin: 0;
@@ -12915,7 +12915,7 @@ input.dx-hidden {
   padding: 0;
 }
 .dx-treelist-filter-row .dx-editor-cell .dx-menu {
-  display: none;
+/*  display: none;*/
 }
 .dx-treelist-filter-row .dx-editor-cell .dx-editor-with-menu {
   position: relative;
@@ -12951,7 +12951,7 @@ input.dx-hidden {
 }
 .dx-treelist-filter-row .dx-menu .dx-menu-horizontal .dx-menu-item-popout-container,
 .dx-treelist-filter-row .dx-menu .dx-menu-horizontal .dx-menu-item-text {
-  display: none;
+/*  display: none;*/
 }
 .dx-treelist-filter-row .dx-menu-item.dx-state-focused::after {
   position: absolute;
@@ -12978,7 +12978,7 @@ input.dx-hidden {
   padding-left: 6px;
 }
 .dx-treelist-filter-row .dx-menu ul .dx-menu-item .dx-menu-chouser-down {
-  display: none;
+/*  display: none;*/
 }
 .dx-treelist-filter-row .dx-menu-item-highlight {
   font-weight: 400;
@@ -13076,7 +13076,7 @@ input.dx-hidden {
   padding-bottom: 0;
 }
 .dx-treelist-rowsview .dx-select-checkboxes-hidden > tbody > tr > td > .dx-select-checkbox {
-  display: none;
+/*  display: none;*/
 }
 .dx-treelist-rowsview .dx-select-checkboxes-hidden>tbody>tr.dx-selection>td>.dx-select-checkbox,
 .dx-treelist-rowsview .dx-select-checkboxes-hidden>tbody>tr>td:hover>.dx-select-checkbox {
@@ -13108,7 +13108,7 @@ input.dx-hidden {
   border-left-width: 0;
 }
 .dx-treelist-hidden-column > * {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-treelist-summary-item {
   font-weight: 700;
@@ -14203,7 +14203,7 @@ input.dx-hidden {
   padding-left: 12px;
 }
 .dx-treelist-filter-range-overlay .dx-overlay-content .dx-invalid-message.dx-overlay-wrapper {
-  display: none;
+/*  display: none;*/
 }
 .dx-cell-modified,
 .dx-treelist-invalid {
@@ -15122,7 +15122,7 @@ input.dx-hidden {
   right: 0;
 }
 .dx-pivotgrid .dx-virtual-content {
-  display: none;
+/*  display: none;*/
 }
 .dx-pivotgrid .dx-virtual-mode .dx-virtual-content {
   position: relative;
@@ -15779,7 +15779,7 @@ input.dx-hidden {
   border-left: none;
 }
 .dx-fileuploader.dx-state-disabled .dx-fileuploader-input {
-  display: none;
+/*  display: none;*/
 }
 .dx-fileuploader-wrapper {
   height: 100%;
@@ -15836,7 +15836,7 @@ input.dx-hidden {
   margin-top: 10px;
 }
 .dx-fileuploader-empty .dx-fileuploader-content > .dx-fileuploader-upload-button {
-  display: none;
+/*  display: none;*/
 }
 .dx-fileuploader-input-content {
   width: 100%;
@@ -15958,7 +15958,7 @@ input.dx-hidden {
   padding: 0;
 }
 .dx-fileuploader-dragover .dx-fileuploader-input-wrapper .dx-fileuploader-button {
-  display: none;
+/*  display: none;*/
 }
 .dx-fileuploader-dragover .dx-fileuploader-input-container {
   display: block;
@@ -16112,7 +16112,7 @@ input.dx-hidden {
 }
 @media (max-width:450px) {
   .dx-scheduler-adaptive .dx-scheduler-view-switcher-label {
-    display: none;
+  /*  display: none;*/
   }
 }
 .dx-scheduler-adaptive .dx-scheduler-work-space-week .dx-scheduler-header-panel-cell {
@@ -16194,7 +16194,7 @@ input.dx-hidden {
   margin-top: 2px;
 }
 .dx-scheduler-appointment-content-allday {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-appointment {
   border-bottom: 1px solid transparent;
@@ -16266,7 +16266,7 @@ input.dx-hidden {
 }
 .dx-scheduler-appointment.dx-scheduler-appointment-empty .dx-scheduler-appointment-reduced-icon,
 .dx-scheduler-appointment.dx-scheduler-appointment-tail .dx-scheduler-appointment-reduced-icon {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-appointment.dx-state-disabled {
   cursor: default;
@@ -16388,7 +16388,7 @@ input.dx-hidden {
   padding: 0;
 }
 .dx-scheduler-work-space-day:not(.dx-scheduler-work-space-count):not(.dx-scheduler-work-space-grouped):not(.dx-scheduler-work-space-all-day) .dx-scheduler-header-panel-container {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-day:not(.dx-scheduler-work-space-count):not(.dx-scheduler-work-space-grouped) .dx-scheduler-header-panel-empty-cell {
   border: none;
@@ -16405,7 +16405,7 @@ input.dx-hidden {
   border: none;
 }
 .dx-scheduler-work-space-day:not(.dx-scheduler-work-space-count).dx-scheduler-work-space-vertical-grouped .dx-scheduler-header-panel-container {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-day:not(.dx-scheduler-work-space-count) .dx-scheduler-header-panel-empty-cell {
   margin-top: 0;
@@ -16493,7 +16493,7 @@ input.dx-hidden {
   font-weight: 700;
 }
 .dx-scheduler-work-space-month.dx-scheduler-work-space-both-scrollbar .dx-scheduler-sidebar-scrollable {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-month.dx-scheduler-work-space-vertical-grouped .dx-scheduler-sidebar-scrollable {
   display: block;
@@ -16605,7 +16605,7 @@ input.dx-hidden {
   width: 200px;
 }
 .dx-scheduler-timeline .dx-scheduler-work-space-vertical-group-table {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-timeline .dx-scheduler-date-table {
   border-spacing: 0;
@@ -16676,7 +16676,7 @@ input.dx-hidden {
   border-bottom: 1px solid #e0e0e0;
 }
 .dx-scheduler-timeline .dx-scheduler-sidebar-scrollable {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-timeline.dx-scheduler-work-space-grouped .dx-scheduler-sidebar-scrollable {
   display: block;
@@ -16700,7 +16700,7 @@ input.dx-hidden {
   flex: 1;
 }
 .dx-scheduler-agenda .dx-scheduler-time-panel-cell::after {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-agenda .dx-scheduler-group-table {
   border-spacing: 0;
@@ -16724,7 +16724,7 @@ input.dx-hidden {
   border-bottom: none;
 }
 .dx-scheduler-agenda.dx-scheduler-work-space-grouped .dx-scheduler-time-panel-cell::after {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-agenda .dx-scheduler-group-header {
   vertical-align: top;
@@ -17025,7 +17025,7 @@ input.dx-hidden {
 .dx-scheduler-work-space-month .dx-scheduler-all-day-panel,
 .dx-scheduler-work-space-month .dx-scheduler-all-day-title,
 .dx-scheduler-work-space-month .dx-scheduler-time-panel {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-month .dx-scheduler-all-day-table-cell:nth-child(7n),
 .dx-scheduler-work-space-month .dx-scheduler-date-table-cell:nth-child(7n),
@@ -17184,7 +17184,7 @@ input.dx-hidden {
   background-color: #eb5757;
 }
 .dx-scheduler-time-panel-row:last-child .dx-scheduler-time-panel-cell::after {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-time-panel-title-cell {
   padding: 0;
@@ -17220,7 +17220,7 @@ input.dx-hidden {
   white-space: nowrap;
 }
 .dx-scheduler-work-space-horizontal-grouped.dx-scheduler-timeline .dx-scheduler-sidebar-scrollable {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-horizontal-grouped.dx-scheduler-timeline .dx-scheduler-group-header-content {
   display: flex;
@@ -17495,7 +17495,7 @@ input.dx-hidden {
 .dx-scheduler-work-space-week .dx-scheduler-date-time-indicator::before,
 .dx-scheduler-work-space-work-week .dx-scheduler-date-time-indicator::before {
   content: "\f04e";
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-small .dx-scheduler-work-space-day .dx-scheduler-date-time-indicator,
 .dx-scheduler-small .dx-scheduler-work-space-week .dx-scheduler-date-time-indicator,
@@ -17708,11 +17708,11 @@ input.dx-hidden {
 .dx-scheduler-appointment-empty .dx-scheduler-appointment-content-details,
 .dx-scheduler-appointment-empty .dx-scheduler-appointment-recurrence-icon,
 .dx-scheduler-appointment-empty .dx-scheduler-appointment-title {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-all-day-appointment .dx-scheduler-appointment-content-details,
 .dx-scheduler-work-space-month .dx-scheduler-appointment-content-details {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-appointment-popup .dx-form .dx-field-item.dx-appointment-form-switch > div {
   flex-grow: 0;
@@ -18014,7 +18014,7 @@ input.dx-hidden {
   width: auto;
 }
 .dx-scheduler-appointment-collector.dx-button::before {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-appointment-collector.dx-button .dx-button-content {
   padding: 4px 0;
@@ -18253,7 +18253,7 @@ input.dx-hidden {
   color: rgba(0,0,0,.54);
 }
 .dx-scheduler-appointment-strip {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-work-space-vertical-grouped.dx-scheduler-work-space-month .dx-scheduler-date-table-scrollable {
   border-top: 1px solid #e0e0e0;
@@ -18273,7 +18273,7 @@ input.dx-hidden {
   width: 100px;
 }
 .dx-scheduler-agenda .dx-scheduler-group-header .dx-scheduler-group-header-content::before {
-  display: none;
+/*  display: none;*/
 }
 .dx-scheduler-agenda .dx-scheduler-date-table-row,
 .dx-scheduler-agenda .dx-scheduler-time-panel-row {
@@ -18761,7 +18761,7 @@ input.dx-hidden {
   color: rgba(0,0,0,.87);
 }
 .dx-filterbuilder-overlay.dx-filterbuilder-operations .dx-treeview-expander-icon-stub {
-  display: none;
+/*  display: none;*/
 }
 .dx-filterbuilder .dx-filterbuilder-action-icon {
   font-size: 21px;
@@ -18910,7 +18910,7 @@ input.dx-hidden {
   padding: 0;
 }
 .dx-htmleditor-hidden-content {
-  display: none;
+/*  display: none;*/
 }
 .dx-htmleditor-add-image-popup > .dx-overlay-content > .dx-popup-content .dx-multiview-wrapper {
   border-left-color: transparent;
@@ -18925,7 +18925,7 @@ input.dx-hidden {
   padding: 0;
 }
 .dx-htmleditor-add-image-popup > .dx-overlay-content > .dx-popup-content .dx-fileuploader-upload-button {
-  display: none;
+/*  display: none;*/
 }
 .dx-htmleditor-add-image-popup > .dx-overlay-content .dx-popup-title {
   border-bottom: 0;
@@ -20076,7 +20076,7 @@ input.dx-hidden {
   height: 100%;
 }
 .dx-filemanager .dx-filemanager-details .dx-datagrid-rowsview .dx-datagrid-table > tbody > tr.dx-filemanager-parent-directory-item > td > .dx-select-checkbox {
-  display: none;
+/*  display: none;*/
 }
 .dx-filemanager .dx-filemanager-details .dx-filemanager-details-item-name-wrapper {
   display: inline-flex;
@@ -20693,7 +20693,7 @@ input.dx-hidden {
   margin: 0;
 }
 .dx-diagram-touchbar.dx-context-menu .dx-menu-item .dx-menu-item-content .dx-menu-item-text {
-  display: none;
+/*  display: none;*/
 }
 .dx-diagram-context-toolbox-target,
 .dx-diagram-touchbar-target {
@@ -21259,7 +21259,7 @@ input.dx-hidden {
   display: inline-flex;
 }
 .dx-gantt .dx-gantt-treelist-wrapper .dx-treelist .dx-scrollbar-vertical {
-  display: none;
+/*  display: none;*/
 }
 .dx-gantt .dx-gantt-treelist-wrapper .dx-treelist .dx-treelist-headers + .dx-treelist-rowsview {
   border-top: none;
@@ -21594,7 +21594,7 @@ input.dx-hidden {
 }
 .dx-deferrendering.dx-pending-rendering .dx-invisible-while-pending-rendering,
 .dx-deferrendering:not(.dx-pending-rendering) .dx-visible-while-pending-rendering {
-  display: none!important;
+/*  display: none!important;*/
 }
 .dx-map-container,
 .dx-map-shield {

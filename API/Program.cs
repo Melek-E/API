@@ -50,7 +50,7 @@ builder.Services.AddDistributedMemoryCache(); // In-memory cache for session sto
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(3); // Session timeout duration
+    options.IdleTimeout = TimeSpan.FromMinutes(300); // Session timeout duration
     options.Cookie.HttpOnly = true; // can only be modified when it reaches the server
     options.Cookie.IsEssential = true; // Mark session cookie as essential
 });

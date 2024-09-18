@@ -10,6 +10,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { StolenProfileComponent } from './pages/user-profile/stolenprofile.component';
 import { SideNavigationMenuComponent } from './services/shared/components';
 import { SideNavOuterToolbarComponent } from './layouts';
+import { AppComponent } from './app.component';
 
 
 const routeConfig: Routes = [
@@ -21,6 +22,8 @@ const routeConfig: Routes = [
   { path: 'profile', component: UserProfileComponent, title: 'Profile', canActivate: [AuthGuardService] },
   { path: 'stolen', component: StolenProfileComponent, title: 'Profile', canActivate: [AuthGuardService] },
   { path: 'nav', component: SideNavOuterToolbarComponent, title: 'Profile'},
+  { path: 'App', component: AppComponent, title: 'Profile'},
+
 
 
     { path: 'unauthorized', component: UnauthorizedComponent }

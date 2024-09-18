@@ -6,6 +6,7 @@ import { SideNavInnerToolbarComponent } from './layouts/side-nav-inner-toolbar/s
 
 import { FooterComponent } from './services/shared/components';
 import { AppInfoService, AuthService, DataService, ScreenService } from './services/shared';
+import { UnauthenticatedContentComponent } from './unauthenticated-content';
 
 
 
@@ -15,7 +16,7 @@ import { AppInfoService, AuthService, DataService, ScreenService } from './servi
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     standalone: true,
-    imports: [NgIf, RouterOutlet, SideNavInnerToolbarComponent,SideNavOuterToolbarComponent,FooterComponent],
+    imports: [NgIf, RouterOutlet, SideNavInnerToolbarComponent,SideNavOuterToolbarComponent,FooterComponent, UnauthenticatedContentComponent],
     providers: [ScreenService, DataService, AppInfoService]
 })
 export class AppComponent  {

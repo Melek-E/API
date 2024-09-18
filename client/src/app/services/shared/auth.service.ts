@@ -11,7 +11,7 @@ export interface IUser {
 const defaultPath = '/';
 const defaultUser = {
   email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
+  avatarUrl: ''
 };
 
 @Injectable({
@@ -58,7 +58,7 @@ export class AuthService {
   async getUser(): Promise<any> {
     try {
       // Send request to get user data from API
-      const response = await this.http.get<IUser>(`${this.apiUrl}/get-user`, { withCredentials: true }).toPromise();
+      const response = await this.http.get<IUser>(`${this.apiUrl}/profile`, { withCredentials: true }).toPromise();
 
       return {
         isOk: true,

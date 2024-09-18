@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using API.Models.Domain.Extra; // For Framework
 using API.Services;
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -139,19 +140,28 @@ namespace API.Controllers
             //var user = await _userManager.FindByIdAsync(userId);
             //if (user == null) return NotFound();
 
-            var user = _userManager.Users
-     .Where(u => u.Id == userId)
-     .Select(user => new
-     {
-         user.Id,
-         user.UserName,
-         user.Email,
-         Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no frameworks are present
-     })
-     .FirstOrDefault();
+            var user = await _userManager.Users
+                 .Where(u => u.Id == userId)
+                 .Select(user => new
+                 {
+                     user.Id,
+                     user.UserName,
+                     user.Email,
+                     Frameworks = user.Frameworks.Select(d => d.Name).ToList() // Will return an empty list if no frameworks are present
+                 })
+     .FirstOrDefaultAsync();
+
+            if (user == null) return NotFound();
+
 
             return Ok(user);
         }
+
+
+
+
+
+
 
         [HttpPut("profile")]
         [Authorize]
