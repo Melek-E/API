@@ -14,10 +14,10 @@ import { DxFormModule } from 'devextreme-angular';
 export class UserProfileComponent implements OnInit {
   
   user = {
-    Id: '',
-    Username: '',
-    Email: '',
-    Frameworks:[]
+    id: '',
+    username: '',
+    email: '',
+    frameworks:[]
   };
   colCountByScreen: object;
 
@@ -45,10 +45,10 @@ export class UserProfileComponent implements OnInit {
 
         if (data) {
           this.user = {
-            Id: data.Id,
-            Username: data.Username || '',
-            Email: data.Email || '',
-            Frameworks: data.Framework|| []
+            id: data.id,
+            username: data.userName || '',
+            email: data.email || '',
+            frameworks: data.frameworks|| []
           };
         }
       },

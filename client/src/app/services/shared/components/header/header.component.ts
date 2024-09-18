@@ -1,18 +1,19 @@
-import { Component, NgModule, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 
-import { UserPanelComponent } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { Router } from '@angular/router';
 import { AuthService, IUser } from '../../auth.service';
+import { UserPanelComponent } from '../user-panel/user-panel.component';
 @Component({
     selector: 'app-header',
     templateUrl: 'header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
-    imports: [DxToolbarModule, NgIf, DxButtonModule, UserPanelComponent]
+    imports: [DxToolbarModule, NgIf, DxButtonModule, UserPanelComponent],
+    providers: [AuthService]
 })
 
 export class HeaderComponent implements OnInit {
