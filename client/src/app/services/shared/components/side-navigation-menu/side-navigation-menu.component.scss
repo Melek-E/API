@@ -1,4 +1,7 @@
-@import "../../../../dx-styles.scss";
+@import "../../../../../dx-styles.scss";
+
+
+@import "../../../../../themes/generated/variables.additional.scss";
 
 :host {
   display: flex;
@@ -13,8 +16,11 @@
     flex: 1;
 
     ::ng-deep .dx-treeview {
+      // ## Long text positioning
       white-space: nowrap;
+      // ##
 
+      // ## Icon width customization
       .dx-treeview-item {
         padding-left: 0;
         flex-direction: row-reverse;
@@ -24,7 +30,9 @@
           margin: 0 !important;
         }
       }
-
+      // ##
+      
+      // ## Arrow customization
       .dx-treeview-node {
         padding: 0 0 !important;
       }
@@ -38,11 +46,13 @@
         left: 10px;
         right: auto;
       }
+      // ##
 
+      // ## Item levels customization
       .dx-treeview-node {
         &[aria-level='1'] {
           font-weight: bold;
-          border-bottom: 1px solid #fc0adc;
+          border-bottom: 1px solid $base-border-color;
         }
   
         &[aria-level='2'] .dx-treeview-item-content {
@@ -50,8 +60,10 @@
           padding: 0 $side-panel-min-width;
         }
       }
+      // ##
     }
 
+    // ## Selected & Focuced items customization
     ::ng-deep .dx-treeview {
       .dx-treeview-node-container {
         .dx-treeview-node {
@@ -60,11 +72,11 @@
           }
 
           &.dx-state-selected > .dx-treeview-item * {
-            color: #ff5722;
+            color: $base-accent;
           }
 
           &:not(.dx-state-focused)>.dx-treeview-item.dx-state-hover {
-            background-color: lighten(#0606b0, 4.00);
+            background-color: lighten($base-bg, 4.00);
           }
         }
       }
@@ -75,5 +87,6 @@
         color: inherit;
       }
     }
+    // ##
   }
 }

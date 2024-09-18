@@ -1,49 +1,31 @@
-  import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DxButtonModule } from 'devextreme-angular';
+import { NgIf } from '@angular/common';
+import { SideNavOuterToolbarComponent } from './layouts/side-nav-outer-toolbar/side-nav-outer-toolbar.component';
+import { SideNavInnerToolbarComponent } from './layouts/side-nav-inner-toolbar/side-nav-inner-toolbar.component';
 
-import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { FooterComponent } from './services/shared/components';
+import { AppInfoService, AuthService, DataService, ScreenService } from './services/shared';
+
+
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, DxButtonModule, CommonModule, RouterModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [NgIf, RouterOutlet, SideNavInnerToolbarComponent,SideNavOuterToolbarComponent,FooterComponent],
+    providers: [ScreenService, DataService, AppInfoService]
 })
-
-export class AppComponent implements OnInit{
-  
-  title = 'QuizzMaster';
-  http = inject(HttpClient);
-  users: any;
-  questions: any;
-  helloWorld() {
-    alert('Hello world!');
+export class AppComponent  {
+  @HostBinding('class') get getClass() {
+    return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
   }
-  ngOnInit(): void {
-    this.http.get('http://localhost:7112/api/users').subscribe(
-      {
-        next: response => this.users = response,
-        error: error => console.log(error),
-        complete: () => console.log('Request 200Ok')
 
+  constructor(private authService: AuthService, private screen: ScreenService, public appInfo: AppInfoService) { }
 
-      }
-    ),
-      this.http.get('http://localhost:7112/api/questions').subscribe(
-      {
-        next: response => this.questions= response,
-        error: error => console.log(error),
-        complete: () => console.log('Request 200Ok')
-
-
-      }
-    )
-
-
+  isAuthenticated() {
+    return this.authService.loggedIn;
   }
 }

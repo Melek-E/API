@@ -53,7 +53,7 @@ export class DataService {
 
   public getUsers = (): Observable<IUser[]> =>
     this.http.get<IUser[]>(`${API_URL}/Users`);
-  public getUser = (id: number) =>
+  public getUser = (id: string) =>
     this.http.get(`${API_URL}/Users/${id}`);
 
 
@@ -64,6 +64,7 @@ export class DataService {
   public getAllUsersThatAreUsers = (): Observable<IUser[]> =>
     this.http.get<IUser[]>(`${API_URL}/Users/AllUsers`);
 
-
+  public getProfile = (): Observable<IUser[]> =>
+    this.http.get<IUser[]>(`${API_URL}/Auth/profile`);
 
 }

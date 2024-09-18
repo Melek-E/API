@@ -4,7 +4,7 @@ import { Router, RouterModule, RouterLink } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService } from './shared';
+import { AuthService } from '../../auth.service';
 
 
 @Component({

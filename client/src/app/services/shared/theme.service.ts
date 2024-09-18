@@ -3,7 +3,7 @@ import { current } from 'devextreme/ui/themes'
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-const themes = ['light', 'dark'] as const;
+const themes = ['light', 'dark', undefined] as const;
 
 type Theme = typeof themes[number];
 
