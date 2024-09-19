@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ValidationCallbackData } from 'devextreme-angular/common';
 import { DxFormModule } from 'devextreme-angular/ui/form';
@@ -7,15 +6,12 @@ import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import { DxTagBoxModule } from 'devextreme-angular/ui/tag-box';
 import notify from 'devextreme/ui/notify';
 import { AuthService } from '../../services';
-import { DataService } from '../../services/data.service'; // Import the DataService
+import { DataService } from '../../services/data.service';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Framework } from '../../../types/Framework';
 
-// Define the structure for Frameworks
-type Framework= {
-  Id: number,
 
-  Name: string;
-}
 
 @Component({
   selector: 'app-create-account-form',
@@ -35,21 +31,22 @@ export class CreateAccountFormComponent implements OnInit {
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
 
-  // Load frameworks on component initialization
   ngOnInit() {
     this.loadFrameworks();
   }
 
-  // Fetch available frameworks from the API using the DataService
   loadFrameworks() {
-    this.dataService.getFrameworks().subscribe((frameworks: Framework[]) => {
-      this.availableFrameworks = frameworks;
-    }, error => {
-      notify('Failed to load frameworks', 'error', 2000);
-    });
+    this.dataService.getFrameworks().subscribe(
+      (frameworks: Framework[]) => {
+        console.log('Loaded frameworks:', frameworks); // Log data for debugging
+        this.availableFrameworks = frameworks;
+      },
+      error => {
+        notify('Failed to load frameworks', 'error', 2000);
+      }
+    );
   }
 
-  // Method to handle form submission
   async onSubmit(e: Event) {
     e.preventDefault();
 
@@ -57,22 +54,27 @@ export class CreateAccountFormComponent implements OnInit {
 
     this.loading = true;
 
-    // Pass form data to the AuthService for registration
     const result = await this.authService.createAccount(email, username, password, frameworks);
     this.loading = false;
 
     if (result.isOk) {
-      // Navigate to login form on success
       this.router.navigate(['/login-form']);
     } else {
-      // Display error notification if account creation failed
       notify(result.message, 'error', 2000);
     }
   }
 
-  // Method to confirm password matches
   confirmPassword = (e: ValidationCallbackData) => {
     return e.value === this.formData.password;
+  }
+
+  onCustomItemCreating(e: any) {
+    const newItem = e.text.trim();
+    if (newItem && !this.availableFrameworks.some(f => f.Name === newItem)) {
+      const newFramework = { Id: this.availableFrameworks.length + 1, Name: newItem };
+      this.availableFrameworks.push(newFramework);
+      this.formData.frameworks.push(newFramework.Name);
+    }
   }
 }
 
@@ -84,7 +86,7 @@ export class CreateAccountFormComponent implements OnInit {
     DxLoadIndicatorModule,
     DxTagBoxModule // Import DxTagBoxModule for multi-select dropdown
   ],
-  providers:[DataService],
+  providers: [DataService],
   declarations: [CreateAccountFormComponent],
   exports: [CreateAccountFormComponent]
 })

@@ -32,19 +32,21 @@
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
-    <!-- Frameworks Multi-select Dropdown -->
+    <!-- Frameworks Multi-select Dropdown with Custom Item Creation -->
     <dxi-item>
       <dx-tag-box
         [items]="availableFrameworks"
-        displayExpr="Name"
-        valueExpr="Name"
-        placeholder="Select frameworks"
+        displayExpr="name"
+        valueExpr="name"
+        placeholder="Select frameworks or add new"
         [(value)]="formData.frameworks"
-        [showSelectionControls]="true"
+        [showSelectionControls]=true
         [maxDisplayedTags]="5"
-        [multiline]="false"
-        [searchEnabled]= true
-        [hideSelectedItems]="true">
+        [multiline]=false
+        [searchEnabled]=true
+        [hideSelectedItems]=true
+        showCustomItem="true"
+        (onCustomItemCreating)="onCustomItemCreating($event)">
       </dx-tag-box>
     </dxi-item>
 
