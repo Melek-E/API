@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LoginFormComponent } from './services/login-form.component';
-import { HomeComponent } from './home/home.component';
 import { CreateAccountFormComponent } from './services/create-account-form/create-account-form.component';
 import { ResetPasswordFormComponent } from './services/reset-password-form/reset-password-form.component';
 import { UserProfileComponent } from './pages/profile/user-profile.component';
@@ -11,6 +10,7 @@ import { StolenProfileComponent } from './pages/user-profile/stolenprofile.compo
 import { HeaderComponent, SideNavigationMenuComponent } from './services/shared/components';
 import { SideNavOuterToolbarComponent } from './layouts';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './pages/home/home.component';
 
 
 const routeConfig: Routes = [
