@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { DataService } from './data.service';
 
 export interface IUser {
   email: string;
   avatarUrl?: string;
 }
-
 const defaultPath = '/';
 const defaultUser = {
   email: 'sandra@example.com',

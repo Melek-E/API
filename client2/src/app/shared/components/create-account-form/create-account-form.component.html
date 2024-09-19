@@ -32,13 +32,20 @@
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
-    <!-- Frameworks Section -->
+    <!-- Frameworks Multi-select Dropdown -->
     <dxi-item>
-      <div *ngFor="let framework of formData.frameworks; let i = index" class="framework-input">
-        <dx-text-box [(value)]="framework.Name" [placeholder]="'Framework ' + (i + 1)"></dx-text-box>
-        <dx-button icon="trash" hint="Remove" (onClick)="removeFramework(i)"></dx-button>
-      </div>
-      <dx-button icon="add" text="Add Framework" (onClick)="addFramework()"></dx-button>
+      <dx-tag-box
+        [items]="availableFrameworks"
+        displayExpr="Name"
+        valueExpr="Name"
+        placeholder="Select frameworks"
+        [(value)]="formData.frameworks"
+        [showSelectionControls]="true"
+        [maxDisplayedTags]="5"
+        [multiline]="false"
+        [searchEnabled]= true
+        [hideSelectedItems]="true">
+      </dx-tag-box>
     </dxi-item>
 
     <!-- Terms and Policy -->
