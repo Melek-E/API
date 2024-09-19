@@ -9,6 +9,10 @@ import { Router } from '@angular/router';
   template: `
       <router-outlet></router-outlet>
   `,
+
+// <app-single-card [title]="title" [description]="description">
+// <router-outlet></router-outlet>
+// </app-single-card>
   styles: [`
     :host {
       width: 100%;

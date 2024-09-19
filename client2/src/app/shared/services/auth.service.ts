@@ -71,26 +71,27 @@ export class AuthService {
       };
     }
   }
+// auth.service.ts
+async createAccount(email: string, username: string, password: string, frameworks: { Name: string }[]): Promise<any> {
+  try {
+    // Add frameworks to the register data
+    const registerData = { email, Username: username, passwordHash: password, frameworks };
 
-  async createAccount(email: string, username: string, password: string): Promise<any> {
-    try {
-      const registerData = { email, Username: username, passwordHash: password };
+    // Send request to register API
+    const response = await this.http.post<any>("http://localhost:7112/api/Auth/register", registerData, { withCredentials: true }).toPromise();
 
-      // Send request to register API
-      const response = await this.http.post<any>(`${this.apiUrl}/register`, registerData, { withCredentials: true }).toPromise();
-
-      this.router.navigate(['/create-account']);
-      return {
-        isOk: true
-      };
-    } catch (error) {
-      return {
-        isOk: false,
-        message: 'Failed to create account',
-        error
-      };
-    }
+    this.router.navigate(['/create-account']);
+    return {
+      isOk: true
+    };
+  } catch (error) {
+    return {
+      isOk: false,
+      message: 'Failed to create account',
+      error
+    };
   }
+}
 
   async changePassword(email: string, recoveryCode: string): Promise<any> {
     try {

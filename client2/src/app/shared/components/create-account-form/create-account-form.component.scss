@@ -1,20 +1,56 @@
 @import "../../../../themes/generated/variables.base.scss";
 
 .create-account-form {
-  .policy-info {
-    margin: 10px 0;
-    color: rgba($base-text-color, alpha($base-text-color) * 0.7);
-    font-size: 14px;
-    font-style: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //padding: 20px;
+  background: linear-gradient(135deg, #000000, #0072ff);
+  height: 100vh;
 
-    a {
-      color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+  
+  .form-container {
+    width: 100%;
+    max-width: 400px; // Sets a reasonable form width for all devices
+    padding: 20px;
+    background-color: white; // Background color for the form area
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .dx-textbox {
+      margin-bottom: 16px; // Reduce spacing between form fields
     }
-  }
 
-  .login-link {
-    color: $base-accent;
-    font-size: 16px;
-    text-align: center;
+    .dx-button {
+      margin: 0;
+      width: 100%; // Button width matches the form width
+    }
+
+    .submit-button {
+      text-align: center;
+    }
+
+    .policy-info {
+      text-align: center;
+      margin: 15px 0;
+      font-size: 13px;
+      color: rgba($base-text-color, 0.6); // Slightly lighter text
+
+      a {
+        color: $base-accent;
+        text-decoration: underline; // Makes it clearer it's a link
+      }
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 15px;
+
+      a {
+        color: $base-accent;
+        text-decoration: underline;
+      }
+    }
   }
 }

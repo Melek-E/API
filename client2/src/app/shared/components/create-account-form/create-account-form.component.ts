@@ -6,6 +6,8 @@ import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
 import { AuthService } from '../../services';
+import dxTextBox from 'devextreme/ui/text_box';
+import { DxButtonModule, DxTextBoxModule } from 'devextreme-angular';
 
 
 @Component({
@@ -13,18 +15,31 @@ import { AuthService } from '../../services';
   templateUrl: './create-account-form.component.html',
   styleUrls: ['./create-account-form.component.scss']
 })
+// registerpage.component.ts
 export class CreateAccountFormComponent {
   loading = false;
-  formData: any = {};
-
+  formData: any = {
+    frameworks: []
+  };
+  
   constructor(private authService: AuthService, private router: Router) { }
+
+  addFramework() {
+    this.formData.frameworks.push({ Name: '' });
+  }
+  removeFramework(index: number) {
+    this.formData.frameworks.splice(index, 1); // Remove the framework at the given index
+  }
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    
+    const { email, username, password, frameworks } = this.formData; // Extract frameworks
+
     this.loading = true;
 
-    const result = await this.authService.createAccount(email,email,  password);
+    // Pass frameworks to the createAccount method
+    const result = await this.authService.createAccount(email, username, password, frameworks);
     this.loading = false;
 
     if (result.isOk) {
@@ -33,6 +48,8 @@ export class CreateAccountFormComponent {
       notify(result.message, 'error', 2000);
     }
   }
+
+
 
   confirmPassword = (e: ValidationCallbackData) => {
     return e.value === this.formData.password;
@@ -43,7 +60,9 @@ export class CreateAccountFormComponent {
     CommonModule,
     RouterModule,
     DxFormModule,
-    DxLoadIndicatorModule
+    DxLoadIndicatorModule,
+    DxTextBoxModule,
+    DxButtonModule
   ],
   declarations: [ CreateAccountFormComponent ],
   exports: [ CreateAccountFormComponent ]

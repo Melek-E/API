@@ -1,6 +1,7 @@
 <form class="create-account-form" (submit)="onSubmit($event)">
-  <dx-form [formData]="formData" [disabled]="loading">
+  <dx-form [formData]="formData" [disabled]="loading" class="form-container">
 
+    <!-- Email Input -->
     <dxi-item dataField="email" editorType="dxTextBox"
       [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
       <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
@@ -8,12 +9,21 @@
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
+    <!-- Username Input -->
+    <dxi-item dataField="username" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Username', mode: 'username' }">
+      <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule>
+      <dxo-label [visible]="false"></dxo-label>
+    </dxi-item>
+
+    <!-- Password Input -->
     <dxi-item dataField="password" editorType="dxTextBox"
       [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
       <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
+    <!-- Confirm Password Input -->
     <dxi-item dataField="confirmedPassword" editorType="dxTextBox"
       [editorOptions]="{ stylingMode: 'filled', placeholder: 'Confirm Password', mode: 'password' }">
       <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
@@ -22,31 +32,42 @@
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
+    <!-- Frameworks Section -->
     <dxi-item>
-      <div class='policy-info'>
-        By creating an account, you agree to the <a routerLink="#">Terms of Service</a> and <a routerLink="#">Privacy
-          Policy</a>
+      <div *ngFor="let framework of formData.frameworks; let i = index" class="framework-input">
+        <dx-text-box [(value)]="framework.Name" [placeholder]="'Framework ' + (i + 1)"></dx-text-box>
+        <dx-button icon="trash" hint="Remove" (onClick)="removeFramework(i)"></dx-button>
+      </div>
+      <dx-button icon="add" text="Add Framework" (onClick)="addFramework()"></dx-button>
+    </dxi-item>
+
+    <!-- Terms and Policy -->
+    <dxi-item>
+      <div class="policy-info">
+        By creating an account, you agree to the <a routerLink="#">Terms of Service</a> and <a routerLink="#">Privacy Policy</a>.
       </div>
     </dxi-item>
 
+    <!-- Submit Button -->
     <dxi-item itemType="button">
       <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'createAccountTemplate'">
       </dxo-button-options>
     </dxi-item>
 
+    <!-- Sign-in Link -->
     <dxi-item>
       <div class="login-link">
         Have an account? <a routerLink="/login">Sign In</a>
       </div>
     </dxi-item>
 
+    <!-- Custom Template for Submit Button -->
     <ng-container *dxTemplate="let item of 'createAccountTemplate'">
-      <div>
+      <div class="submit-button">
         <span class="dx-button-text">
           <ng-container *ngIf="loading; else notLoading">
             <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
           </ng-container>
-  
           <ng-template #notLoading>Create a new account</ng-template>
         </span>
       </div>
