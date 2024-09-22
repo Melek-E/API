@@ -26,6 +26,13 @@ export class CreateAccountFormComponent implements OnInit {
   availableFrameworks: Framework[] = []; // Available frameworks from the API
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
+  addFramework() {
+    this.formData.frameworks.push({ Name: '' });
+  }
+  removeFramework(index: number) {
+    this.formData.frameworks.splice(index, 1); // Remove the framework at the given index
+  }
+
 
   ngOnInit() {
     this.loadFrameworks();
@@ -71,12 +78,42 @@ export class CreateAccountFormComponent implements OnInit {
 
   onCustomItemCreating(e: any) {
     const newItem = e.text.trim();
+  
     if (newItem && !this.availableFrameworks.some(f => f.Name === newItem)) {
-      const newFramework = { Id: this.availableFrameworks.length + 1, Name: newItem };
-      this.availableFrameworks.push(newFramework);
-      this.formData.frameworks.push(newFramework.Name);
+      // Wrap the new framework in an array since the backend expects an array
+      const newFrameworkArray = [{ Name: newItem }];
+  
+      // Log the framework array being sent for debugging
+      console.log('Sending framework to backend as array:', newFrameworkArray);
+  
+      // Send the POST request to save the new framework to the backend
+      this.dataService.createFramework(newFrameworkArray).subscribe(
+        (createdFramework: Framework[]) => {
+          console.log('Framework successfully added:', createdFramework[0]);
+  
+          // Add the newly created framework to the availableFrameworks list
+          this.availableFrameworks.push(createdFramework[0]);
+  
+          // Add the newly created framework's name to the formData.frameworks list (for selection)
+          this.formData.frameworks.push(createdFramework[0].Name);
+  
+          // Notify the user about the success
+          notify(`Framework '${createdFramework[0].Name}' added successfully.`, 'success', 2000);
+        },
+        (error) => {
+          // Log and notify the user in case of failure
+          console.error('Error adding new framework:', error);
+          notify('Failed to add new framework.', 'error', 2000);
+        }
+      );
+  
+      // Inform dxTagBox that the new custom item is being added
+      e.customItem = newItem;
+    } else {
+      e.customItem = null; // Prevent duplicates
     }
   }
+  
 }
 
 @NgModule({

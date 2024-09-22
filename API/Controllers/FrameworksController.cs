@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Models.Domain.Extra;
+using API.Services;
 
 namespace API.Controllers
 {
@@ -13,10 +14,12 @@ namespace API.Controllers
     public class FrameworksController : ControllerBase
     {
         private readonly QuizzDbContext _context;
+        private readonly IFrameworkService _frameworkService;
 
-        public FrameworksController(QuizzDbContext context)
+        public FrameworksController(QuizzDbContext context, IFrameworkService frameworkService)
         {
             _context = context;
+            _frameworkService = frameworkService;
         }
 
         // GET: api/Frameworks
@@ -38,6 +41,19 @@ namespace API.Controllers
             }
 
             return framework;
+        }
+        // Post api/Frameworks
+        [HttpPost]
+        public async Task<IActionResult> AddFrameworks([FromBody] ICollection<Framework> frameworks)
+        {
+            if (frameworks == null || frameworks.Count == 0)
+            {
+                return BadRequest("Frameworks collection cannot be null or empty.");
+            }
+
+            var result = await _frameworkService.GetOrCreateFrameworksAsync(frameworks);
+
+            return Ok(result);
         }
 
         // POST: api/Frameworks/choose

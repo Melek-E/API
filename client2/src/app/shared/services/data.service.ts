@@ -46,6 +46,12 @@ export class DataService {
     this.http.get<Framework[]>(`${API_URL}/Frameworks/selected`);
 
 
+
+  public createFramework(newFramework: { Name: string }[]): Observable<Framework[]> {
+    return this.http.post<Framework[]>(`${API_URL}/Frameworks`, newFramework);
+  }
+  
+
   public getQuestions = (): Observable<Question[]> =>
     this.http.get<Question[]>(`${API_URL}/Questions`);
   public getQuestion= (id: number) =>

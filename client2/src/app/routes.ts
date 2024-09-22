@@ -19,6 +19,7 @@ const routeConfig: Routes = [
   { path: 'nav', component: SideNavOuterToolbarComponent, title: 'Profile'},
   { path: 'applicationdo', component: HeaderComponent, title: 'Profile'},
 
+  { path: 'temp', component: CreateAccountFormComponent, title: 'TEMP PR'},
 
 
     { path: 'unauthorized', component: UnauthenticatedContentComponent }
