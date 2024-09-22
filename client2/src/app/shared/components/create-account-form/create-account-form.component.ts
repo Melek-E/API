@@ -64,9 +64,9 @@ export class CreateAccountFormComponent implements OnInit {
       this.router.navigate(['/login-form']);
     } else {
       notify(result.message, 'error KYS', 2000);
-      console.log(frameworks);
-      console.log("pp");
-      console.log(this.formData.frameworks);
+      // console.log(frameworks);
+      // console.log("pp");
+      // console.log(this.formData.frameworks);
 
 
     }
@@ -84,12 +84,12 @@ export class CreateAccountFormComponent implements OnInit {
       const newFrameworkArray = [{ Name: newItem }];
   
       // Log the framework array being sent for debugging
-      console.log('Sending framework to backend as array:', newFrameworkArray);
+      // console.log('Sending framework to backend as array:', newFrameworkArray);
   
       // Send the POST request to save the new framework to the backend
       this.dataService.createFramework(newFrameworkArray).subscribe(
         (createdFramework: Framework[]) => {
-          console.log('Framework successfully added:', createdFramework[0]);
+          // console.log('Framework successfully added:', createdFramework[0]);
   
           // Add the newly created framework to the availableFrameworks list
           this.availableFrameworks.push(createdFramework[0]);
