@@ -21,10 +21,6 @@ import { Framework } from '../../../types/Framework';
 export class CreateAccountFormComponent implements OnInit {
   loading = false;
   formData: any = {
-    email: '',
-    username: '',
-    password: '',
-    confirmedPassword: '',
     frameworks: [] // Selected frameworks by the user
   };
   availableFrameworks: Framework[] = []; // Available frameworks from the API
@@ -60,7 +56,12 @@ export class CreateAccountFormComponent implements OnInit {
     if (result.isOk) {
       this.router.navigate(['/login-form']);
     } else {
-      notify(result.message, 'error', 2000);
+      notify(result.message, 'error KYS', 2000);
+      console.log(frameworks);
+      console.log("pp");
+      console.log(this.formData.frameworks);
+
+
     }
   }
 
