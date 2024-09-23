@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { DataService } from '../../shared/services/data.service';
 import { IUser } from '../../shared/services';
 import { DxButtonTypes } from 'devextreme-angular/ui/button';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import {
   DxSelectBoxModule,
@@ -27,36 +29,61 @@ export class ProfileComponent implements OnInit {
   userProfile: IUser | null = null; // This will hold the user profile data
   frameworkOptions: string[] = ['Entity Framework', 'React', 'Angular', 'Vue']; // Example frameworks
   previousTests: any[] = []; // Previous test data, can be fetched from the API
-
-  constructor(private dataService: DataService) {}
-
-  ngOnInit(): void {
-    // Fetch the profile data on initialization
-    this.dataService.getProfile().subscribe(
-      (response: IUser[]) => {
-        // Assuming the API returns an array, get the first profile
-        if (response.length > 0) {
-          this.userProfile = response[0]; // Store the first profile
-        }
-      },
-      (error) => {
-        console.error('Error fetching profile data', error);
-      }
-    );
+  private apiUrl = 'http://localhost:7112/api/auth/profile';
+  isEditing: boolean = false; // Flag to control editing state
+  currentField: string | null = null;
+  user = {
+    Username: '',
+    Email: '',
+    Frameworks:[]
+  };
+  constructor(private dataService: DataService, private http: HttpClient,private router:Router) {}
+  ngOnInit() {
+    this.loadProfile();
   }
 
-  loadPreviousTests(): void {
-    // Mock data, replace with actual API call if needed
-    this.previousTests = [
-      { testName: 'Math Test', date: new Date('2023-05-18'), score: 85 },
-      { testName: 'Physics Test', date: new Date('2023-06-12'), score: 90 }
-    ];
+  loadProfile() {
+    this.http.get<any>(this.apiUrl, { withCredentials: true }).subscribe({
+      next: (data) => {
+        // Log data to verify structure
+        console.log('Profile data:', data);
+
+        if (data) {
+          this.user = {
+            Username: data.userName || '',
+            Email: data.email || '',
+            Frameworks: data.frameworks|| []
+
+            
+          };
+          console.log("these are the droids you're looking for ",data);
+          console.log(data.userName)
+        }
+      },
+      
+      error: (error) => {
+        console.error('Error loading profile', error);
+      }
+    });
+  }
+
+  enableEdit(field: string): void {
+    this.isEditing = true;
+    this.currentField = field; // Track which field is being edited
+  }
+
+  disableEdit(): void {
+    this.isEditing = false;
+    this.currentField = null; // Reset the current field
   }
 
   saveProfile(): void {
-    console.log('Profile saved!', this.userProfile);
-    // Add save functionality here
+    console.log('Profile saved!', this.user);
+    // Implement save functionality to update the profile
+    this.disableEdit(); // Exit edit mode after saving
   }
+
+  
 
 }
 
@@ -70,6 +97,7 @@ export class ProfileComponent implements OnInit {
     DxTagBoxModule,
     DxButtonModule,
     DxDataGridModule, 
+
   ],
   providers: [DataService],
   declarations: [ProfileComponent],

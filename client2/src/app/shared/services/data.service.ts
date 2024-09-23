@@ -71,6 +71,6 @@ export class DataService {
     this.http.get<IUser[]>(`${API_URL}/Users/AllUsers`);
 
   public getProfile = (): Observable<IUser[]> =>
-    this.http.get<IUser[]>(`${API_URL}/Auth/profile`);
+    this.http.get<IUser[]>(`${API_URL}/Auth/profile`,{ withCredentials: true });
 
 }

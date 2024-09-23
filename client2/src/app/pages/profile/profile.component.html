@@ -1,20 +1,42 @@
 <div class="profile-container">
-  <dx-form [formData]="userProfile" labelLocation="top">
-    <dxi-item dataField="userName" [isRequired]="true">
-     
+  <dx-form [formData]="user" labelLocation="top">
+    <dxi-item dataField="Username">
+      <ng-template dxTemplate="content">
+        <div class="field-wrapper">
+          <span>{{ user.Username }}</span>
+          <dx-button icon="edit" (onClick)="enableEdit('Username')"></dx-button>
+        </div>
+      </ng-template>
     </dxi-item>
 
-    <dxi-item dataField="email" [isRequired]="true">
-    
+    <dxi-item dataField="Email">
+      <ng-template dxTemplate="content">
+        <div class="field-wrapper">
+          <span>{{ user.Email }}</span>
+          <dx-button icon="edit" (onClick)="enableEdit('Email')"></dx-button>
+        </div>
+      </ng-template>
     </dxi-item>
 
-    <dxi-item dataField="frameworks">
-      <dx-tag-box [items]="frameworkOptions" [value]="userProfile?.frameworks" displayExpr="name" valueExpr="name" placeholder="Select frameworks">
+    <dxi-item dataField="Frameworks">
+      <ng-template dxTemplate="content">
+        <div class="field-wrapper">
+          <span>{{ user.Frameworks.join(', ') }}</span>
+          <dx-button icon="edit" (onClick)="enableEdit('Frameworks')"></dx-button>
+        </div>
+      </ng-template>
+    </dxi-item>
+
+    <dxi-item *ngIf="isEditing">
+      <dx-tag-box
+        [items]="frameworkOptions"
+        [(value)]="user.Frameworks"
+        displayExpr="name"
+        valueExpr="name"
+        placeholder="Select frameworks">
       </dx-tag-box>
-    </dxi-item>
-
-    <dxi-item>
-      <!-- <dx-button text="Save" type="success" (onClick)="saveProfile()"></dx-button> -->
+      <dx-button text="Save" type="success" (onClick)="saveProfile()"></dx-button>
+      <dx-button text="Cancel" type="normal" (onClick)="disableEdit()"></dx-button>
     </dxi-item>
   </dx-form>
 
