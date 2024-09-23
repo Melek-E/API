@@ -20,7 +20,7 @@ namespace API.Models.Domain.Questions
         private string _type = default!;
 
         // Using 'required' ensures that 'Type' must be set during object initialization
-        public required string Type
+        public required string QuestionType
         {
             get => _type;
             set => _type = value switch

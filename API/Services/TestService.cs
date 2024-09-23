@@ -31,7 +31,6 @@ namespace API.Services
             {
                 Questions = questions,
                 Timestamp = DateTime.UtcNow,
-                UserId = "08266ada-eb8c-4402-9c96-3d5425626c9b",
                 Score = null
             };
 

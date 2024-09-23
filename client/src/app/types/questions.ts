@@ -1,6 +1,7 @@
 import {Answer} from "./answer";
 
 enum QuestionType {
+    Basic,
     Choice,
     MultipleChoice,
     TrueFalse

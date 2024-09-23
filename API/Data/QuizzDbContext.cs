@@ -39,7 +39,7 @@ namespace API.Data
                  .HasDiscriminator<string>("QuestionType")
                  .HasValue<MultipleChoiceQuestion>("MultipleChoice")
                  .HasValue<TrueFalseQuestion>("TrueFalse")
-                            .HasValue<Question>("Base");
+                            .HasValue<Question>("Basic");
 
 
             

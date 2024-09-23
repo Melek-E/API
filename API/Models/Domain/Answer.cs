@@ -4,7 +4,7 @@ namespace API.Models.Domain
 {
 
     public enum AnswerType
-    {
+    {   Basic,
         Choice,
         MultipleChoice,
         TrueFalse
