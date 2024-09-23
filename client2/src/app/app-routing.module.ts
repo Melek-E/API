@@ -55,7 +55,6 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: [
     HomeComponent,
-    ProfileComponent,
     TasksComponent
   ]
 })

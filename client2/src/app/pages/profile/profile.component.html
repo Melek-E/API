@@ -1,16 +1,29 @@
-<h2 class="content-block">Profile</h2>
+<div class="profile-container">
+  <dx-form [formData]="userProfile" labelLocation="top">
+    <dxi-item dataField="userName" [isRequired]="true">
+     
+    </dxi-item>
 
-<div class="content-block dx-card responsive-paddings">
-  <div class="form-avatar">
-  </div>
-  <span>{{employee.Notes}}</span>
-</div>
+    <dxi-item dataField="email" [isRequired]="true">
+    
+    </dxi-item>
 
-<div class="content-block dx-card responsive-paddings">
-  <dx-form id="form"
-    [formData]="employee"
-    labelLocation="top"
-    [colCountByScreen]="colCountByScreen"
-  >
+    <dxi-item dataField="frameworks">
+      <dx-tag-box [items]="frameworkOptions" [value]="userProfile?.frameworks" displayExpr="name" valueExpr="name" placeholder="Select frameworks">
+      </dx-tag-box>
+    </dxi-item>
+
+    <dxi-item>
+      <!-- <dx-button text="Save" type="success" (onClick)="saveProfile()"></dx-button> -->
+    </dxi-item>
   </dx-form>
+
+  <h3>Previous Tests</h3>
+  <dx-data-grid [dataSource]="previousTests">
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]"></dxo-pager>
+    <dxi-column dataField="testName" caption="Test Name"></dxi-column>
+    <dxi-column dataField="date" caption="Date" dataType="date"></dxi-column>
+    <dxi-column dataField="score" caption="Score" dataType="number"></dxi-column>
+  </dx-data-grid>
 </div>

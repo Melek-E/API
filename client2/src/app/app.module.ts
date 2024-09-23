@@ -8,6 +8,7 @@ import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangeP
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
+import { DxButtonModule, DxValidatorModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,10 @@ import { AppRoutingModule } from './app-routing.module';
     ChangePasswordFormModule,
     LoginFormComponent,
     UnauthenticatedContentModule,
-    AppRoutingModule
+    AppRoutingModule,
+    // DxButtonModule,
+    // DxValidatorModule,
+
   ],
   providers: [
     AuthService,

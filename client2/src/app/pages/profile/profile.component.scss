@@ -1,18 +1,30 @@
-.form-avatar {
-  float: left;
-  height: 120px;
-  width: 120px;
-  margin-right: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: #fff;
-  overflow: hidden;
+.profile-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-  img {
-    height: 120px;
-    display: block;
-    margin: 0 auto;
+  h3 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    text-align: center;
   }
+}
+
+dx-form {
+  margin-bottom: 20px;
+}
+
+dx-button {
+  margin-top: 20px;
+}
+
+dx-data-grid {
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

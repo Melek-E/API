@@ -7,6 +7,7 @@ import { DataService } from './data.service';
 export interface IUser {
   email: string;
   avatarUrl?: string;
+  frameworks?: any;
 }
 const defaultPath = '/';
 const defaultUser = {
