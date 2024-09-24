@@ -12,12 +12,7 @@ namespace API.Models
 
     }
 
-    public class UpdateUserModel
-    {
-        public string UserName { get; set; }
-        public required ICollection<Framework> Frameworks { get; set; }
 
-    }
 
     public class AssignRoleModel
     {

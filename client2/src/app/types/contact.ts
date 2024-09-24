@@ -31,10 +31,8 @@ export interface Contact extends ContactBase {
   company: string,
   city: string,
   state: State,
-  activities: Activity[],
   zipCode: number
-  opportunities: Opportunities,
-  tasks: Task[],
+
 }
 
 export const newContact: ContactBase = {

@@ -10,6 +10,7 @@ using API.Models.Domain.Extra; // For Framework
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using NuGet.ContentModel;
 
 
 
@@ -39,18 +40,24 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDTO loginDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.PasswordHash, isPersistent: false, lockoutOnFailure: false);
-
-            if (!result.Succeeded)
-                return Unauthorized(new { message = "Invalid login attempt!" });
-
-            // Retrieve user information after successful login
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
                 return NotFound(new { message = "User not found!" });
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            //Assert.False(await _userManager.IsLockedOutAsync(user));
+
+
+            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
+
+            
+            if (!result.Succeeded)
+                return Unauthorized(new { message = "Invalid login attempt 7!" });
+
+
 
             // Map user to UserDTO
             var userDto = new UserDTO
@@ -77,10 +84,12 @@ namespace API.Controllers
             {
                 UserName = registerDto.Email,
                 Email = registerDto.Email,
-                Frameworks = frameworks
+                Frameworks = frameworks,
+                EmailConfirmed = true
+
             };
 
-            var result = await _userManager.CreateAsync(user, registerDto.PasswordHash);
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
@@ -161,11 +170,8 @@ namespace API.Controllers
 
 
 
-
-
         [HttpPut("profile")]
-        [Authorize]
-        public async Task<IActionResult> UpdateProfile([FromBody] UserDTO userDTO)
+        public async Task<IActionResult> UpdateProfile([FromBody] EditDTO editdto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Unauthorized();
@@ -173,18 +179,101 @@ namespace API.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            user.UserName = userDTO.Username;
-            user.Email = userDTO.Email;
+            user.UserName = editdto.Username;
+            user.Email = editdto.Email;
+
+            //user.NormalizedUserName = _userManager.NormalizeName(editdto.Username);
+            //user.NormalizedEmail = _userManager.NormalizeEmail(editdto.Email);
+
+            user.EmailConfirmed = true;
+
+            // Update the concurrency stamp
+            user.ConcurrencyStamp = Guid.NewGuid().ToString();
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            var frameworks = await _frameworkService.GetOrCreateFrameworksAsync(editdto.Frameworks);
+            user.Frameworks = frameworks;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                return Ok(userDTO);
+                // Sign out the user to refresh claims
+                await _signInManager.SignOutAsync();
+                return Ok(editdto);
             }
             else
             {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine(error.Description);
+                }
+
                 return BadRequest(result.Errors);
             }
         }
+
+
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+//[HttpPatch("api/users/{userId}")]
+//public async Task<IActionResult> PatchUser(string userId, [FromBody] EditDTO patchDto)
+//{
+//    if (patchDto == null)
+//    {
+//        return BadRequest("Invalid data.");
+//    }
+
+//    // Get the user from the database using UserManager
+//    var user = await _userManager.FindByIdAsync(userId);
+//    if (user == null)
+//    {
+//        return NotFound($"User with ID {userId} not found.");
+//    }
+
+//    // Update Username if provided
+//    if (!string.IsNullOrWhiteSpace(patchDto.Username))
+//    {
+//        user.UserName = patchDto.Username;
+//        user.NormalizedUserName = _userManager.NormalizeName(patchDto.Username);
+//    }
+
+//    // Update Email if provided
+//    if (!string.IsNullOrWhiteSpace(patchDto.Email))
+//    {
+//        user.Email = patchDto.Email;
+//        user.NormalizedEmail = _userManager.NormalizeEmail(patchDto.Email);
+//    }
+
+//    // Update Frameworks if provided
+//    if (patchDto.Frameworks != null && patchDto.Frameworks.Any())
+//    {
+//        // Use your existing service to get or create frameworks (returns ICollection<Framework>)
+//        var frameworks = await _frameworkService.GetOrCreateFrameworksAsync(patchDto.Frameworks);
+
+//        // Assuming the user entity has a collection of Framework objects
+//        user.Frameworks = frameworks;
+//    }
+
+//    // Save changes to the database
+//    var result = await _userManager.UpdateAsync(user);
+//    if (!result.Succeeded)
+//    {
+//        return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update user.");
+//    }
+
+//    return Ok(user);
+//}

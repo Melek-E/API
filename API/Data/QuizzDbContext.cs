@@ -22,7 +22,7 @@ namespace API.Data
         }
 
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
 
         public DbSet<Models.Domain.Questions.Question> Questions { get; set; }

@@ -32,6 +32,11 @@ export class ProfileComponent implements OnInit {
   private apiUrl = 'http://localhost:7112/api/auth/profile';
   isEditing: boolean = false; // Flag to control editing state
   currentField: string | null = null;
+  isEditingUsername: boolean = false; // Flag for editing Username
+  isEditingEmail: boolean = false; // Flag for editing Email
+  isEditingFrameworks: boolean = false; // Flag for editing Frameworks
+
+
   user = {
     Username: '',
     Email: '',
@@ -66,27 +71,43 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
   enableEdit(field: string): void {
-    this.isEditing = true;
-    this.currentField = field; // Track which field is being edited
+    if (field === 'Username') {
+      this.isEditingUsername = true;
+    } else if (field === 'Email') {
+      this.isEditingEmail = true;
+    } else if (field === 'Frameworks') {
+      this.isEditingFrameworks = true;
+    }
   }
 
-  disableEdit(): void {
-    this.isEditing = false;
-    this.currentField = null; // Reset the current field
+  disableEdit(field: string): void {
+    if (field === 'Username') {
+      this.isEditingUsername = false;
+    } else if (field === 'Email') {
+      this.isEditingEmail = false;
+    } else if (field === 'Frameworks') {
+      this.isEditingFrameworks = false;
+    }
   }
 
   saveProfile(): void {
-    console.log('Profile saved!', this.user);
-    // Implement save functionality to update the profile
-    this.disableEdit(); // Exit edit mode after saving
-  }
+    this.http.put(this.apiUrl, this.user, { withCredentials: true }).subscribe({
+      next: (response) => {
+        console.log('Profile updated successfully!', response);
+        this.disableEdit('Username');
+        this.disableEdit('Email');
+        this.disableEdit('Frameworks');
+      },
+      error: (error) => {
+        console.error('Error updating profile', error);
+      }
+    });
 
   
 
+} 
 }
-
 
 @NgModule({
   imports: [
@@ -97,6 +118,7 @@ export class ProfileComponent implements OnInit {
     DxTagBoxModule,
     DxButtonModule,
     DxDataGridModule, 
+    DxTextBoxModule
 
   ],
   providers: [DataService],

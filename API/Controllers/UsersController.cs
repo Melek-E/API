@@ -117,29 +117,7 @@ public IActionResult GetUsers()
         //}
 
         // Update user information
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserModel model)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.UserName = model.UserName;
-
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return Ok(user);
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-            return BadRequest(ModelState);
-        }
+      
 
         // Delete a user
         [HttpDelete("{id}")]

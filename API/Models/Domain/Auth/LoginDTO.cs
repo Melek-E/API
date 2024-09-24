@@ -6,12 +6,15 @@ namespace API.Models.Domain.Auth
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public required string PasswordHash { get; set; }
+        public required string Password { get; set; }
 
-        
+
+        public string? Username { get; set; }
+
+
     }
 }

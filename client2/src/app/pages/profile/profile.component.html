@@ -3,8 +3,11 @@
     <dxi-item dataField="Username">
       <ng-template dxTemplate="content">
         <div class="field-wrapper">
-          <span>{{ user.Username }}</span>
-          <dx-button icon="edit" (onClick)="enableEdit('Username')"></dx-button>
+          <span *ngIf="!isEditingUsername">{{ user.Username }}</span>
+          <dx-text-box *ngIf="isEditingUsername" [(value)]="user.Username"></dx-text-box>
+          <dx-button icon="edit" *ngIf="!isEditingUsername" (onClick)="enableEdit('Username')"></dx-button>
+          <dx-button text="Save" *ngIf="isEditingUsername" (onClick)="saveProfile(); disableEdit('Username')"></dx-button>
+          <dx-button text="Cancel" *ngIf="isEditingUsername" (onClick)="disableEdit('Username')"></dx-button>
         </div>
       </ng-template>
     </dxi-item>
@@ -12,8 +15,11 @@
     <dxi-item dataField="Email">
       <ng-template dxTemplate="content">
         <div class="field-wrapper">
-          <span>{{ user.Email }}</span>
-          <dx-button icon="edit" (onClick)="enableEdit('Email')"></dx-button>
+          <span *ngIf="!isEditingEmail">{{ user.Email }}</span>
+          <dx-text-box *ngIf="isEditingEmail" [(value)]="user.Email"></dx-text-box>
+          <dx-button icon="edit" *ngIf="!isEditingEmail" (onClick)="enableEdit('Email')"></dx-button>
+          <dx-button text="Save" *ngIf="isEditingEmail" (onClick)="saveProfile(); disableEdit('Email')"></dx-button>
+          <dx-button text="Cancel" *ngIf="isEditingEmail" (onClick)="disableEdit('Email')"></dx-button>
         </div>
       </ng-template>
     </dxi-item>
@@ -21,29 +27,26 @@
     <dxi-item dataField="Frameworks">
       <ng-template dxTemplate="content">
         <div class="field-wrapper">
-          <span>{{ user.Frameworks.join(', ') }}</span>
-          <dx-button icon="edit" (onClick)="enableEdit('Frameworks')"></dx-button>
+          <span *ngIf="!isEditingFrameworks">{{ user.Frameworks.join(', ') }}</span>
+          <dx-tag-box *ngIf="isEditingFrameworks"
+            [items]="frameworkOptions"
+            [(value)]="user.Frameworks"
+            displayExpr="name"
+            valueExpr="name"
+            placeholder="Select frameworks">
+          </dx-tag-box>
+          <dx-button icon="edit" *ngIf="!isEditingFrameworks" (onClick)="enableEdit('Frameworks')"></dx-button>
+          <dx-button text="Save" *ngIf="isEditingFrameworks" (onClick)="saveProfile(); disableEdit('Frameworks')"></dx-button>
+          <dx-button text="Cancel" *ngIf="isEditingFrameworks" (onClick)="disableEdit('Frameworks')"></dx-button>
         </div>
       </ng-template>
-    </dxi-item>
-
-    <dxi-item *ngIf="isEditing">
-      <dx-tag-box
-        [items]="frameworkOptions"
-        [(value)]="user.Frameworks"
-        displayExpr="name"
-        valueExpr="name"
-        placeholder="Select frameworks">
-      </dx-tag-box>
-      <dx-button text="Save" type="success" (onClick)="saveProfile()"></dx-button>
-      <dx-button text="Cancel" type="normal" (onClick)="disableEdit()"></dx-button>
     </dxi-item>
   </dx-form>
 
   <h3>Previous Tests</h3>
   <dx-data-grid [dataSource]="previousTests">
     <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]"></dxo-pager>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" ></dxo-pager>
     <dxi-column dataField="testName" caption="Test Name"></dxi-column>
     <dxi-column dataField="date" caption="Date" dataType="date"></dxi-column>
     <dxi-column dataField="score" caption="Score" dataType="number"></dxi-column>

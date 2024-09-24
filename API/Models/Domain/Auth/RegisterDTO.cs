@@ -11,7 +11,7 @@ namespace API.Models.DTOs.Auth
 
         [Required]
         [StringLength(100, MinimumLength = 6)]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
 
         
 
