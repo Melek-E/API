@@ -35,7 +35,7 @@ export class AuthService {
 
   async logIn(email: string, password: string): Promise<any> {
     try {
-      const loginData = { email, passwordHash: password };
+      const loginData = { email, password: password };
 
       // Send request to login API
       const response = await this.http.post<any>(`${this.apiUrl}/login`, loginData, { withCredentials: true }).toPromise();
@@ -76,7 +76,7 @@ export class AuthService {
 async createAccount(email: string, username: string, password: string, frameworks: { Name: string }[]): Promise<any> {
   try {
     // Add frameworks to the register data
-    const registerData = { email, Username: username, passwordHash: password, frameworks };
+    const registerData = { email, Username: username, password: password, frameworks };
 
     // Send request to register API
     const response = await this.http.post<any>("http://localhost:7112/api/Auth/register", registerData, { withCredentials: true }).toPromise();

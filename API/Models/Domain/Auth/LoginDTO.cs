@@ -13,7 +13,6 @@ namespace API.Models.Domain.Auth
         public required string Password { get; set; }
 
 
-        public string? Username { get; set; }
 
 
     }

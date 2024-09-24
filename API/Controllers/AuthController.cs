@@ -51,7 +51,7 @@ namespace API.Controllers
             //Assert.False(await _userManager.IsLockedOutAsync(user));
 
 
-            var result = await _signInManager.PasswordSignInAsync(loginDto.Username, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
 
             
             if (!result.Succeeded)
