@@ -19,10 +19,14 @@ const defaultUser = {
   providedIn: 'root'
 })
 export class AuthService {
-  private _user: IUser | null = defaultUser;
+  private _user: IUser | null = null;
   private apiUrl = 'http://localhost:7112/api/Auth'; // Backend API base URL
 
+  set loggedIn(boolean){
+  }
+
   get loggedIn(): boolean {
+    //  console.log(!!this._user)
     return !!this._user;
   }
 
@@ -46,7 +50,8 @@ export class AuthService {
 
       return {
         isOk: true,
-        data: this._user
+        data: this._user,
+        loggedIn:true
       };
     } catch (error) {
       return {

@@ -8,14 +8,14 @@ namespace API.Models.DTOs.Auth
      
         [EmailAddress]
         
-        public required string Email { get; set; }
+        public  string Email { get; set; }
 
 
         [DataType(DataType.Text)]
-        public required string Username { get; set; }
+        public  string Username { get; set; }
 
 
-        public required ICollection<Framework> Frameworks { get; set; }
+        public  ICollection<Framework> Frameworks { get; set; }
 
 
 

@@ -37,4 +37,25 @@ public class FrameworkService : IFrameworkService
 
         return result;
     }
+
+
+    public async Task RemoveFrameworksForUserAsync(string userId)
+    {
+        // Retrieve the user including the Frameworks associated with them
+        var user = await _context.Users
+            .Include(u => u.Frameworks)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+        {
+            throw new KeyNotFoundException("User not found.");
+        }
+
+        // Clear the user's frameworks
+        user.Frameworks.Clear();
+
+        // Save the changes
+        await _context.SaveChangesAsync();
+    }
 }
+

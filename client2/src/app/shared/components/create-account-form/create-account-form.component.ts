@@ -98,7 +98,7 @@ export class CreateAccountFormComponent implements OnInit {
           this.formData.frameworks.push(createdFramework[0].Name);
   
           // Notify the user about the success
-          notify(`Framework '${createdFramework[0].Name}' added successfully.`, 'success', 2000);
+          notify(`Framework added successfully.`, 'success', 2000); //'${createdFramework[0]}'
         },
         (error) => {
           // Log and notify the user in case of failure

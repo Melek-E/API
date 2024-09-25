@@ -1,34 +1,89 @@
-.logos-container {
-  margin: 20px 0 40px 0;
-  text-align: center;
-  svg {
-    display: inline-block;
+$primary-color: #0052cc;
+$secondary-color: #f4f5f7;
+$text-color: #333;
+$button-color: #007bff;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: $secondary-color;
+  color: $text-color;
+}
+
+.container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.navbar {
+  background-color: $primary-color;
+  padding: 20px 0;
+
+  .logo {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+  }
+
+  nav {
+    float: right;
+
+    a {
+      color: white;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 16px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 }
 
-.devextreme-logo {
-  width: 200px;
-  height: 34px;
-  margin-bottom: 13px;
-}
+.hero-section {
+  background: linear-gradient(to right, #007bff, #0052cc);
+  color: white;
+  text-align: center;
+  padding: 80px 0;
 
-.angular-logo {
-  width: 220px;
-  height: 62px;
-}
+  h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
 
-.plus {
-  margin: 15px 10px;
-  width: 22px;
-  height: 22px;
-}
+  p {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
 
-:host-context(.screen-x-small) .logos-container {
-  svg {
-    width: 100%;
-    display: block;
-    &.plus {
-      margin: 0;
+  .cta-button {
+    background-color: $button-color;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($button-color, 10%);
     }
+  }
+}
+
+.footer {
+  background-color: $primary-color;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 50px;
+
+  p {
+    font-size: 14px;
   }
 }

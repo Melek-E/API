@@ -188,17 +188,25 @@ namespace API.Controllers
             user.EmailConfirmed = true;
 
             // Update the concurrency stamp
-            user.ConcurrencyStamp = Guid.NewGuid().ToString();
-            await _userManager.UpdateSecurityStampAsync(user);
+
+            //user.ConcurrencyStamp = Guid.NewGuid().ToString();
+            //await _userManager.UpdateSecurityStampAsync(user);
+
+
+
+
+            await _frameworkService.RemoveFrameworksForUserAsync(userId);
 
             var frameworks = await _frameworkService.GetOrCreateFrameworksAsync(editdto.Frameworks);
             user.Frameworks = frameworks;
+
+
+            
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 // Sign out the user to refresh claims
-                await _signInManager.SignOutAsync();
                 return Ok(editdto);
             }
             else

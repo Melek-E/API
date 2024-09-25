@@ -5,6 +5,10 @@ import { Framework } from '../../types/Framework';
 @Component({
   templateUrl: 'home.component.html',
   styleUrls: ['./home.component.scss'],
+
+
+
+  
   providers: [DataService]
 })
 export class HomeComponent implements OnInit {

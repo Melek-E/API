@@ -6,6 +6,8 @@ namespace API.Services;
 public interface IFrameworkService
 {
     Task<ICollection<Framework>> GetOrCreateFrameworksAsync(ICollection<Framework> frameworks);
+    Task RemoveFrameworksForUserAsync(string userId);
+
+
 }
 
-    
