@@ -221,6 +221,13 @@ namespace API.Controllers
         }
 
 
+        [HttpGet("loggedin")]
+        public bool islogin()
+        {
+            var result = HttpContext.User.Identity.IsAuthenticated;
+            return result;
+        }
+
 
 
     }
