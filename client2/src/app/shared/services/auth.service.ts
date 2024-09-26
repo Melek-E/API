@@ -22,8 +22,6 @@ export class AuthService {
   private _user: IUser | null = null;
   private apiUrl = 'http://localhost:7112/api/Auth'; // Backend API base URL
 
-  set loggedIn(boolean){
-  }
 
   get loggedIn(): boolean {
     //  console.log(!!this._user)

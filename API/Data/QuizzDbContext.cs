@@ -57,7 +57,6 @@ namespace API.Data
 
 
 
-
         public DbSet<API.Models.Domain.Answer> Answer { get; set; } = default!;
 
         public DbSet<Framework> Frameworks { get; set; }
