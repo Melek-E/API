@@ -11,6 +11,15 @@
           </div>
         </ng-template>
       </dxi-item>
+      <div style="text-align:center"></div>
+  <h1>
+  </h1>
+
+  <!-- Display the notification message when it arrives -->
+  <div *ngIf="notificationMessage">
+    <h2>New Notification:</h2>
+    <p>{{ notificationMessage }}</p>
+  </div>
 
       <dxi-item dataField="Email">
         <ng-template dxTemplate="content">

@@ -21,6 +21,7 @@ import {
   DxValidationSummaryModule,
 } from 'devextreme-angular';
 import { Framework } from '../../types/Framework';
+import { SignalRService } from '../../shared/services/signalr.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,8 @@ import { Framework } from '../../types/Framework';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  notificationMessage: string = '';
+
   userProfile: IUser | null = null; // This will hold the user profile data
   // frameworkOptions: string[] = [];   // Example frameworks
   previousTests: any[] = []; // Previous test data, can be fetched from the API
@@ -45,10 +48,18 @@ export class ProfileComponent implements OnInit {
     Email: '',
     Frameworks:[]
   };
-  constructor(private dataService: DataService, private http: HttpClient,private router:Router, private authService: AuthService) {}
+  constructor(private dataService: DataService, private http: HttpClient,private router:Router, private authService: AuthService, public signal: SignalRService  ) {}
   ngOnInit() {
     this.loadProfile();
     this.loadFrameworks();
+
+    this.signal.startConnection();
+
+     this.signal.addReceiveTestNotificationListener((message: string) => {
+       this.notificationMessage = message;
+       console.log(message); 
+       alert(message);  
+     });
   }
 
   loadFrameworks() {

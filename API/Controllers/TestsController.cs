@@ -5,6 +5,7 @@ using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -29,7 +30,9 @@ namespace API.Controllers
 
             try
             {
-                var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions, userId);
                 return Ok(test);
             }
             catch (InvalidOperationException ex)

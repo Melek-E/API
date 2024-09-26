@@ -3,6 +3,7 @@ using API.Services;
 using API.Models.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<IFrameworkService, FrameworkService>();
+
 
 
 // Configure the database context
@@ -47,6 +49,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddDistributedMemoryCache(); // In-memory cache for session storage
+
+builder.Services.AddSignalR();
 
 builder.Services.AddSession(options =>
 {
@@ -80,6 +84,7 @@ using (var scope = app.Services.CreateScope())
     await Seed.SeedSuperAdmin(scope.ServiceProvider);
 }
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -94,9 +99,19 @@ app.UseCors("AllowSpecificOrigin"); // Apply CORS policy
 
 app.UseSession(); // Enable session management
 app.UseAuthentication(); // Enable cookie-based authentication
-app.UseAuthorization();
 
 app.MapControllers();
+app.UseRouting();
+
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<TestNotificationHub>("/testNotificationHub");  // Map the SignalR hub
+});
+
 app.Run();
 
 // Seed roles method

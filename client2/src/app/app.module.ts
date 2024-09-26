@@ -9,6 +9,7 @@ import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import { DxButtonModule, DxValidatorModule } from 'devextreme-angular';
+import { SignalRService } from './shared/services/signalr.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DxButtonModule, DxValidatorModule } from 'devextreme-angular';
   providers: [
     AuthService,
     ScreenService,
-    AppInfoService
+    AppInfoService,
+    SignalRService
   ],
   bootstrap: [AppComponent]
 })
