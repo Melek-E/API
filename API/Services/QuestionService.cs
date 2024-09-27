@@ -16,13 +16,19 @@ namespace API.Services
         // Get all questions
         public async Task<IEnumerable<Question>> GetQuestionsAsync()
         {
-            return await _context.Questions.ToListAsync();
+                // Optionally include answers if you want them for all questions
+            return await _context.Questions
+                .Include(q => q.Answers)  // Include answers if you want them
+                .ToListAsync();
         }
 
         // Get question by ID
         public async Task<Question?> GetQuestionByIdAsync(int id)
         {
-            return await _context.Questions.FindAsync(id);
+            // Eager load Answers for the specific question
+            return await _context.Questions
+                .Include(q => q.Answers)  // Include answers
+                .FirstOrDefaultAsync(q => q.Id == id);  // Make sure you use the correct primary key
         }
 
         // Create a new question
@@ -44,7 +50,7 @@ namespace API.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await QuestionExistsAsync(question.Id))
+                if (!await QuestionExistsAsync(question.Id))  // Use the correct property
                 {
                     return false;
                 }
@@ -72,7 +78,7 @@ namespace API.Services
         // Check if question exists
         private async Task<bool> QuestionExistsAsync(int id)
         {
-            return await _context.Questions.AnyAsync(e => e.Id == id);
+            return await _context.Questions.AnyAsync(e => e.Id == id);  // Use the correct property
         }
     }
 }
