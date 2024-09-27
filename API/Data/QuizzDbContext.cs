@@ -58,6 +58,18 @@ namespace API.Data
                 .WithMany();
 
 
+
+            // Configure the Report entity
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Test)  // Link to Test
+                .WithMany()  // A test can have many reports
+                .HasForeignKey(r => r.TestId);  // Foreign key in Report
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Question)  // Link to Question
+                .WithMany()  // A question can have many reports
+                .HasForeignKey(r => r.QuestionId);  // Foreign key in Report
+
         }
 
 
@@ -66,7 +78,7 @@ namespace API.Data
 
         public DbSet<Framework> Frameworks { get; set; }
 
-
+        public DbSet<Report> Reports { get; set; }  
 
 
     }

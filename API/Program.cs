@@ -21,7 +21,7 @@ builder.Services.AddScoped<QuestionService>();
 builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<IFrameworkService, FrameworkService>();
 
-
+builder.Services.AddScoped<ReportService>(); 
 
 // Configure the database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
