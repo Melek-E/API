@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using API.Models.Domain;
+using API.Models.DTO;
 
 namespace API.Controllers
 {
@@ -40,19 +41,57 @@ namespace API.Controllers
             return answer;
         }
 
-        // POST: api/Answers
         [HttpPost]
-        public async Task<ActionResult<Answer>> Create([Bind("Id,AnswerText,IsCorrect,Type,QuestionId,UserId")] Answer answer)
+        public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerDTO answerDto)
         {
-            if (ModelState.IsValid)
+            // Validate the incoming answer DTO
+            if (answerDto == null || string.IsNullOrWhiteSpace(answerDto.AnswerText) || answerDto.QuestionId <= 0 || string.IsNullOrWhiteSpace(answerDto.userId))
             {
-                _context.Add(answer);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Details), new { id = answer.Id }, answer);
+                return BadRequest("Invalid answer data.");
             }
 
-            return BadRequest(ModelState);
+            // Retrieve the Question from the database
+            var question = await _context.Questions
+                .Include(q => q.Answers)  // Include answers to avoid lazy loading issues
+                .FirstOrDefaultAsync(q => q.Id == answerDto.QuestionId);
+
+            if (question == null)
+            {
+                return NotFound("Question not found.");
+            }
+
+            // Map DTO to entity
+            var answer = new Answer
+            {
+                AnswerText = answerDto.AnswerText,
+                QuestionId = answerDto.QuestionId,
+                UserId = answerDto.userId,
+                Question = question  // Include the full Question entity
+            };
+
+            // Add the answer to the context and also add it to the Question's answer collection
+            _context.Answer.Add(answer);
+            question.Answers.Add(answer); // This line adds the answer to the Question's collection
+
+            await _context.SaveChangesAsync();
+
+            // Return the created answer along with a 201 status code
+            return CreatedAtAction(nameof(GetAnswerById), new { id = answer.Id }, answer);
         }
+
+        // Optional: GET method to retrieve an answer by ID
+        [HttpGet("answerid")]
+        public async Task<IActionResult> GetAnswerById(int id)
+        {
+            var answer = await _context.Answer.FindAsync(id);
+            if (answer == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(answer);
+        }
+
 
         // PUT: api/Answers/5
         [HttpPut("{id}")]

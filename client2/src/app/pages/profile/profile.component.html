@@ -15,13 +15,22 @@
   <h1>
   </h1>
 
-  <!-- Display the notification message when it arrives -->
   <div *ngIf="notificationMessage">
     <h2>New Notification:</h2>
     <p>{{ notificationMessage }}</p>
   </div>
 
       <dxi-item dataField="Email">
+          <dxi-validation-rule
+            type="required"
+            message="Email is required"
+          ></dxi-validation-rule>
+          
+        <dxi-validation-rule
+              type="email"
+              message="Email is invalid"
+            ></dxi-validation-rule>
+
         <ng-template dxTemplate="content">
           <div class="field-wrapper">
             <span *ngIf="!isEditingEmail">{{ user.Email }}</span>
@@ -61,3 +70,5 @@
       <dxi-column dataField="score" caption="Score" dataType="number"></dxi-column>
     </dx-data-grid>
   </div>
+
+  

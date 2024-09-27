@@ -16,6 +16,11 @@ namespace API.Models.Domain.Questions
         [Range(1, 3, ErrorMessage = "Level must be between 1 and 3.")]
         public int Level { get; set; }
 
+        public int AnswerId {  get; set; }
+
+        public virtual ICollection<Answer> Answers { get; set; }
+
+
 
         private string _type = default!;
 

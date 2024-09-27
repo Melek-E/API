@@ -48,6 +48,11 @@ namespace API.Data
                .HasMany(t => t.Questions)
                .WithMany();
 
+            modelBuilder.Entity<Question>()
+           .HasMany(q => q.Answers)
+           .WithOne(a => a.Question)
+           .HasForeignKey(a => a.QuestionId);
+
             modelBuilder.Entity<ApplicationUser>()
                 .HasMany(u => u.Frameworks)
                 .WithMany();

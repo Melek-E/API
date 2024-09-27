@@ -4,15 +4,16 @@ using API.Models.Domain.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using API.Hubs;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        //options.JsonSerializerOptions.PropertyNamingPolicy = null; // Default property names
-    });
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    // In addition, you can limit the depth
+    // options.MaxDepth = 4;
+}); ; 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { DxFormModule, DxTagBoxModule, DxDataGridModule, DxLoadIndicatorModule, DxButtonGroupModule, DxButtonComponent } from 'devextreme-angular';
+import { DxFormModule, DxTagBoxModule, DxDataGridModule, DxLoadIndicatorModule, DxButtonGroupModule, DxButtonComponent, DxValidatorModule, DxValidatorComponent } from 'devextreme-angular';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -17,6 +17,7 @@ import {
   DxDateBoxModule,
   DxDateRangeBoxModule,
   DxButtonModule,
+  
 
   DxValidationSummaryModule,
 } from 'devextreme-angular';
@@ -162,7 +163,10 @@ export class ProfileComponent implements OnInit {
     DxTagBoxModule,
     DxButtonModule,
     DxDataGridModule, 
-    DxTextBoxModule
+    DxTextBoxModule,
+    DxValidatorModule,
+    DxValidatorModule
+
 
   ],
   providers: [DataService],
@@ -170,3 +174,4 @@ export class ProfileComponent implements OnInit {
   exports: [ProfileComponent]
 })
 export class ProfileModule { }
+//kill yourself melek <3

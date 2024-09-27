@@ -1,4 +1,5 @@
 ﻿using API.Models.Domain.Questions;
+using Newtonsoft.Json;
 
 namespace API.Models.Domain
 {
@@ -25,6 +26,10 @@ namespace API.Models.Domain
 
 
         public int QuestionId { get; set; }
+
+
+
+        public virtual Question Question { get; set; }
 
         public string UserId { get; set; }
         

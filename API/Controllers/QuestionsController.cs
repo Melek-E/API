@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using API.Models.Domain.Questions;
 using API.Services;
+using API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -12,10 +14,14 @@ namespace API.Controllers
     public class QuestionsController : ControllerBase
     {
         private readonly QuestionService _questionService;
+        private readonly QuizzDbContext _context;
 
-        public QuestionsController(QuestionService questionService)
+
+        public QuestionsController(QuestionService questionService, QuizzDbContext context)
         {
             _questionService = questionService;
+            _context= context;
+
         }
 
         // GET: api/Questions
@@ -26,11 +32,15 @@ namespace API.Controllers
             return Ok(questions);
         }
 
+
         // GET: api/Questions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            var question = await _questionService.GetQuestionByIdAsync(id);
+            // Eager load the answers when fetching the question
+            var question = await _context.Questions
+                .Include(q => q.Answers)  // This will include the Answers collection
+                .FirstOrDefaultAsync(q => q.Id == id);
 
             if (question == null)
             {
