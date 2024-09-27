@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     // In addition, you can limit the depth
@@ -23,12 +22,10 @@ builder.Services.AddScoped<IFrameworkService, FrameworkService>();
 
 builder.Services.AddScoped<ReportService>(); 
 
-// Configure the database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<QuizzDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Configure Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<QuizzDbContext>()
     .AddDefaultTokenProviders();
@@ -38,7 +35,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
-// Configure session and cookie-based authentication
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true;
@@ -49,15 +45,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-builder.Services.AddDistributedMemoryCache(); // In-memory cache for session storage
+builder.Services.AddDistributedMemoryCache(); 
 
 builder.Services.AddSignalR();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(300); // Session timeout duration
-    options.Cookie.HttpOnly = true; // can only be modified when it reaches the server
-    options.Cookie.IsEssential = true; // Mark session cookie as essential
+    options.IdleTimeout = TimeSpan.FromMinutes(300); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true;
 });
 
 // Configure CORS
@@ -83,6 +79,8 @@ using (var scope = app.Services.CreateScope())
 
     // Seed super admin user
     await Seed.SeedSuperAdmin(scope.ServiceProvider);
+
+    await Seed.SeedRegularAdmin(scope.ServiceProvider);
 }
 
 
@@ -96,10 +94,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // Use CORS before Authentication
-app.UseCors("AllowSpecificOrigin"); // Apply CORS policy
+app.UseCors("AllowSpecificOrigin");
 
-app.UseSession(); // Enable session management
-app.UseAuthentication(); // Enable cookie-based authentication
+app.UseSession(); 
+app.UseAuthentication();
 
 app.MapControllers();
 app.UseRouting();
@@ -110,12 +108,11 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<TestNotificationHub>("/testNotificationHub");  // Map the SignalR hub
+    endpoints.MapHub<TestNotificationHub>("/testNotificationHub"); 
 });
 
 app.Run();
 
-// Seed roles method
 static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
 {
     var roles = new[] { "SuperAdmin", "Admin", "User" };

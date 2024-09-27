@@ -1,6 +1,5 @@
-﻿using API.Models;
+﻿using API.Models.DTO;
 using API.Models.Domain.Extra;
-using API.Models.DTO;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,17 +22,29 @@ namespace API.Controllers
 
         // POST: api/Tests/GenerateTest
         [HttpPost("GenerateTest")]
-        public async Task<ActionResult<Test>> GenerateTest([FromBody] GenerateTestRequest request)
+        public async Task<ActionResult<TestDTO>> GenerateTest([FromBody] GenerateTestRequest request)
         {
-            // Log the received JSON request
-            Console.WriteLine($"Received JSON: {System.Text.Json.JsonSerializer.Serialize(request)}");
-
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions, userId);
-                return Ok(test);
+
+                var testDTO = new TestDTO
+                {
+                    Id = test.Id,
+                    Timestamp = test.Timestamp,
+                    Score = test.Score,
+                    UserId = test.UserId,
+                    Questions = test.Questions.Select(q => new QuestionDTO
+                    {
+                        Id = q.Id,
+                        Text = q.QuestionText,
+                        Level = q.Level
+                    }).ToList()
+                };
+
+                return Ok(testDTO);
             }
             catch (InvalidOperationException ex)
             {
@@ -43,38 +54,38 @@ namespace API.Controllers
 
         // GET: api/Tests/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Test>> GetTestById(int id)
+        public async Task<ActionResult<TestDTO>> GetTestById(int id, [FromQuery] bool includeReport = false)
         {
-            var test = await _testService.GetTestById(id);
+            var testDTO = await _testService.GetTestDTOByIdAsync(id, includeReport);
 
-            if (test == null)
+            if (testDTO == null)
             {
                 return NotFound("Test not found.");
             }
 
-            return Ok(test);
+            return Ok(testDTO);
         }
 
         // GET: api/Tests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Test>>> GetAllTests()
+        public async Task<ActionResult<IEnumerable<TestDTO>>> GetAllTests()
         {
-            var tests = await _testService.GetAllTests();
-            return Ok(tests);
+            var testsDTO = await _testService.GetAllTestsDTOAsync();
+            return Ok(testsDTO);
         }
 
         // GET: api/Tests/User/{userId}
         [HttpGet("User/{userId}")]
-        public async Task<ActionResult<IEnumerable<Test>>> GetTestsByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<TestDTO>>> GetTestsByUserId(string userId)
         {
-            var tests = await _testService.GetTestsByUserId(userId);
+            var testsDTO = await _testService.GetTestsDTOByUserIdAsync(userId);
 
-            if (tests == null || tests.Count == 0)
+            if (testsDTO == null || testsDTO.Count == 0)
             {
                 return NotFound($"No tests found for UserId: {userId}");
             }
 
-            return Ok(tests);
+            return Ok(testsDTO);
         }
     }
 }

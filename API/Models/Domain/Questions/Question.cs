@@ -1,4 +1,5 @@
 ﻿// Models/Domain/Question.cs    
+using API.Models.Domain.Reports;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Models.Domain.Questions
@@ -19,6 +20,9 @@ namespace API.Models.Domain.Questions
         public int AnswerId {  get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
+
+
+        public List<QuestionAssessment> QuestionAssessments { get; set; } = new List<QuestionAssessment>();  // Navigation property for assessments
 
 
 

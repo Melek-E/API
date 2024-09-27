@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Hubs;
 using API.Models.Domain.Extra;
+using API.Models.DTO;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -35,7 +36,7 @@ namespace API.Services
             var test = new Test
             {
                 Questions = questions,
-                UserId = userId,  // Set the UserId here
+                UserId = userId,
                 Timestamp = DateTime.UtcNow,
                 Score = null
             };
@@ -43,32 +44,101 @@ namespace API.Services
             _context.Tests.Add(test);
             await _context.SaveChangesAsync();
 
-            // Notify the user via SignalR
             await _hubContext.Clients.User(userId).SendAsync("ReceiveTestNotification", "A new test has been created for you!");
 
             return test;
         }
 
-        public async Task<Test> GetTestById(int testId)
+        public async Task<TestDTO> GetTestDTOByIdAsync(int testId, bool includeReport = false)
         {
-            return await _context.Tests
+            var test = await _context.Tests
                                  .Include(t => t.Questions)
                                  .FirstOrDefaultAsync(t => t.Id == testId);
+
+            if (test == null)
+                return null;
+
+            var testDTO = new TestDTO
+            {
+                Id = test.Id,
+                Timestamp = test.Timestamp,
+                Score = test.Score,
+                UserId = test.UserId,
+                Questions = test.Questions.Select(q => new QuestionDTO
+                {
+                    Id = q.Id,
+                    Text = q.QuestionText,
+                    Level = q.Level
+                }).ToList()
+            };
+
+            if (includeReport)
+            {
+                var report = await _context.Reports
+                    .Include(r => r.QuestionAssessments)
+                    .FirstOrDefaultAsync(r => r.TestId == testId);
+
+                if (report != null)
+                {
+                    testDTO.Report = new ReportDTO
+                    {
+                        Id = report.Id,
+                        Score = report.Score,
+                        QuestionAssessments = report.QuestionAssessments.Select(qa => new QuestionAssessmentDTO
+                        {
+                            Id = qa.Id,
+                            IsCorrect = qa.IsCorrect,
+                            PointsAwarded = qa.PointsAwarded,
+                            QuestionId = qa.QuestionId
+                        }).ToList()
+                    };
+                }
+            }
+
+            return testDTO;
         }
 
-        public async Task<List<Test>> GetAllTests()
+        public async Task<List<TestDTO>> GetAllTestsDTOAsync()
         {
-            return await _context.Tests
+            var tests = await _context.Tests
                                  .Include(t => t.Questions)
                                  .ToListAsync();
+
+            return tests.Select(test => new TestDTO
+            {
+                Id = test.Id,
+                Timestamp = test.Timestamp,
+                Score = test.Score,
+                UserId = test.UserId,
+                Questions = test.Questions.Select(q => new QuestionDTO
+                {
+                    Id = q.Id,
+                    Text = q.QuestionText,
+                    Level = q.Level
+                }).ToList()
+            }).ToList();
         }
 
-        public async Task<List<Test>> GetTestsByUserId(string userId)
+        public async Task<List<TestDTO>> GetTestsDTOByUserIdAsync(string userId)
         {
-            return await _context.Tests
+            var tests = await _context.Tests
                                  .Include(t => t.Questions)
                                  .Where(t => t.UserId == userId)
                                  .ToListAsync();
+
+            return tests.Select(test => new TestDTO
+            {
+                Id = test.Id,
+                Timestamp = test.Timestamp,
+                Score = test.Score,
+                UserId = test.UserId,
+                Questions = test.Questions.Select(q => new QuestionDTO
+                {
+                    Id = q.Id,
+                    Text = q.QuestionText,
+                    Level = q.Level
+                }).ToList()
+            }).ToList();
         }
     }
 }

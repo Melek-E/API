@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Question = API.Models.Domain.Questions.Question;
 using Microsoft.AspNetCore.Identity;
 using API.Models.Domain.Extra;
+using API.Models.Domain.Reports;
 
 namespace API.Data
 
@@ -57,18 +58,23 @@ namespace API.Data
                 .HasMany(u => u.Frameworks)
                 .WithMany();
 
-
-
-            // Configure the Report entity
+            // Test - Report Relationship
             modelBuilder.Entity<Report>()
-                .HasOne(r => r.Test)  // Link to Test
-                .WithMany()  // A test can have many reports
-                .HasForeignKey(r => r.TestId);  // Foreign key in Report
+                .HasOne(r => r.Test)
+                .WithOne(t => t.Report)
+;
 
-            modelBuilder.Entity<Report>()
-                .HasOne(r => r.Question)  // Link to Question
-                .WithMany()  // A question can have many reports
-                .HasForeignKey(r => r.QuestionId);  // Foreign key in Report
+            // Report - QuestionAssessment Relationship
+            modelBuilder.Entity<QuestionAssessment>()
+                .HasOne(qa => qa.Report)
+                .WithMany(r => r.QuestionAssessments)
+                .HasForeignKey(qa => qa.ReportId);
+
+            // Question - QuestionAssessment Relationship
+            modelBuilder.Entity<QuestionAssessment>()
+                .HasOne(qa => qa.Question)
+                .WithMany(q => q.QuestionAssessments)
+                .HasForeignKey(qa => qa.QuestionId);
 
         }
 
@@ -78,7 +84,9 @@ namespace API.Data
 
         public DbSet<Framework> Frameworks { get; set; }
 
-        public DbSet<Report> Reports { get; set; }  
+
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<QuestionAssessment> QuestionAssessments { get; set; }
 
 
     }

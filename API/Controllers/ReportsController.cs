@@ -1,8 +1,7 @@
-﻿using API.Models.Domain;
-using API.Models.Domain.Extra;
+﻿using API.Models.Domain.Reports;
+using API.Models.DTO;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -20,29 +19,31 @@ namespace API.Controllers
 
         // POST: api/Reports
         [HttpPost]
-        public async Task<ActionResult<Report>> CreateReport([FromBody] Report report)
+        public async Task<ActionResult<Report>> CreateReport([FromBody] ReportDTO reportDto)
         {
-            if (report == null)
+            try
             {
-                return BadRequest("Invalid report data.");
+                var report = await _reportService.CreateReportAsync(reportDto);
+                return Ok(report);
             }
-
-            var createdReport = await _reportService.CreateReportAsync(report);
-            return CreatedAtAction(nameof(GetReportsByTestId), new { testId = createdReport.TestId }, createdReport);
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // GET: api/Reports/Test/{testId}
-        [HttpGet("Test/{testId}")]
-        public async Task<ActionResult<List<Report>>> GetReportsByTestId(int testId)
+        // GET: api/Reports/{testId}
+        [HttpGet("{testId}")]
+        public async Task<ActionResult<Report>> GetReportByTestId(int testId)
         {
-            var reports = await _reportService.GetReportsByTestIdAsync(testId);
+            var report = await _reportService.GetReportByTestIdAsync(testId);
 
-            if (reports == null || reports.Count == 0)
+            if (report == null)
             {
-                return NotFound($"No reports found for TestId: {testId}");
+                return NotFound("Report not found.");
             }
 
-            return Ok(reports);
+            return Ok(report);
         }
     }
 }

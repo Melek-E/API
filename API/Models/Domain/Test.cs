@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using API.Models.Domain.Auth;
 using API.Models.Domain.Questions;
+using API.Models.Domain.Reports;
 
 namespace API.Models.Domain.Extra
 {
@@ -13,6 +14,10 @@ namespace API.Models.Domain.Extra
 
         public string? UserId { get; set; }  // Foreign key to ApplicationUser
 
-        public List<Question> Questions { get; set; } = new List<Question>();  // List of questions in the test
+        public List<Question> Questions { get; set; } = new List<Question>();
+
+
+        public virtual Report Report { get; set; }  // Navigation property to Report
+
     }
 }

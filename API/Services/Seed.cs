@@ -1,4 +1,5 @@
-﻿using API.Models.Domain.Auth;
+﻿using API.Migrations;
+using API.Models.Domain.Auth;
 using API.Models.Domain.Extra;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public static class Seed
 
         // Define the role and user details
         string roleName = "SuperAdmin";
-        string adminEmail = "adminmelek@admin.fr";
+        string adminEmail = "superadminmelek@admin.fr";
         string adminPassword = "SuperAdminPassword123!";
         string jsonFrameworks = "[{\"Name\":\"ASP.NET Core\", \"Version\":\"6.0\"}, {\"Name\":\"Entity Framework\", \"Version\":\"6.0\"}]";
         var adminFrameworks = JsonSerializer.Deserialize<List<Framework>>(jsonFrameworks);
@@ -31,12 +32,10 @@ public static class Seed
         var superAdminUsers = await userManager.GetUsersInRoleAsync(roleName);
         if (superAdminUsers.Count > 0)
         {
-            // Optionally log or throw an error if there's already a super admin
-            // throw new InvalidOperationException("A SuperAdmin already exists.");
-            return; // Exit if a SuperAdmin already exists
+            return;
         }
 
-        // Check if the super admin user already exists
+        // Check again??? if the super admin user already exists
         var user = await userManager.FindByEmailAsync(adminEmail);
         if (user == null)
         {
@@ -45,7 +44,7 @@ public static class Seed
             {
                 UserName = adminEmail,
                 Email = adminEmail,
-                Frameworks=adminFrameworks
+                Frameworks = adminFrameworks
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);
@@ -56,6 +55,61 @@ public static class Seed
         }
 
         // Add the user to the "SuperAdmin" role
+        if (!await userManager.IsInRoleAsync(user, roleName))
+        {
+            await userManager.AddToRoleAsync(user, roleName);
+        }
+    }
+
+
+
+
+    public static async Task SeedRegularAdmin(IServiceProvider serviceProvider)
+    {
+        var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        // Define the role and user details
+        string roleName = "Admin";
+        string adminEmail = "regularadmin@admin.fr";
+        string adminPassword = "SuperAdminPassword123!";
+        //string jsonFrameworks = "[{\"Name\":\"Admins\"}, {\"Name\":\"Admin\", ]";
+        //var adminFrameworks = JsonSerializer.Deserialize<List<Framework>>(jsonFrameworks);
+
+        // Ensure the role exists
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+        var AdminUsers = await userManager.GetUsersInRoleAsync(roleName);
+        if (AdminUsers.Count > 0)
+        {
+            return;
+        }
+
+        // Check again??? if the super admin user already exists
+        var user = await userManager.FindByEmailAsync(adminEmail);
+        if (user == null)
+        {
+            // Create the super admin user
+            user = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                Frameworks = []
+            };
+
+        }
+
+        var result = await userManager.CreateAsync(user, adminPassword);
+        if (!result.Succeeded)
+        {
+            throw new Exception("Failed to create super admin user: " + string.Join(", ", result.Errors));
+        }
+
+
+        // Add the user to the "admin" role
         if (!await userManager.IsInRoleAsync(user, roleName))
         {
             await userManager.AddToRoleAsync(user, roleName);

@@ -1,9 +1,10 @@
 ﻿using API.Data;
-using API.Models.Domain;
-using API.Models.Domain.Extra;
+using API.Models.Domain.Reports;
+using API.Models.DTO;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace API.Services
 {
@@ -17,20 +18,43 @@ namespace API.Services
         }
 
         // Create a new report
-        public async Task<Report> CreateReportAsync(Report report)
+        public async Task<Report> CreateReportAsync(ReportDTO reportDto)
         {
+            var test = await _context.Tests
+                                     .Include(t => t.Questions)
+                                     .FirstOrDefaultAsync(t => t.Id == reportDto.TestId);
+
+            if (test == null)
+                throw new InvalidOperationException("Test not found.");
+
+            // Create a new report
+            var report = new Report
+            {
+                TestId = reportDto.TestId,
+                AdminId = reportDto.AdminId,
+                Score = reportDto.Score,
+                ReviewedAt = DateTime.Now,
+                QuestionAssessments = reportDto.QuestionAssessments.Select(qa => new QuestionAssessment
+                {
+                    QuestionId = qa.QuestionId,
+                    IsCorrect = qa.IsCorrect,
+                    Feedback = qa.Feedback
+                }).ToList()
+            };
+
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();
+
             return report;
         }
 
-        // Get all reports for a specific test
-        public async Task<List<Report>> GetReportsByTestIdAsync(int testId)
+        // Retrieve report by test ID
+        public async Task<Report?> GetReportByTestIdAsync(int testId)
         {
             return await _context.Reports
-                .Include(r => r.Question)  // Include the related Question
-                .Where(r => r.TestId == testId)
-                .ToListAsync();
+                                 .Include(r => r.QuestionAssessments)
+                                 .Include(r => r.Test)
+                                 .FirstOrDefaultAsync(r => r.TestId == testId);
         }
     }
 }

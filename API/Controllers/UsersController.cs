@@ -117,9 +117,11 @@ public IActionResult GetUsers()
         //}
 
         // Update user information
-      
+
 
         // Delete a user
+        [Authorize(Roles = "SuperAdmin,Admin")]
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -163,7 +165,7 @@ public IActionResult GetUsers()
             var result = await _userManager.AddToRoleAsync(user, model.Role);
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok(user);
             }
 
             foreach (var error in result.Errors)
