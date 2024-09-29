@@ -95,5 +95,58 @@ namespace API.Controllers
 
             return Ok(frameworks);
         }
+
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFramework(int id)
+        {
+            // Retrieve all users that are associated with the framework
+            var usersWithFramework = await _context.Users
+                .Where(u => u.Frameworks.Any(f => f.Id == id))
+                .ToListAsync();
+
+            if (!usersWithFramework.Any())
+            {
+                // If no users are associated, check if the framework itself exists
+                var framework = await _context.Frameworks.FindAsync(id);
+                if (framework == null)
+                {
+                    return NotFound("Framework not found.");
+                }
+
+                _context.Frameworks.Remove(framework);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+
+            // Unlink the framework from all users
+            foreach (var user in usersWithFramework)
+            {
+                if (user.Frameworks != null)
+                {
+                    var frameworkToRemove = user.Frameworks.FirstOrDefault(f => f.Id == id);
+                    if (frameworkToRemove != null)
+                    {
+                        user.Frameworks.Remove(frameworkToRemove);
+                    }
+                }
+            }
+
+            // Now delete the framework
+            var frameworkEntity = await _context.Frameworks.FindAsync(id);
+            if (frameworkEntity == null)
+            {
+                return NotFound("Framework not found.");
+            }
+
+            _context.Frameworks.Remove(frameworkEntity);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
+
+
+
 }

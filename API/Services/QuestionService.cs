@@ -16,9 +16,8 @@ namespace API.Services
         // Get all questions
         public async Task<IEnumerable<Question>> GetQuestionsAsync()
         {
-                // Optionally include answers if you want them for all questions
             return await _context.Questions
-                .Include(q => q.Answers)  // Include answers if you want them
+                .Include(q => q.Answers)  
                 .ToListAsync();
         }
 

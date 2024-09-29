@@ -36,7 +36,6 @@ namespace API.Services
                 ReviewedAt = DateTime.Now,
                 QuestionAssessments = reportDto.QuestionAssessments.Select(qa => new QuestionAssessment
                 {
-                    QuestionId = qa.QuestionId,
                     IsCorrect = qa.IsCorrect,
                     Feedback = qa.Feedback
                 }).ToList()

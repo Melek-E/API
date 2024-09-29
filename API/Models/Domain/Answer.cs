@@ -4,12 +4,7 @@ using Newtonsoft.Json;
 namespace API.Models.Domain
 {
 
-    public enum AnswerType
-    {   Basic,
-        Choice,
-        MultipleChoice,
-        TrueFalse
-    }
+   
     public class Answer
     {
         
@@ -20,7 +15,6 @@ namespace API.Models.Domain
 
         public bool IsCorrect { get; set; }
 
-        public AnswerType Type { get; set; }
 
 
 

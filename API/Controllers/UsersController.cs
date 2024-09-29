@@ -145,34 +145,34 @@ public IActionResult GetUsers()
         }
 
         // Assign a user to a role (e.g., Admin)
-        [Authorize(Roles = "SuperAdmin")]
+        //[Authorize(Roles = "SuperAdmin")]
 
-        [HttpPost("{id}/assign-role")]
-        public async Task<IActionResult> AssignRole(string id, [FromBody] AssignRoleModel model)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost("{id}/assign-role")]
+        //public async Task<IActionResult> AssignRole(string id, [FromBody] AssignRoleModel model)
+        //{
+        //    var user = await _userManager.FindByIdAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var roleExists = await _roleManager.RoleExistsAsync(model.Role);
-            if (!roleExists)
-            {
-                return BadRequest("Role does not exist");
-            }
+        //    var roleExists = await _roleManager.RoleExistsAsync(model.Role);
+        //    if (!roleExists)
+        //    {
+        //        return BadRequest("Role does not exist");
+        //    }
 
-            var result = await _userManager.AddToRoleAsync(user, model.Role);
-            if (result.Succeeded)
-            {
-                return Ok(user);
-            }
+        //    var result = await _userManager.AddToRoleAsync(user, model.Role);
+        //    if (result.Succeeded)
+        //    {
+        //        return Ok(user);
+        //    }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-            return BadRequest(ModelState);
-        }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error.Description);
+        //    }
+        //    return BadRequest(ModelState);
+        //}
     }
 }

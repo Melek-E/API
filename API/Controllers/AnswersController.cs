@@ -50,9 +50,8 @@ namespace API.Controllers
                 return BadRequest("Invalid answer data.");
             }
 
-            // Retrieve the Question from the database
             var question = await _context.Questions
-                .Include(q => q.Answers)  // Include answers to avoid lazy loading issues
+                .Include(q => q.Answers)
                 .FirstOrDefaultAsync(q => q.Id == answerDto.QuestionId);
 
             if (question == null)
@@ -66,20 +65,17 @@ namespace API.Controllers
                 AnswerText = answerDto.AnswerText,
                 QuestionId = answerDto.QuestionId,
                 UserId = answerDto.userId,
-                Question = question  // Include the full Question entity
+                Question = question  
             };
 
-            // Add the answer to the context and also add it to the Question's answer collection
             _context.Answer.Add(answer);
-            question.Answers.Add(answer); // This line adds the answer to the Question's collection
+            question.Answers.Add(answer); 
 
             await _context.SaveChangesAsync();
 
-            // Return the created answer along with a 201 status code
             return CreatedAtAction(nameof(GetAnswerById), new { id = answer.Id }, answer);
         }
 
-        // Optional: GET method to retrieve an answer by ID
         [HttpGet("answerid")]
         public async Task<IActionResult> GetAnswerById(int id)
         {
@@ -92,26 +88,30 @@ namespace API.Controllers
             return Ok(answer);
         }
 
-
-        // PUT: api/Answers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AnswerText,IsCorrect,Type,QuestionId,UserId")] Answer answer)
+        public async Task<IActionResult> Edit(int id, [FromBody] CreateAnswerDTO answerDto)
         {
-            if (id != answer.Id)
-            {
-                return BadRequest();
-            }
-
             if (ModelState.IsValid)
             {
+                var existingAnswer = await _context.Answer.FindAsync(id);
+                if (existingAnswer == null)
+                {
+                    return NotFound();
+                }
+
+                existingAnswer.AnswerText = answerDto.AnswerText;
+                existingAnswer.IsCorrect = answerDto.IsCorrect;
+                existingAnswer.QuestionId = answerDto.QuestionId;
+                existingAnswer.UserId = answerDto.userId;
+
                 try
                 {
-                    _context.Update(answer);
+                    _context.Update(existingAnswer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AnswerExists(answer.Id))
+                    if (!AnswerExists(id))
                     {
                         return NotFound();
                     }
@@ -120,13 +120,15 @@ namespace API.Controllers
                         throw;
                     }
                 }
+
                 return NoContent();
             }
 
             return BadRequest(ModelState);
         }
 
-        // DELETE: api/Answers/5
+        // DELETE: api/Answers
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

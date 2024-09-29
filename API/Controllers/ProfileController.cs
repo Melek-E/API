@@ -34,6 +34,7 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
+                Id=user.Id
                 //add new userdto model, one with frameworks maybehere, fix
             };
 
