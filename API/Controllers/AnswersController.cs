@@ -44,7 +44,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerDTO answerDto)
         {
-            // Validate the incoming answer DTO
             if (answerDto == null || string.IsNullOrWhiteSpace(answerDto.AnswerText) || answerDto.QuestionId <= 0 || string.IsNullOrWhiteSpace(answerDto.userId))
             {
                 return BadRequest("Invalid answer data.");
@@ -59,7 +58,6 @@ namespace API.Controllers
                 return NotFound("Question not found.");
             }
 
-            // Map DTO to entity
             var answer = new Answer
             {
                 AnswerText = answerDto.AnswerText,

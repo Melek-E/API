@@ -14,7 +14,6 @@ public static class Seed
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        // Define the role and user details
         string roleName = "SuperAdmin";
         string adminEmail = "superadminmelek@admin.fr";
         string adminPassword = "SuperAdminPassword123!";
@@ -35,7 +34,7 @@ public static class Seed
             return;
         }
 
-        // Check again??? if the super admin user already exists
+        // Check again??? fix
         var user = await userManager.FindByEmailAsync(adminEmail);
         if (user == null)
         {
@@ -54,7 +53,6 @@ public static class Seed
             }
         }
 
-        // Add the user to the "SuperAdmin" role
         if (!await userManager.IsInRoleAsync(user, roleName))
         {
             await userManager.AddToRoleAsync(user, roleName);
@@ -69,14 +67,12 @@ public static class Seed
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        // Define the role and user details
         string roleName = "Admin";
         string adminEmail = "regularadmin@admin.fr";
         string adminPassword = "SuperAdminPassword123!";
         //string jsonFrameworks = "[{\"Name\":\"Admins\"}, {\"Name\":\"Admin\", ]";
         //var adminFrameworks = JsonSerializer.Deserialize<List<Framework>>(jsonFrameworks);
 
-        // Ensure the role exists
         var roleExist = await roleManager.RoleExistsAsync(roleName);
         if (!roleExist)
         {
@@ -88,11 +84,10 @@ public static class Seed
             return;
         }
 
-        // Check again??? if the super admin user already exists
+        // Check again??? fix
         var user = await userManager.FindByEmailAsync(adminEmail);
         if (user == null)
         {
-            // Create the super admin user
             user = new ApplicationUser
             {
                 UserName = adminEmail,
@@ -109,7 +104,6 @@ public static class Seed
         }
 
 
-        // Add the user to the "admin" role
         if (!await userManager.IsInRoleAsync(user, roleName))
         {
             await userManager.AddToRoleAsync(user, roleName);

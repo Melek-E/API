@@ -60,7 +60,6 @@ namespace API.Controllers
         [HttpPost("choose")]
         public async Task<IActionResult> ChooseFramework([FromBody] List<int> frameworkIds)
         {
-            // Retrieve the frameworks from the database
             var frameworks = await _context.Frameworks.Where(f => frameworkIds.Contains(f.Id)).ToListAsync();
 
             if (frameworks.Count != frameworkIds.Count)
@@ -68,7 +67,6 @@ namespace API.Controllers
                 return NotFound("One or more frameworks not found.");
             }
 
-            // Store the selected framework IDs in the session
             HttpContext.Session.SetString("SelectedFrameworkIds", string.Join(",", frameworkIds));
 
             return Ok(new { message = $"Frameworks '{string.Join(", ", frameworks.Select(f => f.Name))}' selected successfully." });
@@ -101,14 +99,12 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFramework(int id)
         {
-            // Retrieve all users that are associated with the framework
             var usersWithFramework = await _context.Users
                 .Where(u => u.Frameworks.Any(f => f.Id == id))
                 .ToListAsync();
 
             if (!usersWithFramework.Any())
             {
-                // If no users are associated, check if the framework itself exists
                 var framework = await _context.Frameworks.FindAsync(id);
                 if (framework == null)
                 {
@@ -133,7 +129,6 @@ namespace API.Controllers
                 }
             }
 
-            // Now delete the framework
             var frameworkEntity = await _context.Frameworks.FindAsync(id);
             if (frameworkEntity == null)
             {

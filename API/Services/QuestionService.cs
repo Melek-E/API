@@ -24,13 +24,11 @@ namespace API.Services
         // Get question by ID
         public async Task<Question?> GetQuestionByIdAsync(int id)
         {
-            // Eager load Answers for the specific question
             return await _context.Questions
-                .Include(q => q.Answers)  // Include answers
-                .FirstOrDefaultAsync(q => q.Id == id);  // Make sure you use the correct primary key
+                .Include(q => q.Answers) 
+                .FirstOrDefaultAsync(q => q.Id == id); 
         }
 
-        // Create a new question
         public async Task<Question> CreateQuestionAsync(Question question)
         {
             _context.Questions.Add(question);

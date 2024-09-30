@@ -59,7 +59,6 @@ namespace API.Controllers
 
 
 
-            // Map user to UserDTO
             var userDto = new UserDTO
             {
                 Username = user.UserName,

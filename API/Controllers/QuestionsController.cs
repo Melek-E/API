@@ -38,9 +38,8 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            // Eager load the answers when fetching the question
             var question = await _context.Questions
-                .Include(q => q.Answers)  // This will include the Answers collection
+                .Include(q => q.Answers)  
                 .FirstOrDefaultAsync(q => q.Id == id);
 
             if (question == null)
@@ -107,9 +106,8 @@ namespace API.Controllers
         //        }
         //    }
 
-        //    return NoContent();  // Return 204 No Content on success
+        //    return NoContent();  
         //}
-        //// Helper method to check if a question exists
         private bool QuestionExists(int id)
         {
             return _context.Questions.Any(q => q.Id == id);
