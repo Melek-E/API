@@ -31,17 +31,19 @@ import { SignalRService } from '../../shared/services/signalr.service';
 })
 export class ProfileComponent implements OnInit {
   notificationMessage: string = '';
-
-  userProfile: IUser | null = null; // This will hold the user profile data
+  formData: any = {
+    frameworks: [] // Selected frameworks by the user
+  };
+  userProfile: IUser | null = null; 
   // frameworkOptions: string[] = [];   // Example frameworks
-  previousTests: any[] = []; // Previous test data, can be fetched from the API
+  previousTests: any[] = [];
   private apiUrl = 'http://localhost:7112/api/auth/profile';
-  isEditing: boolean = false; // Flag to control editing state
+  isEditing: boolean = false;
   currentField: string | null = null;
-  isEditingUsername: boolean = false; // Flag for editing Username
-  isEditingEmail: boolean = false; // Flag for editing Email
-  isEditingFrameworks: boolean = false; // Flag for editing Frameworks
-  availableFrameworks: Framework[] = []; // Available frameworks from the API
+  isEditingUsername: boolean = false;
+  isEditingEmail: boolean = false; 
+  isEditingFrameworks: boolean = false; 
+  availableFrameworks: Framework[] = []; 
 
 
   user = {
@@ -152,6 +154,41 @@ export class ProfileComponent implements OnInit {
   
 
 } 
+
+
+onCustomItemCreating(e: any) {
+  const newItem = e.text.trim();
+
+  if (newItem && !this.availableFrameworks.some(f => f.Name === newItem)) {
+
+
+    const newFrameworkArray = [{ Name: newItem }];
+
+  
+    this.dataService.createFramework(newFrameworkArray).subscribe(
+      (createdFramework: Framework[]) => {
+        // console.log('Framework successfully added:', createdFramework[0]);
+
+      
+        this.availableFrameworks.push(createdFramework[0]);
+
+        this.formData.frameworks.push(createdFramework[0].Name);
+
+        notify(`Framework added successfully.`, 'success', 2000); //'${createdFramework[0]}'
+      },
+      (error) => {
+
+
+        console.error('Error adding new framework:', error);
+        notify('Failed to add new framework.', 'error', 2000);
+      }
+    );
+
+    e.customItem = newItem;
+  } else {
+    e.customItem = null; // Prevent duplicates
+  }
+}
 }
 
 @NgModule({

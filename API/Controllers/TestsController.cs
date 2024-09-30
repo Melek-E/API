@@ -26,9 +26,10 @@ namespace API.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions, userId);
+
+                var test = await _testService.GenerateRandomTest(request.Level, request.NumberOfQuestions, request.userId);
 
                 var testDTO = new TestDTO
                 {

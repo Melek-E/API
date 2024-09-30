@@ -9,5 +9,10 @@ namespace API.Models.DTO
 
         [Required]
         public int NumberOfQuestions { get; set; }
+
+
+
+        [Required]
+        public string userId { get; set; }
     }
 }

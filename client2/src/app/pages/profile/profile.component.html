@@ -51,24 +51,23 @@
               [(value)]="user.Frameworks"
               displayExpr="name"
               valueExpr="name"
-              placeholder="Select frameworks">
+              placeholder="Select frameworks"
+              [acceptCustomValue]=true
+              (onCustomItemCreating)="onCustomItemCreating($event)">
+            
+            
             </dx-tag-box>
-            <dx-button icon="edit" *ngIf="!isEditingFrameworks" (onClick)="enableEdit('Frameworks')"></dx-button>
+
+
+              <dx-button icon="edit" *ngIf="!isEditingFrameworks" (onClick)="enableEdit('Frameworks')"></dx-button>
             <dx-button text="Save" *ngIf="isEditingFrameworks" (onClick)="saveProfile(); disableEdit('Frameworks')"></dx-button>
-            <dx-button text="Cancel" *ngIf="isEditingFrameworks" (onClick)="disableEdit('Frameworks')"></dx-button>
+            <!-- <dx-button text="Cancel" *ngIf="isEditingFrameworks" (onClick)="disableEdit('Frameworks')"></dx-button> -->
           </div>
         </ng-template>
       </dxi-item>
     </dx-form>
 
-    <h3>Previous Tests</h3>
-    <dx-data-grid [dataSource]="previousTests">
-      <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" ></dxo-pager>
-      <dxi-column dataField="testName" caption="Test Name"></dxi-column>
-      <dxi-column dataField="date" caption="Date" dataType="date"></dxi-column>
-      <dxi-column dataField="score" caption="Score" dataType="number"></dxi-column>
-    </dx-data-grid>
+   
   </div>
 
   
