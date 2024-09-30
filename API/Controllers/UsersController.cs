@@ -88,12 +88,12 @@ public IActionResult GetUsers()
         }
 
 
-        [HttpGet("AllUsers")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            var usersInUserRole = await _userManager.GetUsersInRoleAsync("User");
-            return Ok(usersInUserRole);
-        }
+        //[HttpGet("AllUsers")]
+        //public async Task<IActionResult> GetAllUsers()
+        //{
+        //    var usersInUserRole = await _userManager.GetUsersInRoleAsync("User");
+        //    return Ok(usersInUserRole);
+        //}
         //// Create a new user
         //[HttpPost]
         //public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)

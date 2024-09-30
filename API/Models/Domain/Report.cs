@@ -23,15 +23,14 @@ namespace API.Models.Domain.Reports
     {
         public int Id { get; set; }
 
-        public Question Question { get; set; }  // Navigation to the Question being assessed
+        public Question Question { get; set; } 
 
-        public int QuestionId { get; set; }  // Foreign key to the Question
-        public bool IsCorrect { get; set; }  // Whether the answer is correct or not
-        public string Feedback { get; set; }  // Optional feedback for the answer
+        public int QuestionId { get; set; }
 
-        public Report Report { get; set; }
+        public bool IsCorrect { get; set; }  
+        public string? Feedback { get; set; }  
+
         public int PointsAwarded{ get; set; }
 
-        public int ReportId { get; set; }
     }
 }

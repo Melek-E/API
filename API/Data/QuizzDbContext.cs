@@ -64,18 +64,33 @@ namespace API.Data
                 .WithOne(t => t.Report)
 ;
 
-            // Report - QuestionAssessment Relationship
-            modelBuilder.Entity<QuestionAssessment>()
-                .HasOne(qa => qa.Report)
-                .WithMany(r => r.QuestionAssessments)
-                .HasForeignKey(qa => qa.ReportId);
+            //// Report - QuestionAssessment Relationship
+            //modelBuilder.Entity<QuestionAssessment>()
+            //    .HasOne(qa => qa.Report)
+            //    .WithMany(r => r.QuestionAssessments)
+            //    .HasForeignKey(qa => qa.ReportId);
+
+
+
+            modelBuilder.Entity<Report>()
+                .HasMany(r => r.QuestionAssessments)
+                .WithOne();
+
+
 
             // Question - QuestionAssessment Relationship
             modelBuilder.Entity<QuestionAssessment>()
                 .HasOne(qa => qa.Question)
-                .WithMany(q => q.QuestionAssessments)
-                .HasForeignKey(qa => qa.QuestionId);
+                .WithMany(q => q.QuestionAssessments);
 
+
+
+
+
+            //modelBuilder.Entity<Question>()
+            //    .HasMany(q => q.QuestionAssessments)
+            //    .WithOne();
+;
         }
 
 

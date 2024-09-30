@@ -82,14 +82,11 @@ namespace API.Services
                 {
                     testDTO.Report = new ReportDTO
                     {
-                        Id = report.Id,
                         Score = report.Score,
                         QuestionAssessments = report.QuestionAssessments.Select(qa => new QuestionAssessmentDTO
                         {
-                            Id = qa.Id,
                             IsCorrect = qa.IsCorrect,
                             PointsAwarded = qa.PointsAwarded,
-                            QuestionId = qa.QuestionId
                         }).ToList()
                     };
                 }

@@ -6,6 +6,7 @@ using API.Models.Domain.Questions;
 using API.Services;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -64,29 +65,57 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetQuestion), new { id = createdQuestion.Id }, createdQuestion);
         }
 
-        // PUT: api/Questions/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestion(int id, Question question)
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionUpdateDto questionDto)
+        //{
+        //    if (questionDto == null)
+        //    {
+        //        return BadRequest("Question data is required.");
+        //    }
+
+        //    // Retrieve the question by ID, including related answers
+        //    var existingQuestion = await _context.Questions
+        //        .Include(q => q.Answers)  // Include the Answers collection to ensure it's loaded
+        //        .FirstOrDefaultAsync(q => q.Id == id);
+
+        //    if (existingQuestion == null)
+        //    {
+        //        return NotFound("Question not found.");
+        //    }
+
+        //    // Update only the allowed fields (but not the Answers collection)
+        //    existingQuestion.QuestionText = questionDto.QuestionText;
+        //    existingQuestion.Level = questionDto.Level;
+        //    existingQuestion.AnswerId = questionDto.AnswerId;
+        //    existingQuestion.QuestionType = existingQuestion.QuestionType;
+
+        //    // Save the changes to the database
+        //    try
+        //    {
+        //        _context.Questions.Update(existingQuestion);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!QuestionExists(id))
+        //        {
+        //            return NotFound("Question no longer exists.");
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();  // Return 204 No Content on success
+        //}
+        //// Helper method to check if a question exists
+        private bool QuestionExists(int id)
         {
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updated = await _questionService.UpdateQuestionAsync(question);
-
-            if (!updated)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            return _context.Questions.Any(q => q.Id == id);
         }
+
+
 
         // DELETE: api/Questions/5
         [HttpDelete("{id}")]
