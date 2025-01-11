@@ -11,7 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
    
-}); ; 
+}); ;
+
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

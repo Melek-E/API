@@ -1,7 +1,8 @@
 enum AnswerType {
   Choice,
   MultipleChoice,
-  TrueFalse
+  TrueFalse,
+  Basic
 }
 
 

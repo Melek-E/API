@@ -3,7 +3,8 @@ import {Answer} from "./answer";
 enum QuestionType {
     Choice,
     MultipleChoice,
-    TrueFalse
+    TrueFalse,
+    Baisc
   }
 
 

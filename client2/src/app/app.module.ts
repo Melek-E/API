@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -36,7 +36,9 @@ import { SignalRService } from './shared/services/signalr.service';
     AuthService,
     ScreenService,
     AppInfoService,
-    SignalRService
+    SignalRService,
+    {provide: APP_INITIALIZER, useFactory: ()=>{}
+  }
   ],
   bootstrap: [AppComponent]
 })
