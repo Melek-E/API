@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "7112:7112"
+    networks:
+      - devops-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  client:
+    build:
+      context: ./client2
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - devops-network
+    stdin_open: true
+    tty: true
+
+networks:
+  devops-network:
+    driver: bridge

@@ -17,5 +17,7 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 COPY --from=build /app/publish .
-EXPOSE 5000 
+EXPOSE 7112 
+ENV ASPNETCORE_URLS=http://0.0.0.0:7112
+
 ENTRYPOINT ["dotnet", "API.dll"]
