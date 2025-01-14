@@ -4,7 +4,7 @@ pipeline {
         pollSCM('H/5 * * * *')
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('dockertest')
         IMAGE_NAME_SERVER = 'melek16/api-server'
         IMAGE_NAME_CLIENT = 'melek16/client2-client'
     }
