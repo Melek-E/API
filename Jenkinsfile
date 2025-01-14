@@ -13,9 +13,7 @@ pipeline {
             steps {
                 git branch: 'master',
                     url: 'git@github.com:Melek-E/API.git',
-                    credentialsId: 'Github_ssh',
-                    refspec: '+refs/heads/master:refs/remotes/origin/master'
-
+                    credentialsId: 'Github_ssh'
             }
         }
         stage('Build Server Image') {
