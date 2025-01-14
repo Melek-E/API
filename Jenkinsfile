@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Build Server Image') {
             steps {
-                dir('api/API') {
+                dir('API') {
                     script {
                         dockerImageServer = docker.build("${IMAGE_NAME_SERVER}")
                     }
@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Build Client Image') {
             steps {
-                dir('API/client2') {
+                dir('client2') {
                     script {
                         dockerImageClient = docker.build("${IMAGE_NAME_CLIENT}")
                     }
