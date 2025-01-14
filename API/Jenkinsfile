@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM('H/5 * * * *') // Polls GitHub for changes every 5 minutes
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        IMAGE_NAME_SERVER = 'melek16/api'
+        IMAGE_NAME_CLIENT = 'melek16/client2'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'git@github.com:Melek-E/API.git',
+                    credentialsId: 'Github_ssh' // Ensure your GitHub SSH credential ID is correct
+            }
+        }
+        stage('Build Server Image') {
+            steps {
+                dir('api') {
+                    script {
+                        dockerImageServer = docker.build("${IMAGE_NAME_SERVER}")
+                    }
+                }
+            }
+        }
+        stage('Build Client Image') {
+            steps {
+                dir('client2') {
+                    script {
+                        dockerImageClient = docker.build("${IMAGE_NAME_CLIENT}")
+                    }
+                }
+            }
+        }
+        stage('Push Images to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
+                        dockerImageServer.push()
+                        dockerImageClient.push()
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                // Clean up unused Docker resources
+                sh '''
+                docker system prune -af --volumes
+                '''
+            }
+        }
+    }
+}
