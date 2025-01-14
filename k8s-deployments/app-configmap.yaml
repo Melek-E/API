@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+data:
+  SQL_SERVER_URI: "Server=host.docker.internal,6699;Database=TestAppDb;User Id=devops;Password=devops;TrustServerCertificate=true;"
+  PORT: "5000"
