@@ -11,16 +11,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
+                git branch: 'main',
                     url: 'git@github.com:Melek-E/API.git',
-                    credentialsId: 'Github_ssh',
-                    refspec: '+refs/heads/master:refs/remotes/origin/master'
-
+                    credentialsId: 'Github_ssh'
             }
         }
         stage('Build Server Image') {
             steps {
-                dir('API') {
+                dir('api/API') {
                     script {
                         dockerImageServer = docker.build("${IMAGE_NAME_SERVER}")
                     }
@@ -29,7 +27,7 @@ pipeline {
         }
         stage('Build Client Image') {
             steps {
-                dir('client2') {
+                dir('API/client2') {
                     script {
                         dockerImageClient = docker.build("${IMAGE_NAME_CLIENT}")
                     }
