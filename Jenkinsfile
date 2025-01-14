@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'master',
                     url: 'git@github.com:Melek-E/API.git',
                     credentialsId: 'Github_ssh'
             }
