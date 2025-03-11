@@ -13,6 +13,7 @@ builder.Services.AddControllers().AddJsonOptions(options => {
    
 }); ;
 
+//test
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
